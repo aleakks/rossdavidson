@@ -35,17 +35,13 @@ export default function SocialProof() {
 
                 {/* Mobile Marquee (Dynamic) */}
                 <div className="md:hidden flex whitespace-nowrap overflow-hidden relative">
-                    <motion.div
-                        animate={{ x: ["0%", "-50%"] }}
-                        transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
-                        className="flex gap-12 min-w-max will-change-transform"
-                    >
+                    <div className="flex gap-12 min-w-max animate-marquee">
                         {[...clients, ...clients].map((client, index) => (
                             <span key={index} className="text-xl font-display uppercase tracking-widest text-white/50">
                                 {client}
                             </span>
                         ))}
-                    </motion.div>
+                    </div>
                 </div>
 
             </div>
