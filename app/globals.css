@@ -22,8 +22,12 @@ body {
   color: var(--foreground);
   font-family: var(--font-inter);
   overflow-x: hidden;
-  cursor: none;
-  /* Hide default cursor for custom cursor */
+  cursor: none !important;
+}
+
+/* Aggressively hide cursor on everything */
+* {
+  cursor: none !important;
 }
 
 /* Custom Scrollbar */
