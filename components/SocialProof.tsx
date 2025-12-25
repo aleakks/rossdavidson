@@ -34,13 +34,13 @@ export default function SocialProof() {
                 </div>
 
                 {/* Mobile Marquee (Dynamic) */}
-                <div className="md:hidden flex whitespace-nowrap overflow-hidden mask-linear-fade">
+                <div className="md:hidden flex whitespace-nowrap overflow-hidden mask-linear-fade relative">
                     <motion.div
-                        animate={{ x: [0, -1000] }}
+                        animate={{ x: ["0%", "-50%"] }}
                         transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
-                        className="flex gap-12"
+                        className="flex gap-12 min-w-max will-change-transform"
                     >
-                        {[...clients, ...clients, ...clients].map((client, index) => (
+                        {[...clients, ...clients].map((client, index) => (
                             <span key={index} className="text-xl font-display uppercase tracking-widest text-white/50">
                                 {client}
                             </span>

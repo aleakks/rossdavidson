@@ -13,6 +13,16 @@ export default function CustomCursor() {
     const cursorYSpring = useSpring(cursorY, springConfig);
 
     useEffect(() => {
+        // Hide cursor on mobile/touch devices
+        const checkMobile = () => {
+            if (window.matchMedia("(pointer: coarse)").matches) {
+                return true;
+            }
+            return false;
+        };
+
+        if (checkMobile()) return;
+
         const moveCursor = (e: MouseEvent) => {
             cursorX.set(e.clientX);
             cursorY.set(e.clientY);
@@ -35,9 +45,10 @@ export default function CustomCursor() {
         };
     }, [cursorX, cursorY]);
 
+    // Don't render on server or if mobile (render logic handled via CSS mostly, but this saves resources)
     return (
         <motion.div
-            className="fixed top-0 left-0 pointer-events-none z-[9999]"
+            className="fixed top-0 left-0 pointer-events-none z-[9999] hidden md:block" // Hidden explicitly on mobile via CSS class as a fail-safe
             style={{
                 x: cursorXSpring,
                 y: cursorYSpring,
