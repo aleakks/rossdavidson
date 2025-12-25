@@ -1,5 +1,8 @@
 import Hero from "@/components/Hero";
 import Gallery from "@/components/Gallery";
+import About from "@/components/About";
+import SocialProof from "@/components/SocialProof";
+import Contact from "@/components/Contact";
 import { getPhotos, getHeroSettings } from "@/lib/api";
 
 export default function Home() {
@@ -13,7 +16,10 @@ export default function Home() {
         subtitle={heroSettings.subtitle}
         images={heroSettings.images}
       />
+      <SocialProof />
+      <About />
       <Gallery photos={photos} />
+      <Contact />
     </main>
   );
 }

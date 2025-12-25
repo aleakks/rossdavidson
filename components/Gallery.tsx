@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+
 import { Photo } from "@/lib/api";
 import { clsx } from "clsx";
 
@@ -53,8 +53,7 @@ export default function Gallery({ photos }: GalleryProps) {
       */}
             <div className="grid grid-cols-2 md:grid-cols-6 gap-4 auto-rows-[300px] max-w-[1800px] mx-auto">
                 {photos.map((photo, index) => (
-                    <Link
-                        href={`/photos/${photo.id}`}
+                    <div
                         key={photo.id}
                         className={clsx(
                             "relative group overflow-hidden bg-neutral-900 border border-white/5",
@@ -84,7 +83,7 @@ export default function Gallery({ photos }: GalleryProps) {
                             </div>
                         </div>
 
-                    </Link>
+                    </div>
                 ))}
             </div>
         </section>

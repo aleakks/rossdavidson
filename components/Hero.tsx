@@ -65,10 +65,8 @@ export default function Hero({ title, subtitle, images }: HeroProps) {
                         backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
                     }}
                 />
-                {/* Strobe Flash */}
-                <div className="absolute inset-0 bg-white opacity-0 animate-[strobe_2s_infinite_ease-in-out] mix-blend-soft-light" />
+                {/* Strobe Flash - REMOVED */}
             </div>
-
 
             {/* 3. Kinetic Text */}
             <div
@@ -116,17 +114,6 @@ export default function Hero({ title, subtitle, images }: HeroProps) {
                 <span className="text-xs uppercase tracking-[0.5em] font-mono">Scroll</span>
                 <div className="w-[1px] h-12 bg-white/50 animate-pulse" />
             </motion.div>
-
-            <style jsx global>{`
-        @keyframes strobe {
-            0%, 85% { opacity: 0; }
-            86% { opacity: 0.1; }
-            87% { opacity: 0; }
-            88% { opacity: 0.2; }
-            89% { opacity: 0; }
-            100% { opacity: 0; }
-        }
-      `}</style>
         </div>
     );
 }
