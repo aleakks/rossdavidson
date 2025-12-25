@@ -9,22 +9,35 @@ interface GalleryProps {
     photos: Photo[];
 }
 
-// Deterministic pattern for 6-column grid (Gap-Free)
-// 8 items = 2 rows exactly.
+// Deterministic pattern for mixed grid:
+// Mobile: 2-column | Desktop: 6-column
+// Verified to align perfectly in both (summing to 2 and 6 respectively)
 const getSize = (index: number) => {
     const pattern = [
-        "md:col-span-1 md:row-span-1", // 1. Small (R1: 1)
-        "md:col-span-1 md:row-span-1", // 2. Small (R1: 2)
-        "md:col-span-2 md:row-span-2", // 3. Big Square (R1: 3-4, R2: 3-4)
-        "md:col-span-1 md:row-span-1", // 4. Small (R1: 5)
-        "md:col-span-1 md:row-span-1", // 5. Small (R1: 6)
-        // Row 1 Full (1+1+2+1+1 = 6)
+        // 1. Small -> Mobile: 1 (half) | Desktop: 1
+        "col-span-1 md:col-span-1 md:row-span-1",
+        // 2. Small -> Mobile: 1 (half) | Desktop: 1
+        "col-span-1 md:col-span-1 md:row-span-1",
+        // Row 1 (Mobile): Full (1+1=2) | Row 1 (Desktop): Partial (2/6)
 
-        "md:col-span-1 md:row-span-1", // 6. Small (R2: 1)
-        "md:col-span-1 md:row-span-1", // 7. Small (R2: 2)
-        // (R2: 3-4 Blocked by Item 3)
-        "md:col-span-2 md:row-span-1", // 8. Wide (R2: 5-6)
-        // Row 2 Full (1+1+2(blocked)+2 = 6)
+        // 3. Big Square -> Mobile: 2 (Full) | Desktop: 2x2
+        "col-span-2 md:col-span-2 md:row-span-2",
+        // Row 2 (Mobile): Full (2) | Row 1 (Desktop): Partial (4/6)
+
+        // 4. Small -> Mobile: 1 | Desktop: 1
+        "col-span-1 md:col-span-1 md:row-span-1",
+        // 5. Small -> Mobile: 1 | Desktop: 1
+        "col-span-1 md:col-span-1 md:row-span-1",
+        // Row 3 (Mobile): Full (1+1=2) | Row 1 (Desktop): Full (6/6)
+
+        // 6. Small -> Mobile: 1 | Desktop: 1
+        "col-span-1 md:col-span-1 md:row-span-1",
+        // 7. Small -> Mobile: 1 | Desktop: 1
+        "col-span-1 md:col-span-1 md:row-span-1",
+        // Row 4 (Mobile): Full (1+1=2) | Row 2 (Desktop): ... and so on.
+
+        // 8. Wide -> Mobile: 2 (Full) | Desktop: 2x1
+        "col-span-2 md:col-span-2 md:row-span-1",
     ];
 
     return pattern[index % pattern.length];
@@ -36,9 +49,9 @@ export default function Gallery({ photos }: GalleryProps) {
     return (
         <section className="bg-black min-h-screen p-4 md:p-8">
             {/* 
-         6-column grid for higher density (fitting 4-5+ items across)
+         Mobile: 2 Columns | Desktop: 6 Columns
       */}
-            <div className="grid grid-cols-1 md:grid-cols-6 gap-4 auto-rows-[300px] max-w-[1800px] mx-auto">
+            <div className="grid grid-cols-2 md:grid-cols-6 gap-4 auto-rows-[300px] max-w-[1800px] mx-auto">
                 {photos.map((photo, index) => (
                     <Link
                         href={`/photos/${photo.id}`}
