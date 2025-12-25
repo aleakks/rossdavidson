@@ -4,18 +4,13 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 
-// Image set for the rapid-fire montage
-const MOMENTS = [
-    "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&q=80", // Club Haze
-    "https://images.unsplash.com/photo-1570158268183-d296b2892211?auto=format&fit=crop&q=80", // Midnight Bass
-    "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80", // Crowd Control
-    "https://images.unsplash.com/photo-1533174072545-e8d4aa97edf9?auto=format&fit=crop&q=80", // Neon Dreams
-    "https://images.unsplash.com/photo-1514525253440-b393452e2729?auto=format&fit=crop&q=80", // Main Stage
-    "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80", // Festival Soul
-    "https://images.unsplash.com/photo-1571266028243-3716f02d2d2e?auto=format&fit=crop&q=80", // Techno Bunker
-];
+interface HeroProps {
+    title: string;
+    subtitle: string;
+    images: string[];
+}
 
-export default function Hero() {
+export default function Hero({ title, subtitle, images }: HeroProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -29,12 +24,16 @@ export default function Hero() {
 
     // Rapid Fire Montage Logic
     useEffect(() => {
+        if (!images || images.length === 0) return;
+
         const interval = setInterval(() => {
-            setCurrentImageIndex((prev) => (prev + 1) % MOMENTS.length);
+            setCurrentImageIndex((prev) => (prev + 1) % images.length);
         }, 600); // Switch image every 600ms for a kinetic feel (approx 100bpm)
 
         return () => clearInterval(interval);
-    }, []);
+    }, [images]);
+
+    const currentImage = images && images.length > 0 ? images[currentImageIndex] : null;
 
     return (
         <div ref={containerRef} className="h-[250vh] relative bg-black">
@@ -43,22 +42,24 @@ export default function Hero() {
                 {/* 1. Rapid Fire Background Montage */}
                 <div className="absolute inset-0 z-0">
                     <AnimatePresence mode="popLayout">
-                        <motion.div
-                            key={currentImageIndex}
-                            initial={{ opacity: 0.2, scale: 1.1 }}
-                            animate={{ opacity: 0.6, scale: 1 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 0.4 }}
-                            className="absolute inset-0"
-                        >
-                            <Image
-                                src={MOMENTS[currentImageIndex]}
-                                alt="Background Moment"
-                                fill
-                                className="object-cover opacity-60 grayscale-[0.3] contrast-125 saturate-110"
-                                priority
-                            />
-                        </motion.div>
+                        {currentImage && (
+                            <motion.div
+                                key={currentImageIndex}
+                                initial={{ opacity: 0.2, scale: 1.1 }}
+                                animate={{ opacity: 0.6, scale: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.4 }}
+                                className="absolute inset-0"
+                            >
+                                <Image
+                                    src={currentImage}
+                                    alt="Background Moment"
+                                    fill
+                                    className="object-cover opacity-60 grayscale-[0.3] contrast-125 saturate-110"
+                                    priority
+                                />
+                            </motion.div>
+                        )}
                     </AnimatePresence>
 
                     {/* Overlays for Vibe */}
@@ -93,14 +94,14 @@ export default function Hero() {
                     >
                         <div className="h-[1px] w-12 bg-white/70" />
                         <span className="font-mono text-sm md:text-base text-white/90 tracking-[0.3em] uppercase">
-                            Music & Nightlife Photography
+                            {subtitle}
                         </span>
                         <div className="h-[1px] w-12 bg-white/70" />
                     </motion.div>
 
                     {/* Main Title */}
-                    <h1 className="text-[14vw] leading-[0.85] font-display font-black text-white tracking-tighter text-center uppercase mix-blend-overlay drop-shadow-2xl">
-                        ROSS<br />DAVIDSON
+                    <h1 className="text-[14vw] leading-[0.85] font-display font-black text-white tracking-tighter text-center uppercase mix-blend-overlay drop-shadow-2xl whitespace-pre-line">
+                        {title}
                     </h1>
 
                     {/* Subtitle / Location */}
