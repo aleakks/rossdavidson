@@ -51,7 +51,6 @@ export default function CustomCursor() {
                     height: isHovered ? 80 : 20,
                     backgroundColor: isHovered ? "rgba(255, 255, 255, 0.1)" : "rgba(255, 255, 255, 1)",
                     border: isHovered ? "1px solid rgba(255, 255, 255, 0.5)" : "0px solid rgba(255, 255, 255, 0)",
-                    backdropFilter: isHovered ? "blur(4px)" : "blur(0px)",
                     mixBlendMode: isHovered ? "normal" : "difference",
                 }}
                 transition={{

@@ -7,7 +7,7 @@ export default function Contact() {
     const [focusedField, setFocusedField] = useState<string | null>(null);
 
     return (
-        <section className="bg-black py-24 md:py-32 relative z-10 border-t border-white/5">
+        <section id="contact" className="bg-black py-24 md:py-32 relative z-10 border-t border-white/5">
             <div className="container mx-auto px-6 max-w-4xl">
 
                 {/* Header */}

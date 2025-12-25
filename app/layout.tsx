@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Oswald, Inter } from "next/font/google";
 import CustomCursor from "@/components/CustomCursor";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import "./globals.css";
 
 const oswald = Oswald({
@@ -32,7 +34,9 @@ export default function RootLayout({
         className={`${oswald.variable} ${inter.variable} antialiased`}
       >
         <CustomCursor />
+        <Header />
         {children}
+        <Footer />
       </body>
     </html>
   );

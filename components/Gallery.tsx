@@ -47,7 +47,7 @@ export default function Gallery({ photos }: GalleryProps) {
     if (!photos || photos.length === 0) return null;
 
     return (
-        <section className="bg-black min-h-screen p-4 md:p-8">
+        <section id="work" className="bg-black min-h-screen p-4 md:p-8">
             {/* 
          Mobile: 2 Columns | Desktop: 6 Columns
       */}
