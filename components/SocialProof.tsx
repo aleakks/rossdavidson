@@ -34,7 +34,7 @@ export default function SocialProof() {
                 </div>
 
                 {/* Mobile Marquee (Dynamic) */}
-                <div className="md:hidden flex whitespace-nowrap overflow-hidden mask-linear-fade relative">
+                <div className="md:hidden flex whitespace-nowrap overflow-hidden relative">
                     <motion.div
                         animate={{ x: ["0%", "-50%"] }}
                         transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
