@@ -2,6 +2,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Approach & Services",
+    description: "Bespoke photography commissions for fashion, music, and nightlife. View rates, service breakdowns, and the artist's philosophy.",
+};
 
 export default function InfoPage() {
     return (

@@ -3,6 +3,37 @@ import Image from "next/image";
 import { getJournalEntry, journalEntries } from "@/lib/journal";
 import { notFound } from "next/navigation";
 
+import { Metadata } from "next";
+
+// Generate customized metadata for each page
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+    const { slug } = await params;
+    const entry = getJournalEntry(slug);
+
+    if (!entry) {
+        return {
+            title: "Post Not Found",
+        };
+    }
+
+    return {
+        title: entry.title,
+        description: entry.description,
+        openGraph: {
+            title: entry.title,
+            description: entry.description,
+            images: [
+                {
+                    url: entry.coverImage,
+                    width: 1200,
+                    height: 630,
+                    alt: entry.title,
+                },
+            ],
+        },
+    };
+}
+
 // Generate static params for export
 export function generateStaticParams() {
     return journalEntries.map((entry) => ({

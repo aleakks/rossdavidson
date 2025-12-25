@@ -4,6 +4,12 @@ import About from "@/components/About";
 import SocialProof from "@/components/SocialProof";
 import Contact from "@/components/Contact";
 import { getPhotos, getHeroSettings } from "@/lib/api";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Portfolio",
+  description: "Selected works from Ross Davidson. Featuring campaigns for global brands, music artists, and editorial publications.",
+};
 
 export default function Home() {
   const photos = getPhotos();

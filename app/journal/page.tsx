@@ -1,6 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import { journalEntries } from "@/lib/journal";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Journal",
+    description: "Editorial stories, behind-the-scenes case studies, and insights into the creative process of Ross Davidson.",
+};
 
 export default function JournalIndex() {
     return (
