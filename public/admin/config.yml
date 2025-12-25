@@ -22,6 +22,16 @@ collections:
   - name: "settings"
     label: "Settings"
     files:
+      - name: "featured"
+        label: "Featured Work Blocks"
+        file: "content/settings/featured.json"
+        fields:
+          - {label: "Section Heading", name: "heading", widget: "string"}
+          - {label: "Blocks", name: "blocks", widget: "list", fields: [
+              {label: "Title", name: "title", widget: "string"},
+              {label: "Image", name: "image", widget: "image"},
+              {label: "Description/Subtitle", name: "description", widget: "string"}
+            ]}
       - name: "hero"
         label: "Hero Section"
         file: "content/settings/hero.json"

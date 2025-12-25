@@ -60,3 +60,28 @@ export function getHeroSettings(): HeroSettings {
     const fileContents = fs.readFileSync(settingsPath, "utf8");
     return JSON.parse(fileContents);
 }
+
+export interface FeaturedBlock {
+    title: string;
+    image: string;
+    description: string;
+}
+
+export interface FeaturedSettings {
+    heading: string;
+    blocks: FeaturedBlock[];
+}
+
+export function getFeaturedSettings(): FeaturedSettings {
+    const settingsPath = path.join(process.cwd(), "content/settings/featured.json");
+
+    if (!fs.existsSync(settingsPath)) {
+        return {
+            heading: "SELECTED WORKS",
+            blocks: []
+        };
+    }
+
+    const fileContents = fs.readFileSync(settingsPath, "utf8");
+    return JSON.parse(fileContents);
+}
