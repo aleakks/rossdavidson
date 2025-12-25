@@ -1,77 +1,78 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
-import clsx from "clsx";
-import type { Photo } from "@/lib/api";
+import Link from "next/link";
+import { Photo } from "@/lib/api";
+import { clsx } from "clsx";
 
 interface GalleryProps {
-    photos?: Photo[];
+    photos: Photo[];
 }
 
-// Fallback data if no photos are passed or CMS fails
-const defaultPhotos: Photo[] = [
-    { id: "1", image: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&q=80", title: "Club Haze", category: "Nightlife", date: "2024-01-01" },
-    { id: "2", image: "https://images.unsplash.com/photo-1570158268183-d296b2892211?auto=format&fit=crop&q=80", title: "Midnight Bass", category: "Music", date: "2024-02-01" },
-    { id: "3", image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80", title: "Crowd Control", category: "Events", date: "2024-03-01" },
-    { id: "4", image: "https://images.unsplash.com/photo-1533174072545-e8d4aa97edf9?auto=format&fit=crop&q=80", title: "Neon Dreams", category: "Creative", date: "2024-04-01" },
-    { id: "5", image: "https://images.unsplash.com/photo-1514525253440-b393452e2729?auto=format&fit=crop&q=80", title: "Main Stage", category: "Music", date: "2024-05-01" },
-    { id: "6", image: "https://images.unsplash.com/photo-1459749411177-0473ef716089?auto=format&fit=crop&q=80", title: "Backstage", category: "Lifestyle", date: "2024-06-01" },
-];
+// Deterministic pattern for 6-column grid (Gap-Free)
+// 8 items = 2 rows exactly.
+const getSize = (index: number) => {
+    const pattern = [
+        "md:col-span-1 md:row-span-1", // 1. Small (R1: 1)
+        "md:col-span-1 md:row-span-1", // 2. Small (R1: 2)
+        "md:col-span-2 md:row-span-2", // 3. Big Square (R1: 3-4, R2: 3-4)
+        "md:col-span-1 md:row-span-1", // 4. Small (R1: 5)
+        "md:col-span-1 md:row-span-1", // 5. Small (R1: 6)
+        // Row 1 Full (1+1+2+1+1 = 6)
 
-export default function Gallery({ photos = [] }: GalleryProps) {
-    const displayPhotos = photos.length > 0 ? photos : defaultPhotos;
-    const [hoveredId, setHoveredId] = useState<string | null>(null);
+        "md:col-span-1 md:row-span-1", // 6. Small (R2: 1)
+        "md:col-span-1 md:row-span-1", // 7. Small (R2: 2)
+        // (R2: 3-4 Blocked by Item 3)
+        "md:col-span-2 md:row-span-1", // 8. Wide (R2: 5-6)
+        // Row 2 Full (1+1+2(blocked)+2 = 6)
+    ];
 
-    // Helper to determine span based on index/pattern for masonry look
-    const getGridClass = (index: number) => {
-        const pattern = index % 6;
-        if (pattern === 1) return "col-span-1 md:col-span-2 row-span-2";
-        if (pattern === 4) return "col-span-1 md:col-span-1 row-span-2";
-        return "col-span-1 row-span-1";
-    };
+    return pattern[index % pattern.length];
+};
+
+export default function Gallery({ photos }: GalleryProps) {
+    if (!photos || photos.length === 0) return null;
 
     return (
-        <section className="bg-background min-h-screen px-4 pb-24 pt-10">
-            <div className="max-w-[1920px] mx-auto">
-                <h2 className="text-sm font-mono mb-12 text-accent-dim uppercase tracking-widest pl-2 border-l border-accent-dim h-4 flex items-center">
-                    Visual Archive
-                </h2>
+        <section className="bg-black min-h-screen p-4 md:p-8">
+            {/* 
+         6-column grid for higher density (fitting 4-5+ items across)
+      */}
+            <div className="grid grid-cols-1 md:grid-cols-6 gap-4 auto-rows-[300px] max-w-[1800px] mx-auto">
+                {photos.map((photo, index) => (
+                    <Link
+                        href={`/photos/${photo.id}`}
+                        key={photo.id}
+                        className={clsx(
+                            "relative group overflow-hidden bg-neutral-900 border border-white/5",
+                            getSize(index), // Assigns the random size
+                            "hover:z-10 hover:border-white/20 transition-all duration-500 ease-out"
+                        )}
+                    >
+                        {/* Image */}
+                        <Image
+                            src={photo.image}
+                            alt={photo.title}
+                            fill
+                            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-80 group-hover:opacity-100"
+                            sizes="(max-width: 768px) 100vw, 33vw"
+                        />
 
-                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-1 auto-rows-[400px]">
-                    {displayPhotos.map((photo, index) => (
-                        <div
-                            key={photo.id}
-                            className={clsx(
-                                "relative group overflow-hidden bg-[#111]",
-                                getGridClass(index),
-                                hoveredId && hoveredId !== photo.id && "opacity-30 blur-[2px] scale-95 transition-all duration-500",
-                                "transition-all duration-500 ease-out"
-                            )}
-                            onMouseEnter={() => setHoveredId(photo.id)}
-                            onMouseLeave={() => setHoveredId(null)}
-                        >
-                            {/* Grain Overlay */}
-                            <div className="absolute inset-0 z-10 opacity-30 pointer-events-none mix-blend-overlay"
-                                style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}
-                            />
+                        {/* Grain Overlay */}
+                        <div className="absolute inset-0 pointer-events-none opacity-20 mix-blend-overlay"
+                            style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")` }}
+                        />
 
-                            <Image
-                                src={photo.image}
-                                alt={photo.title}
-                                fill
-                                className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                            />
-
-                            {/* Hover Info */}
-                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 flex flex-col justify-end p-8">
-                                <span className="text-accent text-xs font-mono tracking-widest uppercase mb-2 translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">{photo.category}</span>
-                                <h3 className="text-white text-4xl font-display uppercase tracking-tighter translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-100">{photo.title}</h3>
+                        {/* Hover info */}
+                        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <div className="text-center p-4">
+                                <h3 className="text-white font-display text-2xl uppercase tracking-tighter">{photo.title}</h3>
+                                <p className="text-white/60 font-mono text-xs uppercase tracking-widest mt-2">{photo.category}</p>
                             </div>
                         </div>
-                    ))}
-                </div>
+
+                    </Link>
+                ))}
             </div>
         </section>
     );
