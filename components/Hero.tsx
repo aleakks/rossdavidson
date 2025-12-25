@@ -19,8 +19,10 @@ export default function Hero({ title, subtitle, images }: HeroProps) {
         offset: ["start start", "end start"],
     });
 
-    const scale = useTransform(scrollYProgress, [0, 0.4], [1, 20]);
-    const opacity = useTransform(scrollYProgress, [0.3, 0.4], [1, 0]);
+    // Adjusted zoom: Slower start, lower max scale.
+    // Progress 0 -> 0.6 (slower), Scale 1 -> 12 (reduced from 20)
+    const scale = useTransform(scrollYProgress, [0, 0.6], [1, 12]);
+    const opacity = useTransform(scrollYProgress, [0.4, 0.6], [1, 0]);
 
     // Rapid Fire Montage Logic
     useEffect(() => {
