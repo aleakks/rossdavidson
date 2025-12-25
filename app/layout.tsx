@@ -25,6 +25,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+      </head>
       <body
         className={`${oswald.variable} ${inter.variable} antialiased`}
       >
