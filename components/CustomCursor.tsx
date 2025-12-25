@@ -37,19 +37,30 @@ export default function CustomCursor() {
 
     return (
         <motion.div
-            className="fixed top-0 left-0 pointer-events-none z-[9999] mix-blend-difference"
+            className="fixed top-0 left-0 pointer-events-none z-[9999]"
             style={{
                 x: cursorXSpring,
                 y: cursorYSpring,
+                translateX: "-50%",
+                translateY: "-50%",
             }}
         >
             <motion.div
                 animate={{
-                    scale: isHovered ? 4 : 1,
-                    backgroundColor: isHovered ? "rgba(255, 255, 255, 1)" : "white",
+                    width: isHovered ? 80 : 20,
+                    height: isHovered ? 80 : 20,
+                    backgroundColor: isHovered ? "rgba(255, 255, 255, 0.1)" : "rgba(255, 255, 255, 1)",
+                    border: isHovered ? "1px solid rgba(255, 255, 255, 0.5)" : "0px solid rgba(255, 255, 255, 0)",
+                    backdropFilter: isHovered ? "blur(4px)" : "blur(0px)",
+                    mixBlendMode: isHovered ? "normal" : "difference",
                 }}
-                transition={{ duration: 0.2 }}
-                className="w-5 h-5 rounded-full bg-white"
+                transition={{
+                    type: "spring",
+                    stiffness: 150,
+                    damping: 15,
+                    mass: 0.1
+                }}
+                className="rounded-full flex items-center justify-center bg-white"
             />
         </motion.div>
     );
