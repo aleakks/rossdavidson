@@ -29,7 +29,17 @@ export default function CustomCursor() {
         };
 
         const handleMouseOver = (e: MouseEvent) => {
-            if ((e.target as HTMLElement).tagName === "A" || (e.target as HTMLElement).tagName === "BUTTON" || (e.target as HTMLElement).closest(".hover-target")) {
+            const target = e.target as HTMLElement;
+            // Check if we should show standard cursor (contact form)
+            if (target.closest(".show-cursor")) {
+                setIsHovered(false);
+                // We'll handle the hiding visuals in the render logic
+                document.body.classList.add("using-system-cursor");
+            } else {
+                document.body.classList.remove("using-system-cursor");
+            }
+
+            if (target.tagName === "A" || target.tagName === "BUTTON" || target.closest(".hover-target")) {
                 setIsHovered(true);
             } else {
                 setIsHovered(false);
@@ -54,6 +64,7 @@ export default function CustomCursor() {
                 y: cursorYSpring,
                 translateX: "-50%",
                 translateY: "-50%",
+                opacity: typeof document !== 'undefined' && document.body.classList.contains("using-system-cursor") ? 0 : 1,
             }}
         >
             <motion.div
