@@ -88,7 +88,7 @@ export default function Contact() {
 
                             {/* Name */}
                             <div className="group relative">
-                                <label className={`absolute -top-4 left-0 font-mono text-xs uppercase tracking-widest transition-colors ${focusedField === 'name' ? 'text-white' : 'text-white/30'}`}>
+                                <label className="absolute -top-4 left-0 font-mono text-xs uppercase tracking-widest text-white transition-colors">
                                     (01) Who are you?
                                 </label>
                                 <input
@@ -103,7 +103,7 @@ export default function Contact() {
 
                             {/* Email */}
                             <div className="group relative">
-                                <label className={`absolute -top-4 left-0 font-mono text-xs uppercase tracking-widest transition-colors ${focusedField === 'email' ? 'text-white' : 'text-white/30'}`}>
+                                <label className="absolute -top-4 left-0 font-mono text-xs uppercase tracking-widest text-white transition-colors">
                                     (02) How to reach you?
                                 </label>
                                 <input
@@ -118,7 +118,7 @@ export default function Contact() {
 
                             {/* Message */}
                             <div className="group relative">
-                                <label className={`absolute -top-4 left-0 font-mono text-xs uppercase tracking-widest transition-colors ${focusedField === 'message' ? 'text-white' : 'text-white/30'}`}>
+                                <label className="absolute -top-4 left-0 font-mono text-xs uppercase tracking-widest text-white transition-colors">
                                     (03) The Vision?
                                 </label>
                                 <textarea
