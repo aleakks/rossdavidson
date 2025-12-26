@@ -138,7 +138,7 @@ function ScatteredCard({ card, index }: { card: any, index: number }) {
             // Mobile: Relative positioning, proper width, aspect ratio, no absolute
             // Desktop: Absolute positioning, centered based
             className={`
-                bg-white p-2 md:p-3 shadow-2xl cursor-default
+                bg-white p-3 pb-6 md:p-3 shadow-2xl cursor-default
                 relative w-full max-w-[340px] aspect-[4/5]
                 md:absolute md:w-[420px] md:max-w-none md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2
             `}
