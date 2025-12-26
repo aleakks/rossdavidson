@@ -9,38 +9,38 @@ import Image from "next/image";
 const CARDS = [
     {
         id: 1,
-        src: "https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1000&auto=format&fit=crop",
+        src: "/images/uploads/image-01.jpg",
         alt: "Editorial 1",
-        client: "VOGUE",
-        location: "Paris"
+        client: "@skrillex",
+        location: "London"
     },
     {
         id: 2,
-        src: "https://images.unsplash.com/photo-1500917293891-ef795e70e1f6?q=80&w=1000&auto=format&fit=crop",
+        src: "/images/uploads/image-23.jpg",
         alt: "Editorial 2",
-        client: "PRADA",
-        location: "Milan"
+        client: "@anniemacmanus",
+        location: "London"
     },
     {
         id: 3,
-        src: "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1000&auto=format&fit=crop",
+        src: "/images/uploads/image-10.jpg",
         alt: "Editorial 3",
-        client: "OFF-WHITE",
+        client: "@kilimanjaromusic",
         location: "London"
     },
     {
         id: 4,
-        src: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1000&auto=format&fit=crop",
+        src: "/images/uploads/image-21.jpg",
         alt: "Editorial 4",
-        client: "NIKE",
-        location: "Tokyo"
+        client: "@marshmusician",
+        location: "Leake Street Graffiti Tunnel"
     },
     {
         id: 5,
-        src: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1000&auto=format&fit=crop",
+        src: "/images/uploads/image-11.jpg",
         alt: "Editorial 5",
-        client: "YSL",
-        location: "NYC"
+        client: "@appetiteonthefarm",
+        location: "Essex"
     }
 ];
 
