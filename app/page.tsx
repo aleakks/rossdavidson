@@ -2,6 +2,8 @@ import Hero from "@/components/Hero";
 import Gallery from "@/components/Gallery";
 import About from "@/components/About";
 import SocialProof from "@/components/SocialProof";
+import PhotoStack from "@/components/PhotoStack";
+import Services from "@/components/Services";
 import Contact from "@/components/Contact";
 import { getPhotos, getHeroSettings } from "@/lib/api";
 import { Metadata } from "next";
@@ -23,7 +25,9 @@ export default function Home() {
         images={heroSettings.images}
       />
       <SocialProof />
+      <PhotoStack />
       <About />
+      <Services />
       <Gallery photos={photos} />
       <Contact />
     </main>
