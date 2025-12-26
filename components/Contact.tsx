@@ -16,7 +16,7 @@ export default function Contact() {
     };
 
     return (
-        <section id="contact" className="bg-black relative z-10 show-cursor border-t border-white/20">
+        <section id="contact" className="bg-black relative z-10 border-t border-white/20">
 
             {/* The Grid Container - Responsive borders */}
             <div className="flex flex-col md:grid md:grid-cols-12 min-h-[90vh]">
@@ -83,7 +83,7 @@ export default function Contact() {
 
                     <form onSubmit={handleSubmit} className="relative max-w-2xl mx-auto w-full space-y-16">
 
-                        {/* Huge Input Fields */}
+                        {/* Huge Input Fields - Font size reduced to xl/3xl for usability */}
                         <div className="space-y-12">
 
                             {/* Name */}
@@ -97,7 +97,7 @@ export default function Contact() {
                                     placeholder="YOUR NAME"
                                     onFocus={() => setFocusedField('name')}
                                     onBlur={() => setFocusedField(null)}
-                                    className="w-full bg-transparent border-b-2 border-white/10 py-4 text-3xl md:text-5xl font-display font-bold text-white uppercase focus:outline-none focus:border-white transition-all placeholder:text-white/5"
+                                    className="w-full bg-transparent border-b-2 border-white/10 py-4 text-xl md:text-3xl font-display font-bold text-white uppercase focus:outline-none focus:border-white transition-all placeholder:text-white/5"
                                 />
                             </div>
 
@@ -112,7 +112,7 @@ export default function Contact() {
                                     placeholder="EMAIL ADDRESS"
                                     onFocus={() => setFocusedField('email')}
                                     onBlur={() => setFocusedField(null)}
-                                    className="w-full bg-transparent border-b-2 border-white/10 py-4 text-3xl md:text-5xl font-display font-bold text-white uppercase focus:outline-none focus:border-white transition-all placeholder:text-white/5"
+                                    className="w-full bg-transparent border-b-2 border-white/10 py-4 text-xl md:text-3xl font-display font-bold text-white uppercase focus:outline-none focus:border-white transition-all placeholder:text-white/5"
                                 />
                             </div>
 
@@ -127,7 +127,7 @@ export default function Contact() {
                                     placeholder="TELL ME ABOUT IT"
                                     onFocus={() => setFocusedField('message')}
                                     onBlur={() => setFocusedField(null)}
-                                    className="w-full bg-transparent border-b-2 border-white/10 py-4 text-3xl md:text-5xl font-display font-bold text-white uppercase focus:outline-none focus:border-white transition-all resize-none placeholder:text-white/5 min-h-[80px]"
+                                    className="w-full bg-transparent border-b-2 border-white/10 py-4 text-xl md:text-3xl font-display font-bold text-white uppercase focus:outline-none focus:border-white transition-all resize-none placeholder:text-white/5 min-h-[80px]"
                                     style={{ fieldSizing: "content" } as any} // Modern CSS for auto-grow
                                 />
                             </div>
