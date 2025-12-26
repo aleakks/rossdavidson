@@ -138,7 +138,7 @@ function ScatteredCard({ card, index }: { card: any, index: number }) {
             // Mobile: Relative positioning, proper width, aspect ratio, no absolute
             // Desktop: Absolute positioning, centered based
             className={`
-                bg-white p-3 pb-6 md:p-3 shadow-2xl cursor-default
+                bg-white p-3 pb-8 md:p-3 shadow-2xl cursor-default
                 relative w-full max-w-[340px] aspect-[4/5]
                 md:absolute md:w-[420px] md:max-w-none md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2
             `}
@@ -153,10 +153,11 @@ function ScatteredCard({ card, index }: { card: any, index: number }) {
                     />
                     <div className="absolute inset-0 bg-black/10 pointer-events-none" />
                 </div>
-                <div className="h-10 md:h-12 flex items-center justify-between px-1 font-mono text-black uppercase tracking-widest mt-1">
+                {/* Footer: Dynamic height with padding */}
+                <div className="flex items-center justify-between px-1 font-mono text-black uppercase tracking-widest mt-3 mb-1">
                     <div className="flex flex-col justify-center leading-none text-left">
                         <span className="text-[10px] md:text-sm font-bold">{card.client}</span>
-                        <span className="text-[8px] md:text-[10px] text-black/60">{card.location}</span>
+                        <span className="text-[8px] md:text-[10px] text-black/60 mt-1">{card.location}</span>
                     </div>
                     <span className="text-[10px] md:text-xs opacity-40">Editorial</span>
                 </div>
