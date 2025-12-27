@@ -15,14 +15,37 @@ export default function HeroClient({ title, subtitle, images }: HeroClientProps)
 
     // Rapid Fire Montage Logic
     useEffect(() => {
-        if (!images || images.length === 0) return;
-
-        const interval = setInterval(() => {
-            setCurrentImageIndex((prev) => (prev + 1) % images.length);
-        }, 600);
-
-        return () => clearInterval(interval);
+        if (images && images.length > 0) {
+            const interval = setInterval(() => {
+                setCurrentImageIndex((prev) => (prev + 1) % images.length);
+            }, 600);
+            return () => clearInterval(interval);
+        }
     }, [images]);
+
+    // Live Content Refresh (Bypass Cache)
+    const [liveData, setLiveData] = useState<any>(null);
+    useEffect(() => {
+        const fetchFreshData = async () => {
+            try {
+                const { client } = await import("@/sanity/lib/client");
+                const { heroQuery } = await import("@/sanity/lib/queries");
+                const fresh = await client.fetch(heroQuery);
+                if (fresh) setLiveData(fresh);
+            } catch (e) {
+                console.error("Live fetch failed", e);
+            }
+        };
+        fetchFreshData();
+    }, []);
+
+    // Use live data if available, otherwise static props
+    const displayTitle = liveData?.title || title;
+    const displaySubtitle = liveData?.subtitle || subtitle;
+    // For images, we need to rebuild URLs if new data comes in, but for safety let's stick to static images for now 
+    // or we'd need to import urlFor. Text is the main thing users notice updating.
+    // To keep it simple and robust, let's update text first.
+
 
     const currentImage = images && images.length > 0 ? images[currentImageIndex] : null;
 
@@ -80,14 +103,14 @@ export default function HeroClient({ title, subtitle, images }: HeroClientProps)
                 >
                     <div className="h-[1px] w-12 bg-white/70" />
                     <span className="font-mono text-sm md:text-base text-white/90 tracking-[0.3em] uppercase">
-                        {subtitle}
+                        {displaySubtitle}
                     </span>
                     <div className="h-[1px] w-12 bg-white/70" />
                 </motion.div>
 
                 {/* Main Title */}
                 <h1 className="text-[14vw] leading-[0.85] font-display font-black text-white tracking-tighter text-center uppercase mix-blend-overlay drop-shadow-2xl whitespace-pre-line">
-                    {title}
+                    {displayTitle}
                 </h1>
 
                 {/* Subtitle / Location */}
