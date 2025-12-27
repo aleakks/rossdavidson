@@ -66,17 +66,18 @@ export default function HeroClient({ title, subtitle, images }: HeroClientProps)
                     {currentImage && (
                         <motion.div
                             key={currentImageIndex}
-                            initial={{ opacity: 0.2, scale: 1.05 }}
-                            animate={{ opacity: 0.6, scale: 1 }}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 0.6 }}
                             exit={{ opacity: 0 }}
-                            transition={{ duration: 0.4 }}
+                            transition={{ duration: 0.8 }}
                             className="absolute inset-0"
                         >
                             <Image
-                                src={currentImage} // Hero images are already URLs stringified with urlFor? No, let's check.
+                                src={currentImage}
                                 alt="Background Moment"
                                 fill
                                 className="object-cover opacity-60 grayscale-[0.3] contrast-125 saturate-110"
+                                style={{ objectPosition: '50% 25%' }} // Focus on faces/top third
                                 priority
                                 quality={100}
                             />
