@@ -102,7 +102,7 @@ export default function ContactClient({ capabilities, status, email }: ContactFo
                                     placeholder="YOUR NAME"
                                     onFocus={() => setFocusedField('name')}
                                     onBlur={() => setFocusedField(null)}
-                                    className="w-full bg-transparent border-b-2 border-white/10 py-4 text-xl md:text-3xl font-display font-bold text-white uppercase focus:outline-none focus:border-white transition-all placeholder:text-white/5"
+                                    className="w-full bg-transparent border-b-2 border-white/10 py-4 text-xl md:text-3xl font-display font-bold text-white uppercase focus:outline-none focus:border-white transition-all placeholder:text-white/40"
                                 />
                             </div>
 
@@ -117,7 +117,7 @@ export default function ContactClient({ capabilities, status, email }: ContactFo
                                     placeholder="EMAIL ADDRESS"
                                     onFocus={() => setFocusedField('email')}
                                     onBlur={() => setFocusedField(null)}
-                                    className="w-full bg-transparent border-b-2 border-white/10 py-4 text-xl md:text-3xl font-display font-bold text-white uppercase focus:outline-none focus:border-white transition-all placeholder:text-white/5"
+                                    className="w-full bg-transparent border-b-2 border-white/10 py-4 text-xl md:text-3xl font-display font-bold text-white uppercase focus:outline-none focus:border-white transition-all placeholder:text-white/40"
                                 />
                             </div>
 
@@ -132,7 +132,7 @@ export default function ContactClient({ capabilities, status, email }: ContactFo
                                     placeholder="TELL ME ABOUT IT"
                                     onFocus={() => setFocusedField('message')}
                                     onBlur={() => setFocusedField(null)}
-                                    className="w-full bg-transparent border-b-2 border-white/10 py-4 text-xl md:text-3xl font-display font-bold text-white uppercase focus:outline-none focus:border-white transition-all resize-none placeholder:text-white/5 min-h-[80px]"
+                                    className="w-full bg-transparent border-b-2 border-white/10 py-4 text-xl md:text-3xl font-display font-bold text-white uppercase focus:outline-none focus:border-white transition-all resize-none placeholder:text-white/40 min-h-[80px]"
                                     style={{ fieldSizing: "content" } as any}
                                 />
                             </div>

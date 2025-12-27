@@ -21,7 +21,7 @@ export default function HeroClient({ title, subtitle, images }: HeroClientProps)
         if (images && images.length > 0) {
             const interval = setInterval(() => {
                 setCurrentImageIndex((prev) => (prev + 1) % images.length);
-            }, 600);
+            }, 600); // Standard speed
             return () => clearInterval(interval);
         }
     }, [images]);
@@ -50,34 +50,31 @@ export default function HeroClient({ title, subtitle, images }: HeroClientProps)
     // Use live data if available, otherwise static props
     const displayTitle = liveData?.title || title;
     const displaySubtitle = liveData?.subtitle || subtitle;
-    // For images, we need to rebuild URLs if new data comes in, but for safety let's stick to static images for now 
-    // or we'd need to import urlFor. Text is the main thing users notice updating.
-    // To keep it simple and robust, let's update text first.
-
-
     const currentImage = images && images.length > 0 ? images[currentImageIndex] : null;
 
     return (
         <div className="h-screen relative bg-black w-full overflow-hidden flex items-center justify-center">
 
-            {/* 1. Rapid Fire Background Montage */}
+            {/* 1. Background Slideshow (Full Screen, One at a time) */}
             <div className="absolute inset-0 z-0">
                 <AnimatePresence mode="popLayout">
                     {currentImage && (
                         <motion.div
                             key={currentImageIndex}
                             initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
+                            animate={{ opacity: 0.6 }} // 0.6 opacity to blend with background
                             exit={{ opacity: 0 }}
-                            transition={{ duration: 1 }}
+                            transition={{ duration: 0.8 }}
                             className="absolute inset-0"
                         >
                             <Image
                                 src={currentImage}
                                 alt="Background Moment"
                                 fill
+                                // object-cover for full width (requested)
+                                // object-position center 30% to catch faces without chopping heads
                                 className="object-cover opacity-60 grayscale-[0.3] contrast-125 saturate-110"
-                                style={{ objectPosition: '50% 25%' }} // Focus on faces/top third
+                                style={{ objectPosition: 'center 30%' }}
                                 priority
                                 quality={100}
                             />
@@ -99,7 +96,7 @@ export default function HeroClient({ title, subtitle, images }: HeroClientProps)
                 />
             </div>
 
-            {/* 3. Kinetic Text */}
+            {/* 3. Kinetic Text (Centered) */}
             <div
                 className="relative z-20 w-full h-full flex flex-col items-center justify-center pointer-events-none p-4"
             >
@@ -133,18 +130,19 @@ export default function HeroClient({ title, subtitle, images }: HeroClientProps)
                     <span>•</span>
                     <span>Worldwide</span>
                 </motion.div>
+
+                {/* Scroll Indicator */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1, duration: 1 }}
+                    className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/50 flex flex-col items-center gap-2 z-30 mix-blend-difference"
+                >
+                    <span className="text-xs uppercase tracking-[0.5em] font-mono">Scroll</span>
+                    <div className="w-[1px] h-12 bg-white/50 animate-pulse" />
+                </motion.div>
             </div>
 
-            {/* Scroll Indicator */}
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1, duration: 1 }}
-                className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/50 flex flex-col items-center gap-2 z-30 mix-blend-difference"
-            >
-                <span className="text-xs uppercase tracking-[0.5em] font-mono">Scroll</span>
-                <div className="w-[1px] h-12 bg-white/50 animate-pulse" />
-            </motion.div>
         </div>
     );
 }
