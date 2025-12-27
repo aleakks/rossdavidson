@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 };
 
 // Removed runtime='edge' to ensure stability
-export const dynamic = "force-dynamic";
+// export const dynamic = "force-dynamic";
 
 export default function Home() {
   return (

@@ -57,7 +57,7 @@ export default function RootLayout({
       <body
         className={`${oswald.variable} ${inter.variable} antialiased`}
       >
-        {/* <CustomCursor /> */}
+        <CustomCursor />
         <Header />
         {children}
         <Footer />
