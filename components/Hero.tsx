@@ -34,7 +34,7 @@ export default async function Hero() {
     const title = data?.title || "ROSS\nDAVIDSON";
     const subtitle = data?.subtitle || "Music & Nightlife Photography";
     // Map Sanity images to URLs
-    const images = data?.images?.map((img: any) => urlFor(img).width(2560).height(1440).quality(100).url()) || [];
+    const images = data?.images?.map((img: any) => urlFor(img).width(1920).quality(95).url()) || [];
 
     return <HeroClient title={title} subtitle={subtitle} images={images} />;
 }
