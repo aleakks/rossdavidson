@@ -31,10 +31,12 @@ export default function HeroClient({ title, subtitle, images }: HeroClientProps)
         console.log("HeroClient: Mounting and attempting to fetch fresh data...");
         const fetchFreshData = async () => {
             try {
-                const fresh = await client.fetch(heroQuery, {}, {
+                // Add timestamp to params to force instant cache invalidation
+                const fresh = await client.fetch(heroQuery, { _t: Date.now() }, {
                     filterResponse: false,
                     // @ts-ignore
-                    cache: 'no-store'
+                    cache: 'no-store',
+                    next: { revalidate: 0 }
                 });
                 console.log("HeroClient: Fetch success!", fresh);
                 if (fresh) setLiveData(fresh);
