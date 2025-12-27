@@ -3,6 +3,9 @@
 import Image from "next/image";
 import { clsx } from "clsx";
 import { urlFor } from "@/sanity/lib/image";
+import { client } from "@/sanity/lib/client";
+import { galleryQuery } from "@/sanity/lib/queries";
+import { useState, useEffect } from "react";
 
 interface GalleryClientProps {
     photos: any[];
@@ -43,7 +46,21 @@ const getSize = (index: number) => {
 };
 
 export default function GalleryClient({ photos }: GalleryClientProps) {
-    if (!photos || photos.length === 0) return null;
+    const [livePhotos, setLivePhotos] = useState<any[] | null>(null);
+
+    useEffect(() => {
+        const fetchFresh = async () => {
+            try {
+                const fresh = await client.fetch(galleryQuery, { _t: Date.now() }, { filterResponse: false, cache: 'no-store' });
+                if (fresh) setLivePhotos(fresh as any[]);
+            } catch (e) { console.error("Gallery fetch failed", e); }
+        };
+        fetchFresh();
+    }, []);
+
+    const displayPhotos = livePhotos || photos;
+
+    if (!displayPhotos || displayPhotos.length === 0) return null;
 
     return (
         <section id="work" className="bg-black min-h-screen p-4 md:p-8">
@@ -51,7 +68,7 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
          Mobile: 2 Columns | Desktop: 6 Columns
       */}
             <div className="grid grid-cols-2 md:grid-cols-6 gap-4 auto-rows-[300px] max-w-[1800px] mx-auto">
-                {photos.map((photo, index) => (
+                {displayPhotos.map((photo, index) => (
                     <div
                         key={photo._id || index}
                         className={clsx(

@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
+import { client } from "@/sanity/lib/client";
+import { photoStackQuery } from "@/sanity/lib/queries";
 
 // Deterministic chaotic positions for the "Messy Desk" look (Desktop Only)
 const SCATTER_POSITIONS = [
@@ -15,7 +17,24 @@ const SCATTER_POSITIONS = [
 ];
 
 export default function PhotoStackClient({ cards }: { cards: any[] }) {
-    if (!cards || cards.length === 0) return null;
+    const [liveCards, setLiveCards] = useState<any[] | null>(null);
+
+    useEffect(() => {
+        const fetchFresh = async () => {
+            try {
+                // Ensure we select the 'cards' array from the result object if query returns object
+                // The query is defined as: *[_type == "photoStack"][0] { cards[] { ... } }
+                // So result is { cards: [...] }
+                const fresh = await client.fetch(photoStackQuery, { _t: Date.now() }, { filterResponse: false, cache: 'no-store' });
+                if ((fresh as any)?.cards) setLiveCards((fresh as any).cards);
+            } catch (e) { console.error("Stack fetch failed", e); }
+        };
+        fetchFresh();
+    }, []);
+
+    const displayCards = liveCards || cards;
+
+    if (!displayCards || displayCards.length === 0) return null;
 
     return (
         <section className="py-24 bg-black overflow-hidden relative border-t border-white/10">
@@ -37,7 +56,7 @@ export default function PhotoStackClient({ cards }: { cards: any[] }) {
 
                 {/* Mobile: Vertical List | Desktop: Messy Desk Area */}
                 <div className="relative w-full flex flex-col items-center gap-12 md:gap-0 md:block md:h-[600px] md:flex-none">
-                    {cards.map((card: any, index: number) => (
+                    {displayCards.map((card: any, index: number) => (
                         <ScatteredCard
                             key={index}
                             card={card}

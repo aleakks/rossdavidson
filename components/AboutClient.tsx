@@ -3,8 +3,27 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 
+import { client } from "@/sanity/lib/client";
+import { aboutQuery } from "@/sanity/lib/queries";
+import { useState, useEffect } from "react";
+
 export default function AboutClient({ data, artistImage }: { data: any, artistImage: string }) {
-    if (!data) return null;
+    const [liveData, setLiveData] = useState<any>(null);
+
+    // Live Content Refresh
+    useEffect(() => {
+        const fetchFresh = async () => {
+            try {
+                const fresh = await client.fetch(aboutQuery, { _t: Date.now() }, { filterResponse: false, cache: 'no-store' });
+                if (fresh) setLiveData(fresh);
+            } catch (e) { console.error("About fetch failed", e); }
+        };
+        fetchFresh();
+    }, []);
+
+    const displayData = liveData || data;
+
+    if (!displayData) return null;
 
     return (
         <section id="about" className="bg-black py-24 md:py-32 relative z-10 border-t border-white/5">
@@ -45,20 +64,20 @@ export default function AboutClient({ data, artistImage }: { data: any, artistIm
 
                         <div className="space-y-6">
                             <h3 className="text-4xl md:text-5xl font-display font-black text-white uppercase tracking-tighter leading-none whitespace-pre-line">
-                                {data.headline || "Capturing the Electricity of the Moment."}
+                                {displayData.headline || "Capturing the Electricity of the Moment."}
                             </h3>
                             <p className="font-sans text-white/70 text-lg leading-relaxed max-w-lg whitespace-pre-line">
-                                {data.bio}
+                                {displayData.bio}
                             </p>
                         </div>
 
-                        {data.philosophy && (
+                        {displayData.philosophy && (
                             <div className="space-y-4">
                                 <h4 className="text-sm font-mono tracking-[0.3em] text-white/50 uppercase">
                                     Philosophy
                                 </h4>
                                 <p className="font-sans text-white/70 text-base leading-relaxed max-w-lg border-l-2 border-white/20 pl-6 italic">
-                                    "{data.philosophy}"
+                                    "{displayData.philosophy}"
                                 </p>
                             </div>
                         )}
