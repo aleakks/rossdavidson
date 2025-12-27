@@ -67,17 +67,26 @@ export default function HeroClient({ title, subtitle, images }: HeroClientProps)
                         <motion.div
                             key={currentImageIndex}
                             initial={{ opacity: 0 }}
-                            animate={{ opacity: 0.6 }}
+                            animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            transition={{ duration: 0.8 }}
+                            transition={{ duration: 1 }}
                             className="absolute inset-0"
                         >
+                            {/* Layer 1: Atmospheric Blur Backdrop (Fills Screen) */}
+                            <Image
+                                src={currentImage}
+                                alt="Background Atmosphere"
+                                fill
+                                className="object-cover blur-3xl opacity-50 scale-110 saturate-150"
+                                priority
+                            />
+
+                            {/* Layer 2: Main Image (Fully Visible) */}
                             <Image
                                 src={currentImage}
                                 alt="Background Moment"
                                 fill
-                                className="object-cover opacity-60 grayscale-[0.3] contrast-125 saturate-110"
-                                style={{ objectPosition: '50% 25%' }} // Focus on faces/top third
+                                className="object-contain drop-shadow-2xl"
                                 priority
                                 quality={100}
                             />
