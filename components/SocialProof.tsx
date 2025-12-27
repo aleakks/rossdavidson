@@ -2,20 +2,23 @@ import { client } from "@/sanity/lib/client";
 import { socialProofQuery } from "@/sanity/lib/queries";
 import SocialProofClient from "./SocialProofClient";
 
-async function getData() {
-    return await client.fetch(socialProofQuery, {}, { next: { revalidate: 60 } });
-}
-
 export default async function SocialProof() {
-    const data = await getData();
-    const clients = data?.clients || [
-        "Annie Mac",
-        "skrillex",
-        "blondish",
-        "realblackcoffee",
-        "followthefishtv",
-        "adriatique",
-    ];
+    let data = null;
+    try {
+        data = await client.fetch(socialProofQuery, {}, { next: { revalidate: 60 } });
+    } catch (e) {
+        console.error("Social Proof Fetch Error", e);
+    }
 
-    return <SocialProofClient clients={clients} />;
+    const clients = data?.clients || [
+        "Mixmag",
+        "DJ Mag",
+        "Insomniac",
+        "Defected",
+        "Cercle",
+        "Afterlife",
+    ];
+    const callout = data?.primaryCallout;
+
+    return <SocialProofClient clients={clients} callout={callout} />;
 }

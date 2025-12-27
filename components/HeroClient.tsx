@@ -98,37 +98,23 @@ export default function HeroClient({ title, subtitle, images }: HeroClientProps)
 
             {/* 3. Kinetic Text (Centered) */}
             <div
-                className="relative z-20 w-full h-full flex flex-col items-center justify-center pointer-events-none p-4"
+                className="relative z-20 w-full h-full flex flex-col items-center justify-center pointer-events-none p-4 md:p-8"
             >
-                {/* Pre-Header Branding */}
-                <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5, duration: 0.8 }}
-                    className="mb-6 flex items-center gap-4"
-                >
-                    <div className="h-[1px] w-12 bg-white/70" />
-                    <span className="font-mono text-sm md:text-base text-white/90 tracking-[0.3em] uppercase">
-                        {displaySubtitle}
-                    </span>
-                    <div className="h-[1px] w-12 bg-white/70" />
-                </motion.div>
-
-                {/* Main Title */}
-                <h1 className="text-[14vw] leading-[0.85] font-display font-black text-white tracking-tighter text-center uppercase mix-blend-overlay drop-shadow-2xl whitespace-pre-line">
+                {/* Main Title - Clarified Role */}
+                <h1 className="text-[10vw] md:text-7xl lg:text-8xl leading-[0.9] font-display font-black text-white tracking-tighter text-center uppercase mix-blend-overlay drop-shadow-2xl whitespace-pre-line max-w-5xl">
                     {displayTitle}
                 </h1>
 
-                {/* Subtitle / Location */}
+                {/* Subheading - Context & Clients */}
                 <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.8 }}
-                    className="mt-8 flex gap-8 font-mono text-xs text-accent-dim uppercase tracking-widest"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5, duration: 0.8 }}
+                    className="mt-6 md:mt-8 max-w-xl text-center"
                 >
-                    <span>London</span>
-                    <span>•</span>
-                    <span>Worldwide</span>
+                    <p className="font-mono text-xs md:text-sm text-white/90 uppercase tracking-widest leading-relaxed">
+                        {displaySubtitle}
+                    </p>
                 </motion.div>
 
                 {/* Scroll Indicator */}

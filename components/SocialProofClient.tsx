@@ -2,43 +2,39 @@
 
 interface SocialProofClientProps {
     clients: string[];
+    callout?: string;
 }
 
-export default function SocialProofClient({ clients }: SocialProofClientProps) {
+export default function SocialProofClient({ clients, callout }: SocialProofClientProps) {
     if (!clients || clients.length === 0) return null;
 
     return (
         <section className="bg-black py-20 border-t border-white/5 overflow-hidden">
-            <div className="container mx-auto px-6 mb-12">
-                <h2 className="text-xs font-mono tracking-[0.5em] text-white/40 uppercase text-center md:text-left">
+            <div className="container mx-auto px-6 mb-16 text-center">
+                <h2 className="text-xs font-mono tracking-[0.5em] text-white/40 uppercase mb-8">
                     Featured In & Trusted By
                 </h2>
-            </div>
 
-            {/* Scrolling Ticker on Mobile / Grid on Desktop */}
-            <div className="relative w-full overflow-hidden">
+                {/* Primary Callout */}
+                <div className="mb-16">
+                    <p className="text-xl md:text-3xl font-display uppercase tracking-wider text-white">
+                        {callout || "Official Tour Photographer for Skrillex – 2024"}
+                    </p>
+                </div>
 
-                {/* Desktop Grid (Clean, structured) */}
-                <div className="hidden md:flex justify-between items-center px-12 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
+                {/* Logo Grid (Simulated with Text) */}
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-12 items-center opacity-50 hover:opacity-100 transition-opacity duration-500">
                     {clients.map((client, index) => (
-                        <div key={index} className="text-xl md:text-2xl font-display uppercase tracking-widest text-white/60 hover:text-white transition-colors cursor-default">
-                            {/* Placeholder for Logos - using text for now */}
-                            {client}
+                        <div
+                            key={index}
+                            className="flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-300"
+                        >
+                            <span className="text-lg md:text-xl font-display uppercase tracking-widest text-white/60 hover:text-white transition-colors cursor-default text-center">
+                                {client}
+                            </span>
                         </div>
                     ))}
                 </div>
-
-                {/* Mobile Marquee (Dynamic) */}
-                <div className="md:hidden flex whitespace-nowrap overflow-hidden relative">
-                    <div className="flex gap-12 min-w-max animate-marquee">
-                        {[...clients, ...clients].map((client, index) => (
-                            <span key={index} className="text-xl font-display uppercase tracking-widest text-white/50">
-                                {client}
-                            </span>
-                        ))}
-                    </div>
-                </div>
-
             </div>
         </section>
     );

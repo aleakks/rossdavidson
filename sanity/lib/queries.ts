@@ -25,6 +25,7 @@ export const aboutQuery = groq`*[_type == "about"][0]{
 
 export const servicesQuery = groq`*[_type == "service"]|order(order asc){
   title,
+  description,
   order
 }`;
 
@@ -32,15 +33,20 @@ export const galleryQuery = groq`*[_type == "galleryProject"]|order(date desc){
   title,
   category,
   date,
-  image
+  image,
+  client,
+  location,
+  altText
 }`;
 
 export const contactQuery = groq`*[_type == "contact"][0]{
   status,
   email,
-  capabilities
+  capabilities,
+  licensingText
 }`;
 
 export const socialProofQuery = groq`*[_type == "socialProof"][0]{
-  clients
+  clients,
+  primaryCallout
 }`;

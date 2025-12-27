@@ -24,10 +24,10 @@ export default function Header() {
 
     const links = [
         { name: "Work", href: isHome ? "#work" : "/#work" },
-        { name: "Approach", href: "/info" },
+        { name: "Services", href: "/info" }, // Renamed from Approach
         { name: "About", href: isHome ? "#about" : "/#about" },
         { name: "Journal", href: "/journal" },
-        { name: "Contact", href: isHome ? "#contact" : "/#contact" },
+        // Contact removed from list, will be button
     ];
 
     return (
@@ -41,7 +41,7 @@ export default function Header() {
                 transition={{ duration: 0.35, ease: "easeInOut" }}
                 className="fixed top-0 left-0 right-0 z-[100] px-6 py-4 md:py-6 text-white pointer-events-none backdrop-blur-md bg-black/50 border-b border-white/5"
             >
-                <div className="container mx-auto flex justify-center items-center relative">
+                <div className="container mx-auto flex justify-between md:justify-center items-center relative">
 
                     {/* Desktop Nav */}
                     <nav className="pointer-events-auto hidden md:flex gap-12 items-center">
@@ -55,18 +55,39 @@ export default function Header() {
                                 {link.name}
                             </Link>
                         ))}
+
+                        {/* Desktop CTA */}
+                        <Link
+                            href={isHome ? "#contact" : "/#contact"}
+                            className="ml-4 px-6 py-2 bg-white text-black font-mono text-xs uppercase tracking-widest hover:bg-gray-200 transition-colors"
+                        >
+                            Enquire
+                        </Link>
                     </nav>
 
-                    {/* Mobile Header Layout: Logo Left (if needed) or just Menu Right? User asked for centered links desktop, but standard mobile pattern is Logo Left / Menu Right or Menu Center. Let's keep it minimal as requested. */}
-                    {/* Actually, user didn't ask for a logo on mobile, just "menu button doesn't open". Let's place the hamburger on the right and maybe a small logo on the left for context if we want, OR just the hamburger. Let's stick to the existing layout which was centered. */}
-
+                    {/* Mobile Header: Menu Button Right */}
                     <div className="md:hidden pointer-events-auto w-full flex justify-end">
-                        <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="uppercase font-mono text-xs tracking-widest z-[101] relative">
+                        <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="uppercase font-mono text-xs tracking-widest z-[101] relative mix-blend-difference">
                             {mobileMenuOpen ? "Close" : "Menu"}
                         </button>
                     </div>
                 </div>
             </motion.header>
+
+            {/* Mobile Fixed CTA - Always visible */}
+            <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1 }}
+                className="fixed bottom-6 right-6 z-[98] md:hidden pointer-events-auto"
+            >
+                <Link
+                    href={isHome ? "#contact" : "/#contact"}
+                    className="flex items-center justify-center w-auto px-6 py-3 bg-white text-black font-mono text-xs uppercase tracking-widest shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:scale-105 transition-transform"
+                >
+                    Enquire
+                </Link>
+            </motion.div>
 
             {/* Mobile Menu Overlay */}
             <AnimatePresence>
@@ -97,6 +118,14 @@ export default function Header() {
                                 {link.name}
                             </Link>
                         ))}
+                        {/* Mobile Menu Duplicate CTA - Optional, but we have the floating one. Adding it here too for completeness if they look for it in menu. */}
+                        <Link
+                            href={isHome ? "#contact" : "/#contact"}
+                            onClick={() => setMobileMenuOpen(false)}
+                            className="font-display text-4xl uppercase tracking-tighter text-white/50"
+                        >
+                            Contact
+                        </Link>
                     </motion.div>
                 )}
             </AnimatePresence>

@@ -88,52 +88,85 @@ export default function ContactClient({ capabilities, status, email }: ContactFo
 
                     <form onSubmit={handleSubmit} className="relative max-w-2xl mx-auto w-full space-y-16">
 
-                        {/* Huge Input Fields - Font size reduced to xl/3xl for usability */}
-                        <div className="space-y-12">
+                        {/* Reduced Size Fields compared to previous "Huge" style for better usability with more fields */}
+                        <div className="space-y-10">
 
-                            {/* Name */}
+                            {/* Name / Company */}
                             <div className="group relative">
-                                <label className="absolute -top-4 left-0 font-mono text-xs uppercase tracking-widest text-white transition-colors">
-                                    (01) Who are you?
+                                <label className="absolute -top-4 left-0 font-mono text-xs uppercase tracking-widest text-white/60 transition-colors">
+                                    Name / Company
                                 </label>
                                 <input
                                     type="text"
                                     required
-                                    placeholder="YOUR NAME"
+                                    placeholder="WHO ARE YOU?"
                                     onFocus={() => setFocusedField('name')}
                                     onBlur={() => setFocusedField(null)}
-                                    className="w-full bg-transparent border-b-2 border-white/10 py-4 text-xl md:text-3xl font-display font-bold text-white uppercase focus:outline-none focus:border-white transition-all placeholder:text-white/40"
+                                    className="w-full bg-transparent border-b border-white/20 py-3 text-xl md:text-2xl font-display font-medium text-white uppercase focus:outline-none focus:border-white transition-all placeholder:text-white/20"
                                 />
                             </div>
 
                             {/* Email */}
                             <div className="group relative">
-                                <label className="absolute -top-4 left-0 font-mono text-xs uppercase tracking-widest text-white transition-colors">
-                                    (02) How to reach you?
+                                <label className="absolute -top-4 left-0 font-mono text-xs uppercase tracking-widest text-white/60 transition-colors">
+                                    Email Address
                                 </label>
                                 <input
                                     type="email"
                                     required
-                                    placeholder="EMAIL ADDRESS"
+                                    placeholder="WHERE TO REPLY?"
                                     onFocus={() => setFocusedField('email')}
                                     onBlur={() => setFocusedField(null)}
-                                    className="w-full bg-transparent border-b-2 border-white/10 py-4 text-xl md:text-3xl font-display font-bold text-white uppercase focus:outline-none focus:border-white transition-all placeholder:text-white/40"
+                                    className="w-full bg-transparent border-b border-white/20 py-3 text-xl md:text-2xl font-display font-medium text-white uppercase focus:outline-none focus:border-white transition-all placeholder:text-white/20"
                                 />
                             </div>
 
-                            {/* Message */}
+                            {/* Project Type Dropdown */}
                             <div className="group relative">
-                                <label className="absolute -top-4 left-0 font-mono text-xs uppercase tracking-widest text-white transition-colors">
-                                    (03) The Vision?
+                                <label className="absolute -top-4 left-0 font-mono text-xs uppercase tracking-widest text-white/60 transition-colors">
+                                    Project Type
+                                </label>
+                                <select
+                                    required
+                                    onFocus={() => setFocusedField('type')}
+                                    onBlur={() => setFocusedField(null)}
+                                    className="w-full bg-black border-b border-white/20 py-3 text-xl md:text-2xl font-display font-medium text-white uppercase focus:outline-none focus:border-white transition-all appearance-none cursor-pointer"
+                                >
+                                    <option value="" disabled selected className="text-white/20">Select Option</option>
+                                    <option value="tour">Tour Coverage</option>
+                                    <option value="event">Event / Festival</option>
+                                    <option value="editorial">Editorial / Press</option>
+                                    <option value="retainer">Retainer / Long-term</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+
+                            {/* Location & Dates */}
+                            <div className="group relative">
+                                <label className="absolute -top-4 left-0 font-mono text-xs uppercase tracking-widest text-white/60 transition-colors">
+                                    Location & Dates
+                                </label>
+                                <input
+                                    type="text"
+                                    placeholder="WHEN & WHERE?"
+                                    onFocus={() => setFocusedField('location')}
+                                    onBlur={() => setFocusedField(null)}
+                                    className="w-full bg-transparent border-b border-white/20 py-3 text-xl md:text-2xl font-display font-medium text-white uppercase focus:outline-none focus:border-white transition-all placeholder:text-white/20"
+                                />
+                            </div>
+
+                            {/* Message / Details */}
+                            <div className="group relative">
+                                <label className="absolute -top-4 left-0 font-mono text-xs uppercase tracking-widest text-white/60 transition-colors">
+                                    Project Details
                                 </label>
                                 <textarea
                                     required
-                                    rows={1}
-                                    placeholder="TELL ME ABOUT IT"
+                                    rows={2}
+                                    placeholder="e.g. Live show in London, 2 nights, image delivery for press and social media."
                                     onFocus={() => setFocusedField('message')}
                                     onBlur={() => setFocusedField(null)}
-                                    className="w-full bg-transparent border-b-2 border-white/10 py-4 text-xl md:text-3xl font-display font-bold text-white uppercase focus:outline-none focus:border-white transition-all resize-none placeholder:text-white/40 min-h-[80px]"
-                                    style={{ fieldSizing: "content" } as any}
+                                    className="w-full bg-transparent border-b border-white/20 py-3 text-xl md:text-2xl font-display font-medium text-white uppercase focus:outline-none focus:border-white transition-all resize-none placeholder:text-white/20 min-h-[100px]"
                                 />
                             </div>
 

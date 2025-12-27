@@ -68,7 +68,7 @@ export default function AboutClient({ data, artistImage }: { data: any, artistIm
                                 {displayData.headline || "Capturing the Electricity of the Moment."}
                             </h3>
                             <p className="font-sans text-white/70 text-lg leading-relaxed max-w-lg whitespace-pre-line">
-                                {displayData.bio}
+                                {displayData.bio || "I work with artists, labels and brands who need fast, reliable photography in high-pressure, low-light environments — from tours and festivals to editorial and commercial campaigns. My focus is on delivering authentic, high-impact imagery that defines artist identity."}
                             </p>
                         </div>
 

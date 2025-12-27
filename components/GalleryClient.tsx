@@ -83,7 +83,7 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
                         {photo.image ? (
                             <Image
                                 src={urlFor(photo.image).width(1200).quality(100).url()}
-                                alt={photo.title || "Project"}
+                                alt={photo.altText || photo.title || "Music and Nightlife Photography by Ross Davidson"}
                                 fill
                                 className="object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-80 group-hover:opacity-100"
                                 sizes="(max-width: 768px) 100vw, 50vw"
@@ -102,13 +102,17 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
                             style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")` }}
                         />
 
-                        {/* Hover info */}
-                        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                            <div className="text-center p-4">
-                                <h3 className="text-white font-display text-2xl uppercase tracking-tighter">{photo.title}</h3>
-                                {photo.category && (
-                                    <p className="text-white/60 font-mono text-xs uppercase tracking-widest mt-2">{photo.category}</p>
-                                )}
+                        {/* Hover/Tap Info Overlay */}
+                        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 active:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none md:pointer-events-auto">
+                            <div className="text-center p-4 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                                <h3 className="text-white font-display text-2xl uppercase tracking-tighter mb-2">
+                                    {photo.client || photo.title || "Client Name"}
+                                </h3>
+                                <div className="flex flex-col gap-1 font-mono text-[10px] uppercase tracking-[0.2em] text-white/70">
+                                    <span>{photo.location || "London"}</span>
+                                    <span className="w-4 h-[1px] bg-white/30 mx-auto my-1"></span>
+                                    <span>{photo.category || "Editorial"}</span>
+                                </div>
                             </div>
                         </div>
 
