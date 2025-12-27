@@ -26,8 +26,10 @@ export default function PhotoStackClient({ cards }: { cards: any[] }) {
                 // The query is defined as: *[_type == "photoStack"][0] { cards[] { ... } }
                 // So result is { cards: [...] }
                 const fresh = await client.fetch(photoStackQuery, { _t: Date.now() }, { filterResponse: false, cache: 'no-store' });
-                if ((fresh as any)?.cards && Array.isArray((fresh as any).cards)) {
-                    setLiveCards((fresh as any).cards);
+                // @ts-ignore
+                if (fresh?.result?.cards && Array.isArray(fresh.result.cards)) {
+                    // @ts-ignore
+                    setLiveCards(fresh.result.cards);
                 }
             } catch (e) { console.error("Stack fetch failed", e); }
         };

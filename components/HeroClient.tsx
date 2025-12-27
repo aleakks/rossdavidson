@@ -39,7 +39,8 @@ export default function HeroClient({ title, subtitle, images }: HeroClientProps)
                     next: { revalidate: 0 }
                 });
                 console.log("HeroClient: Fetch success!", fresh);
-                if (fresh) setLiveData(fresh);
+                // @ts-ignore
+                if (fresh?.result) setLiveData(fresh.result);
             } catch (e) {
                 console.error("HeroClient: Live fetch failed", e);
             }
