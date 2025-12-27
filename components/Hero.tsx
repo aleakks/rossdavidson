@@ -8,7 +8,29 @@ async function getHeroData() {
 }
 
 export default async function Hero() {
-    const data = await getHeroData();
+    let data;
+    let errorMsg = null;
+
+    try {
+        data = await getHeroData();
+    } catch (error: any) {
+        console.error("Hero Fetch Error:", error);
+        errorMsg = error.message || "Unknown error";
+        data = null;
+    }
+
+    if (errorMsg) {
+        return (
+            <div className="h-screen w-full flex items-center justify-center bg-red-950 text-white p-10 z-[50]">
+                <div className="max-w-xl">
+                    <h2 className="text-2xl font-bold mb-4">HERO COMPONENT ERROR</h2>
+                    <p className="font-mono bg-black/50 p-4 rounded mb-4 overflow-auto">{errorMsg}</p>
+                    <p>Check Cloudflare Environment Variables (NEXT_PUBLIC_SANITY_PROJECT_ID).</p>
+                </div>
+            </div>
+        );
+    }
+
     const title = data?.title || "ROSS\nDAVIDSON";
     const subtitle = data?.subtitle || "Music & Nightlife Photography";
     // Map Sanity images to URLs
