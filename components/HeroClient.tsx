@@ -3,6 +3,8 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { client } from "@/sanity/lib/client";
+import { heroQuery } from "@/sanity/lib/queries";
 
 interface HeroClientProps {
     title: string;
@@ -12,6 +14,7 @@ interface HeroClientProps {
 
 export default function HeroClient({ title, subtitle, images }: HeroClientProps) {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const [liveData, setLiveData] = useState<any>(null);
 
     // Rapid Fire Montage Logic
     useEffect(() => {
@@ -24,16 +27,19 @@ export default function HeroClient({ title, subtitle, images }: HeroClientProps)
     }, [images]);
 
     // Live Content Refresh (Bypass Cache)
-    const [liveData, setLiveData] = useState<any>(null);
     useEffect(() => {
+        console.log("HeroClient: Mounting and attempting to fetch fresh data...");
         const fetchFreshData = async () => {
             try {
-                const { client } = await import("@/sanity/lib/client");
-                const { heroQuery } = await import("@/sanity/lib/queries");
-                const fresh = await client.fetch(heroQuery);
+                const fresh = await client.fetch(heroQuery, {}, {
+                    filterResponse: false,
+                    // @ts-ignore
+                    cache: 'no-store'
+                });
+                console.log("HeroClient: Fetch success!", fresh);
                 if (fresh) setLiveData(fresh);
             } catch (e) {
-                console.error("Live fetch failed", e);
+                console.error("HeroClient: Live fetch failed", e);
             }
         };
         fetchFreshData();
