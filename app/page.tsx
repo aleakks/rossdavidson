@@ -5,7 +5,6 @@ import SocialProof from "@/components/SocialProof";
 import PhotoStack from "@/components/PhotoStack";
 import Services from "@/components/Services";
 import Contact from "@/components/Contact";
-import { getPhotos, getHeroSettings } from "@/lib/api";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -14,21 +13,15 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  const photos = getPhotos();
-  const heroSettings = getHeroSettings();
-
+  // Force rebuild for debug logs
   return (
     <main className="bg-background text-foreground min-h-screen">
-      <Hero
-        title={heroSettings.title}
-        subtitle={heroSettings.subtitle}
-        images={heroSettings.images}
-      />
+      <Hero />
       <SocialProof />
       <PhotoStack />
       <About />
       <Services />
-      <Gallery photos={photos} />
+      <Gallery />
       <Contact />
     </main>
   );

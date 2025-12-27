@@ -26,17 +26,22 @@ body {
   color: var(--foreground);
   font-family: var(--font-inter);
   overflow-x: hidden;
-  cursor: none !important;
+  /* Only hide cursor if NOT in studio (handled via class) */
 }
 
-/* Aggressively hide cursor on everything */
+/* Aggressively hide cursor on everything EXCEPT show-cursor */
 @media (hover: hover) and (pointer: fine) {
-  * {
-    cursor: none !important;
+  :not(.show-cursor)>* {
+    cursor: none;
+  }
+
+  /* Re-apply cursor: none to body generally, but allow overrides */
+  body:not(:has(.show-cursor)) {
+    cursor: none;
   }
 }
 
-/* Cursor Override Utility */
+/* Cursor Override Utility - stronger specificity */
 .show-cursor,
 .show-cursor * {
   cursor: auto !important;

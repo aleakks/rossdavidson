@@ -2,8 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
+import { usePathname } from "next/navigation";
 
 export default function CustomCursor() {
+    const pathname = usePathname();
+
+    // Disable custom cursor on Sanity Studio
+    if (pathname?.startsWith('/studio')) return null;
+
     const [isHovered, setIsHovered] = useState(false);
     const cursorX = useMotionValue(-100);
     const cursorY = useMotionValue(-100);

@@ -1,13 +1,12 @@
-"use client";
+import { client } from "@/sanity/lib/client";
+import { servicesQuery } from "@/sanity/lib/queries";
 
-export default function Services() {
-    const services = [
-        "Creative Direction",
-        "Editorial Photography",
-        "Moving Image",
-        "Commerical Campaign",
-        "Brand Strategy"
-    ];
+async function getServices() {
+    return await client.fetch(servicesQuery, {}, { next: { revalidate: 60 } }) || [];
+}
+
+export default async function Services() {
+    const services = await getServices();
 
     return (
         <section className="bg-black text-white py-24 md:py-32 border-t border-white/10 relative z-10">
@@ -30,16 +29,20 @@ export default function Services() {
                     {/* The List (The Breather) */}
                     <div className="col-span-12 md:col-span-8">
                         <ul className="space-y-8">
-                            {services.map((service, i) => (
-                                <li key={i} className="group cursor-pointer">
-                                    <div className="flex items-baseline gap-4 border-b border-white/10 pb-8 transition-colors group-hover:border-white/40">
-                                        <span className="font-mono text-xs text-white/30">0{i + 1}</span>
-                                        <h3 className="text-3xl md:text-6xl font-display font-light text-white/80 group-hover:text-white transition-colors duration-300">
-                                            {service}
-                                        </h3>
-                                    </div>
-                                </li>
-                            ))}
+                            {services.length > 0 ? (
+                                services.map((service: any, i: number) => (
+                                    <li key={i} className="group cursor-pointer">
+                                        <div className="flex items-baseline gap-4 border-b border-white/10 pb-8 transition-colors group-hover:border-white/40">
+                                            <span className="font-mono text-xs text-white/30">0{i + 1}</span>
+                                            <h3 className="text-3xl md:text-6xl font-display font-light text-white/80 group-hover:text-white transition-colors duration-300">
+                                                {service.title}
+                                            </h3>
+                                        </div>
+                                    </li>
+                                ))
+                            ) : (
+                                <p className="text-white/40 font-mono">No services listed.</p>
+                            )}
                         </ul>
                     </div>
 

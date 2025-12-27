@@ -1,0 +1,35 @@
+{"_id":"about","_type":"about","headline":"Capturing the Electricity of the Moment.","bio":"London-based Photographer specializing in Music, Nightlife, and Editorial Fashion. Creating iconic imagery that defines brands and captures the energy of the moment.","philosophy":"A multidisciplinary approach to visual storytelling, blending technical precision with raw emotion.","signature":"Ross Davidson"}
+{"_id":"hero","_type":"hero","title":"ROSS\\nDAVIDSON","subtitle":"Music & Nightlife Photography"}
+{"_id":"socialProof","_type":"socialProof","clients":["Annie Mac","skrillex","blondish","realblackcoffee","followthefishtv","adriatique"]}
+{"_id":"contact","_type":"contact","status":"Accepting New Projects","email":"studio@rossdavidson.com","capabilities":["Editorial","Commercial","Music/Touring","Creative Direction"]}
+{"_id":"photoStack","_type":"photoStack","cards":[{"_key":"1","client":"Vogue Italia","location":"Milan","alt":"Fashion Week"},{"_key":"2","client":"Adidas Originals","location":"London","alt":"Campaign"},{"_key":"3","client":"Rolling Stone","location":"New York","alt":"Cover Shoot"},{"_key":"4","client":"Printworks","location":"London","alt":"Season Closing"},{"_key":"5","client":"Sonar Festival","location":"Barcelona","alt":"Main Stage"},{"_key":"6","client":"Dazed & Confused","location":"Berlin","alt":"Editorial"},{"_key":"7","client":"Nike","location":"Tokyo","alt":"Air Max Day"},{"_key":"8","client":"Boiler Room","location":"Worldwide","alt":"Stream"}]}
+{"_id":"service-0","_type":"service","title":"Creative Direction","order":1}
+{"_id":"service-1","_type":"service","title":"Art Direction","order":2}
+{"_id":"service-2","_type":"service","title":"Photography","order":3}
+{"_id":"service-3","_type":"service","title":"Videography","order":4}
+{"_id":"service-4","_type":"service","title":"Post-Production","order":5}
+{"_id":"service-5","_type":"service","title":"Brand Consultancy","order":6}
+{"_id":"gallery-image-01","_type":"galleryProject","title":"Gallery Image 01","date":"2025-12-24T19:00:45.737Z","category":"music"}
+{"_id":"gallery-image-02","_type":"galleryProject","title":"Gallery Image 02","date":"2025-12-23T19:00:45.738Z","category":"personal"}
+{"_id":"gallery-image-03","_type":"galleryProject","title":"Gallery Image 03","date":"2025-12-22T19:00:45.739Z","category":"personal"}
+{"_id":"gallery-image-04","_type":"galleryProject","title":"Gallery Image 04","date":"2025-12-21T19:00:45.739Z","category":"personal"}
+{"_id":"gallery-image-05","_type":"galleryProject","title":"Gallery Image 05","date":"2025-12-20T19:00:45.740Z","category":"personal"}
+{"_id":"gallery-image-06","_type":"galleryProject","title":"Gallery Image 06","date":"2025-12-19T19:00:45.740Z","category":"music"}
+{"_id":"gallery-image-07","_type":"galleryProject","title":"Gallery Image 07","date":"2025-12-18T19:00:45.741Z","category":"personal"}
+{"_id":"gallery-image-08","_type":"galleryProject","title":"Gallery Image 08","date":"2025-12-17T19:00:45.741Z","category":"personal"}
+{"_id":"gallery-image-09","_type":"galleryProject","title":"Gallery Image 09","date":"2025-12-16T19:00:45.742Z","category":"personal"}
+{"_id":"gallery-image-10","_type":"galleryProject","title":"Gallery Image 10","date":"2025-12-15T19:00:45.743Z","category":"personal"}
+{"_id":"gallery-image-11","_type":"galleryProject","title":"Gallery Image 11","date":"2025-12-14T19:00:45.743Z","category":"music"}
+{"_id":"gallery-image-12","_type":"galleryProject","title":"Gallery Image 12","date":"2025-12-13T19:00:45.744Z","category":"personal"}
+{"_id":"gallery-image-13","_type":"galleryProject","title":"Gallery Image 13","date":"2025-12-12T19:00:45.744Z","category":"personal"}
+{"_id":"gallery-image-14","_type":"galleryProject","title":"Gallery Image 14","date":"2025-12-11T19:00:45.744Z","category":"personal"}
+{"_id":"gallery-image-15","_type":"galleryProject","title":"Gallery Image 15","date":"2025-12-10T19:00:45.745Z","category":"personal"}
+{"_id":"gallery-image-16","_type":"galleryProject","title":"Gallery Image 16","date":"2025-12-09T19:00:45.745Z","category":"music"}
+{"_id":"gallery-image-17","_type":"galleryProject","title":"Gallery Image 17","date":"2025-12-08T19:00:45.746Z","category":"personal"}
+{"_id":"gallery-image-18","_type":"galleryProject","title":"Gallery Image 18","date":"2025-12-07T19:00:45.746Z","category":"personal"}
+{"_id":"gallery-image-19","_type":"galleryProject","title":"Gallery Image 19","date":"2025-12-06T19:00:45.746Z","category":"personal"}
+{"_id":"gallery-image-20","_type":"galleryProject","title":"Gallery Image 20","date":"2025-12-05T19:00:45.747Z","category":"personal"}
+{"_id":"gallery-image-21","_type":"galleryProject","title":"Gallery Image 21","date":"2025-12-04T19:00:45.747Z","category":"music"}
+{"_id":"gallery-image-22","_type":"galleryProject","title":"Gallery Image 22","date":"2025-12-03T19:00:45.748Z","category":"personal"}
+{"_id":"gallery-image-23","_type":"galleryProject","title":"Gallery Image 23","date":"2025-12-02T19:00:45.748Z","category":"personal"}
+{"_id":"gallery-image-24","_type":"galleryProject","title":"Gallery Image 24","date":"2025-12-01T19:00:45.749Z","category":"personal"}

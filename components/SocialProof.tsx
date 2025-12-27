@@ -1,50 +1,21 @@
-"use client";
+import { client } from "@/sanity/lib/client";
+import { socialProofQuery } from "@/sanity/lib/queries";
+import SocialProofClient from "./SocialProofClient";
 
-import { motion } from "framer-motion";
+async function getData() {
+    return await client.fetch(socialProofQuery, {}, { next: { revalidate: 60 } });
+}
 
-const clients = [
-    "Annie Mac",
-    "skrillex",
-    "blondish",
-    "realblackcoffee",
-    "followthefishtv",
-    "adriatique",
-];
+export default async function SocialProof() {
+    const data = await getData();
+    const clients = data?.clients || [
+        "Annie Mac",
+        "skrillex",
+        "blondish",
+        "realblackcoffee",
+        "followthefishtv",
+        "adriatique",
+    ];
 
-export default function SocialProof() {
-    return (
-        <section className="bg-black py-20 border-t border-white/5 overflow-hidden">
-            <div className="container mx-auto px-6 mb-12">
-                <h2 className="text-xs font-mono tracking-[0.5em] text-white/40 uppercase text-center md:text-left">
-                    Featured In & Trusted By
-                </h2>
-            </div>
-
-            {/* Scrolling Ticker on Mobile / Grid on Desktop */}
-            <div className="relative w-full overflow-hidden">
-
-                {/* Desktop Grid (Clean, structured) */}
-                <div className="hidden md:flex justify-between items-center px-12 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
-                    {clients.map((client, index) => (
-                        <div key={index} className="text-xl md:text-2xl font-display uppercase tracking-widest text-white/60 hover:text-white transition-colors cursor-default">
-                            {/* Placeholder for Logos - using text for now */}
-                            {client}
-                        </div>
-                    ))}
-                </div>
-
-                {/* Mobile Marquee (Dynamic) */}
-                <div className="md:hidden flex whitespace-nowrap overflow-hidden relative">
-                    <div className="flex gap-12 min-w-max animate-marquee">
-                        {[...clients, ...clients].map((client, index) => (
-                            <span key={index} className="text-xl font-display uppercase tracking-widest text-white/50">
-                                {client}
-                            </span>
-                        ))}
-                    </div>
-                </div>
-
-            </div>
-        </section>
-    );
+    return <SocialProofClient clients={clients} />;
 }
