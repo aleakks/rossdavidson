@@ -41,6 +41,8 @@ export function generateStaticParams() {
     }));
 }
 
+export const dynamicParams = false;
+
 export default async function JournalEntryPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
     const entry = getJournalEntry(slug);
