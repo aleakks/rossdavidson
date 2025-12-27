@@ -26,7 +26,9 @@ export default function PhotoStackClient({ cards }: { cards: any[] }) {
                 // The query is defined as: *[_type == "photoStack"][0] { cards[] { ... } }
                 // So result is { cards: [...] }
                 const fresh = await client.fetch(photoStackQuery, { _t: Date.now() }, { filterResponse: false, cache: 'no-store' });
-                if ((fresh as any)?.cards) setLiveCards((fresh as any).cards);
+                if ((fresh as any)?.cards && Array.isArray((fresh as any).cards)) {
+                    setLiveCards((fresh as any).cards);
+                }
             } catch (e) { console.error("Stack fetch failed", e); }
         };
         fetchFresh();
@@ -34,7 +36,8 @@ export default function PhotoStackClient({ cards }: { cards: any[] }) {
 
     const displayCards = liveCards || cards;
 
-    if (!displayCards || displayCards.length === 0) return null;
+    // Strict Array Check
+    if (!displayCards || !Array.isArray(displayCards) || displayCards.length === 0) return null;
 
     return (
         <section className="py-24 bg-black overflow-hidden relative border-t border-white/10">
