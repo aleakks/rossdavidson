@@ -12,6 +12,8 @@ export const metadata: Metadata = {
   description: "Selected works from Ross Davidson. Featuring campaigns for global brands, music artists, and editorial publications.",
 };
 
+export const dynamic = "force-dynamic";
+
 export default function Home() {
   // Force rebuild for debug logs
   return (
