@@ -52,7 +52,7 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
         const fetchFresh = async () => {
             try {
                 const fresh = await client.fetch(galleryQuery, { _t: Date.now() }, { filterResponse: false, cache: 'no-store' });
-                if (fresh) setLivePhotos(fresh as any[]);
+                if (fresh) setLivePhotos(fresh as unknown as any[]);
             } catch (e) { console.error("Gallery fetch failed", e); }
         };
         fetchFresh();
