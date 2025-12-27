@@ -28,7 +28,6 @@ export default function HeroClient({ title, subtitle, images }: HeroClientProps)
 
     // Live Content Refresh (Bypass Cache)
     useEffect(() => {
-        console.log("HeroClient: Mounting and attempting to fetch fresh data...");
         const fetchFreshData = async () => {
             try {
                 // Add timestamp to params to force instant cache invalidation
@@ -38,7 +37,7 @@ export default function HeroClient({ title, subtitle, images }: HeroClientProps)
                     cache: 'no-store',
                     next: { revalidate: 0 }
                 });
-                console.log("HeroClient: Fetch success!", fresh);
+
                 // @ts-ignore
                 if (fresh?.result) setLiveData(fresh.result);
             } catch (e) {
@@ -67,7 +66,7 @@ export default function HeroClient({ title, subtitle, images }: HeroClientProps)
                     {currentImage && (
                         <motion.div
                             key={currentImageIndex}
-                            initial={{ opacity: 0.2, scale: 1.1 }}
+                            initial={{ opacity: 0.2, scale: 1.05 }}
                             animate={{ opacity: 0.6, scale: 1 }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.4 }}

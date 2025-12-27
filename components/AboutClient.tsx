@@ -15,7 +15,6 @@ export default function AboutClient({ data, artistImage }: { data: any, artistIm
         const fetchFresh = async () => {
             try {
                 const fresh = await client.fetch(aboutQuery, { _t: Date.now() }, { filterResponse: false, cache: 'no-store' });
-                console.log("AboutClient Fresh Data:", fresh);
                 // @ts-ignore
                 if (fresh?.result) setLiveData(fresh.result);
             } catch (e) { console.error("About fetch failed", e); }
