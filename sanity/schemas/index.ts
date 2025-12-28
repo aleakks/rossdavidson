@@ -156,7 +156,11 @@ export const settings = defineType({
                 type: 'object',
                 fields: [
                     defineField({ name: 'platform', type: 'string' }),
-                    defineField({ name: 'url', type: 'url' })
+                    defineField({
+                        name: 'url',
+                        type: 'url',
+                        validation: Rule => Rule.uri({ scheme: ['http', 'https', 'mailto'] })
+                    })
                 ]
             }]
         })
