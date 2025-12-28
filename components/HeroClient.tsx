@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { client } from "@/sanity/lib/client";
+import { urlFor } from "@/sanity/lib/image";
 import { heroQuery } from "@/sanity/lib/queries";
 
 interface HeroClientProps {
@@ -20,6 +21,7 @@ export default function HeroClient({ title, subtitle, images, eyebrow }: HeroCli
     // Rapid Fire Montage Logic
     useEffect(() => {
         if (images && images.length > 0) {
+            console.log("HeroClient Images:", images);
             const interval = setInterval(() => {
                 setCurrentImageIndex((prev) => (prev + 1) % images.length);
             }, 600); // Standard speed
@@ -52,7 +54,20 @@ export default function HeroClient({ title, subtitle, images, eyebrow }: HeroCli
     const displayTitle = liveData?.title || title;
     const displaySubtitle = liveData?.subtitle || subtitle;
     const displayEyebrow = liveData?.eyebrow || eyebrow;
-    const currentImage = images && images.length > 0 ? images[currentImageIndex] : null;
+
+    // Process live images if available, otherwise use props
+    const displayImages = liveData?.images?.map((img: any) =>
+        // We need to construct the URL manually or use a helper if available, 
+        // but since we are in the client, we might not have the full urlFor builder handy 
+        // effectively without importing it.
+        // Let's rely on the fact that if liveData is present, we should standardise.
+        // Actually, the server passes pre-resolved URLs strings. 
+        // The client fetch returns Sanity Image Objects.
+        // We need to import `urlFor` to convert them.
+        urlFor(img).width(1920).quality(95).url()
+    ) || images;
+
+    const currentImage = displayImages && displayImages.length > 0 ? displayImages[currentImageIndex] : null;
 
     return (
         <div className="h-screen relative bg-black w-full overflow-hidden flex items-center justify-center">
