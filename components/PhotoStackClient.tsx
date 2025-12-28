@@ -42,7 +42,7 @@ export default function PhotoStackClient({ cards }: { cards: any[] }) {
     if (!displayCards || !Array.isArray(displayCards) || displayCards.length === 0) return null;
 
     return (
-        <section className="py-24 bg-black overflow-hidden relative border-t border-white/10">
+        <section className="py-12 md:py-24 bg-black overflow-hidden relative border-t border-white/10">
             <div className="container mx-auto px-6">
 
                 <div className="flex flex-col md:flex-row items-center justify-between mb-16 md:mb-24 px-4 relative z-10">

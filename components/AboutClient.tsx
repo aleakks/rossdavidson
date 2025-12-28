@@ -27,7 +27,7 @@ export default function AboutClient({ data, artistImage }: { data: any, artistIm
     if (!displayData) return null;
 
     return (
-        <section id="about" className="bg-black py-24 md:py-32 relative z-10 border-t border-white/5">
+        <section id="about" className="bg-black py-12 md:py-32 relative z-10 border-t border-white/5">
             <div className="container mx-auto px-6">
 
                 {/* Section Tag */}
