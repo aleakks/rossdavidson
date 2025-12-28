@@ -27,7 +27,18 @@ export const hero = defineType({
             name: 'images',
             title: 'Background Montage Images',
             type: 'array',
-            of: [{ type: 'image', options: { hotspot: true } }],
+            of: [{
+                type: 'image',
+                options: { hotspot: true },
+                fields: [
+                    defineField({
+                        name: 'alt',
+                        type: 'string',
+                        title: 'Alternative Text',
+                        description: 'Important for accessibility and SEO.',
+                    })
+                ]
+            }],
             options: {
                 layout: 'grid',
             },
@@ -102,7 +113,19 @@ export const about = defineType({
     title: 'Home: About Section',
     type: 'document',
     fields: [
-        defineField({ name: 'artistImage', type: 'image', title: 'Artist Portrait', options: { hotspot: true } }),
+        defineField({
+            name: 'artistImage',
+            type: 'image',
+            title: 'Artist Portrait',
+            options: { hotspot: true },
+            fields: [
+                defineField({
+                    name: 'alt',
+                    type: 'string',
+                    title: 'Alternative Text',
+                })
+            ]
+        }),
         defineField({ name: 'headline', type: 'string', title: 'Main Headline' }),
         defineField({ name: 'bio', type: 'text', title: 'Biography (Text)' }),
         defineField({ name: 'philosophy', type: 'text', title: 'Philosophy Quote' }),
@@ -273,7 +296,14 @@ export const journal = defineType({
             name: 'coverImage',
             type: 'image',
             title: 'Cover Image',
-            options: { hotspot: true }
+            options: { hotspot: true },
+            fields: [
+                defineField({
+                    name: 'alt',
+                    type: 'string',
+                    title: 'Alternative Text',
+                })
+            ]
         }),
         defineField({
             name: 'excerpt',
@@ -301,7 +331,17 @@ export const journal = defineType({
             type: 'array',
             title: 'Photo Gallery',
             description: 'Grid of images shown below the text',
-            of: [{ type: 'image', options: { hotspot: true } }]
+            of: [{
+                type: 'image',
+                options: { hotspot: true },
+                fields: [
+                    defineField({
+                        name: 'alt',
+                        type: 'string',
+                        title: 'Alternative Text',
+                    })
+                ]
+            }]
         }),
         defineField({
             name: 'credits',

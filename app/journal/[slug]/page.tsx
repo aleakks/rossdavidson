@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
                     url: urlFor(entry.coverImage).width(1200).height(630).url(),
                     width: 1200,
                     height: 630,
-                    alt: entry.title,
+                    alt: entry.coverImage.alt || entry.title,
                 },
             ] : [],
         },
@@ -55,7 +55,7 @@ export default async function JournalEntryPage({ params }: { params: Promise<{ s
                 {entry.coverImage && (
                     <Image
                         src={urlFor(entry.coverImage).width(1920).quality(90).url()}
-                        alt={entry.title}
+                        alt={entry.coverImage.alt || entry.title}
                         fill
                         priority
                         className="object-cover opacity-60"
@@ -124,7 +124,7 @@ export default async function JournalEntryPage({ params }: { params: Promise<{ s
                                     <div key={index} className="relative w-full aspect-[3/2] bg-neutral-900 overflow-hidden">
                                         <Image
                                             src={urlFor(img).width(1600).quality(90).url()}
-                                            alt={`Gallery Image ${index + 1}`}
+                                            alt={img.alt || `Gallery Image ${index + 1}`}
                                             fill
                                             className="object-cover"
                                         />

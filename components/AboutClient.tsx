@@ -7,7 +7,7 @@ import { client } from "@/sanity/lib/client";
 import { aboutQuery } from "@/sanity/lib/queries";
 import { useState, useEffect } from "react";
 
-export default function AboutClient({ data, artistImage }: { data: any, artistImage: string }) {
+export default function AboutClient({ data, artistImage }: { data: any, artistImage: { src: string; alt: string } }) {
     const [liveData, setLiveData] = useState<any>(null);
 
     // Live Content Refresh
@@ -47,8 +47,8 @@ export default function AboutClient({ data, artistImage }: { data: any, artistIm
                         className="relative aspect-[3/4] w-full max-w-md mx-auto md:mx-0 overflow-hidden grayscale contrast-125"
                     >
                         <Image
-                            src={artistImage}
-                            alt="Ross Davidson"
+                            src={artistImage.src}
+                            alt={artistImage.alt}
                             fill
                             className="object-cover"
                             sizes="(max-width: 768px) 100vw, 50vw"

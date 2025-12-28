@@ -8,17 +8,23 @@ export default function GlobalError({
     reset: () => void
 }) {
     return (
-        <html>
+        <html lang="en">
             <body>
-                <div className="min-h-screen bg-purple-900 text-white flex flex-col items-center justify-center p-4">
-                    <h1 className="text-4xl mb-4">DEBUG: GLOBAL CRITICAL ERROR</h1>
-                    <pre className="bg-black/50 p-4 rounded max-w-2xl overflow-auto">
-                        {error.message}
-                        {error.stack}
-                    </pre>
-                    <button onClick={() => reset()} className="mt-4 px-4 py-2 bg-white text-purple-900 rounded">
-                        Try again
-                    </button>
+                <div className="min-h-screen bg-neutral-950 text-white flex flex-col items-center justify-center p-4 text-center">
+                    <div className="space-y-6 max-w-md">
+                        <h1 className="font-display text-5xl uppercase tracking-tighter text-red-500">
+                            System Error
+                        </h1>
+                        <p className="font-mono text-sm text-white/50 tracking-wider">
+                            A critical error occurred. We apologize for the inconvenience.
+                        </p>
+                        <button
+                            onClick={() => reset()}
+                            className="px-8 py-3 bg-white text-black hover:bg-white/90 transition-colors duration-300 font-mono text-xs uppercase tracking-[0.2em]"
+                        >
+                            Reload Application
+                        </button>
+                    </div>
                 </div>
             </body>
         </html>

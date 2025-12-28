@@ -31,7 +31,7 @@ export default async function JournalIndex() {
                                 {entry.coverImage ? (
                                     <Image
                                         src={urlFor(entry.coverImage).width(1200).height(900).url()}
-                                        alt={entry.title}
+                                        alt={entry.coverImage.alt || entry.title}
                                         fill
                                         className="object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-80 group-hover:opacity-100"
                                     />

@@ -3,7 +3,10 @@ import { groq } from "next-sanity";
 export const heroQuery = groq`*[_type == "hero"][0]{
   title,
   subtitle,
-  images,
+  images[]{
+    ...,
+    alt
+  },
   eyebrow
 }`;
 
@@ -17,7 +20,10 @@ export const photoStackQuery = groq`*[_type == "photoStack"][0]{
 }`;
 
 export const aboutQuery = groq`*[_type == "about"][0]{
-  artistImage,
+  artistImage{
+    ...,
+    alt
+  },
   headline,
   bio,
   philosophy,
@@ -76,7 +82,10 @@ export const journalListQuery = groq`*[_type == "journal"]|order(publishedAt des
   title,
   "slug": slug.current,
   publishedAt,
-  coverImage,
+  coverImage{
+    ...,
+    alt
+  },
   excerpt
 }`;
 
@@ -84,9 +93,15 @@ export const journalListQuery = groq`*[_type == "journal"]|order(publishedAt des
 export const journalSlugQuery = groq`*[_type == "journal" && slug.current == $slug][0]{
   title,
   publishedAt,
-  coverImage,
+  coverImage{
+    ...,
+    alt
+  },
   description,
   content,
-  gallery,
+  gallery[]{
+    ...,
+    alt
+  },
   credits
 }`;

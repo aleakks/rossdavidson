@@ -35,8 +35,11 @@ export default async function Hero() {
     const subtitle = data?.subtitle || "Touring, editorial and commercial photography for artists, labels and culture-led brands.";
     // Fallback for eyebrow not in initial data
     const eyebrow = data?.eyebrow || "ROSS DAVIDSON";
-    // Map Sanity images to URLs
-    const images = data?.images?.map((img: any) => urlFor(img).width(1920).quality(95).url()) || [];
+    // Map Sanity images to Objects with URL and Alt
+    const images = data?.images?.map((img: any) => ({
+        src: urlFor(img).width(1920).quality(95).url(),
+        alt: img.alt || "Ross Davidson Photography",
+    })) || [];
 
     return <HeroClient title={title} subtitle={subtitle} images={images} eyebrow={eyebrow} />;
 }

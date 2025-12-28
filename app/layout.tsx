@@ -64,9 +64,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <head>
 
-      </head>
       <body
         className={`${oswald.variable} ${inter.variable} antialiased`}
       >

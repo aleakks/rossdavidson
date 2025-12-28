@@ -10,8 +10,8 @@ import { heroQuery } from "@/sanity/lib/queries";
 interface HeroClientProps {
     title: string;
     subtitle: string;
-    images: string[];
-    eyebrow: string; // Added prop
+    images: { src: string; alt: string }[];
+    eyebrow: string;
 }
 
 export default function HeroClient({ title, subtitle, images, eyebrow }: HeroClientProps) {
@@ -56,16 +56,10 @@ export default function HeroClient({ title, subtitle, images, eyebrow }: HeroCli
     const displayEyebrow = liveData?.eyebrow || eyebrow;
 
     // Process live images if available, otherwise use props
-    const displayImages = liveData?.images?.map((img: any) =>
-        // We need to construct the URL manually or use a helper if available, 
-        // but since we are in the client, we might not have the full urlFor builder handy 
-        // effectively without importing it.
-        // Let's rely on the fact that if liveData is present, we should standardise.
-        // Actually, the server passes pre-resolved URLs strings. 
-        // The client fetch returns Sanity Image Objects.
-        // We need to import `urlFor` to convert them.
-        urlFor(img).width(1920).quality(95).url()
-    ) || images;
+    const displayImages = liveData?.images?.map((img: any) => ({
+        src: urlFor(img).width(1920).quality(95).url(),
+        alt: img.alt || "Ross Davidson Phase",
+    })) || images;
 
     const currentImage = displayImages && displayImages.length > 0 ? displayImages[currentImageIndex] : null;
 
@@ -85,8 +79,8 @@ export default function HeroClient({ title, subtitle, images, eyebrow }: HeroCli
                             className="absolute inset-0"
                         >
                             <Image
-                                src={currentImage}
-                                alt="Background Moment"
+                                src={currentImage.src}
+                                alt={currentImage.alt}
                                 fill
                                 // object-cover for full width (requested)
                                 // object-position center 30% to catch faces without chopping heads
