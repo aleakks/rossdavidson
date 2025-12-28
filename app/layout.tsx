@@ -44,11 +44,24 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+import { client } from "@/sanity/lib/client";
+import { settingsQuery } from "@/sanity/lib/queries";
+
+// ... existing imports
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const settings = await client.fetch(settingsQuery, {}, { next: { revalidate: 60 } });
+  const navLinks = settings?.headerLinks || [
+    { label: "Work", url: "/#work" },
+    { label: "Services", url: "/info" }, // Map Services to /info for now if using default
+    { label: "About", url: "/#about" },
+    { label: "Journal", url: "/journal" },
+  ];
+
   return (
     <html lang="en">
       <head>
@@ -58,7 +71,7 @@ export default function RootLayout({
         className={`${oswald.variable} ${inter.variable} antialiased`}
       >
         <CustomCursor />
-        <Header />
+        <Header links={navLinks} />
         {children}
         <Footer />
       </body>

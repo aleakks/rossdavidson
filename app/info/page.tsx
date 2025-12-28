@@ -9,7 +9,14 @@ export const metadata: Metadata = {
     description: "Bespoke photography commissions for fashion, music, and nightlife. View rates, service breakdowns, and the artist's philosophy.",
 };
 
-export default function InfoPage() {
+import { client } from "@/sanity/lib/client";
+import { servicesQuery } from "@/sanity/lib/queries";
+
+export const revalidate = 60;
+
+export default async function InfoPage() {
+    const services = await client.fetch(servicesQuery);
+
     return (
         <main className="bg-black min-h-screen text-white pt-32 pb-24 px-6">
             <div className="container mx-auto max-w-5xl">
@@ -24,38 +31,19 @@ export default function InfoPage() {
                     </p>
                 </div>
 
-                {/* Services Grid */}
+                {/* Services Grid (Dynamic from Sanity) */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 mb-32 border-t border-white/10 pt-16">
-
-                    <div className="space-y-6">
-                        <h2 className="font-mono text-xs uppercase tracking-[0.3em] text-white/50">
-                            01 — Editorial & Fashion
-                        </h2>
-                        <h3 className="text-3xl font-display uppercase tracking-tight">Campaigns</h3>
-                        <p className="text-white/60 leading-relaxed">
-                            Full-service production for fashion brands and magazines. From concept to retouching, delivering high-impact visuals that cut through the noise.
-                        </p>
-                        <ul className="text-sm font-mono uppercase tracking-widest text-white/40 space-y-2 pt-4">
-                            <li>Lookbooks</li>
-                            <li>Social Campaigns</li>
-                            <li>Backstage Coverage</li>
-                        </ul>
-                    </div>
-
-                    <div className="space-y-6">
-                        <h2 className="font-mono text-xs uppercase tracking-[0.3em] text-white/50">
-                            02 — Music & Nightlife
-                        </h2>
-                        <h3 className="text-3xl font-display uppercase tracking-tight">Touring</h3>
-                        <p className="text-white/60 leading-relaxed">
-                            Embedded tour photography for artists and DJs. Capturing the raw energy of the stage and the quiet moments in between.
-                        </p>
-                        <ul className="text-sm font-mono uppercase tracking-widest text-white/40 space-y-2 pt-4">
-                            <li>Live Shows</li>
-                            <li>Artist Portraits</li>
-                            <li>BTS / Documentary</li>
-                        </ul>
-                    </div>
+                    {services.map((service: any, i: number) => (
+                        <div key={service._id || i} className="space-y-6">
+                            <h2 className="font-mono text-xs uppercase tracking-[0.3em] text-white/50">
+                                0{i + 1}
+                            </h2>
+                            <h3 className="text-3xl font-display uppercase tracking-tight">{service.title}</h3>
+                            <p className="text-white/60 leading-relaxed">
+                                {service.description}
+                            </p>
+                        </div>
+                    ))}
                 </div>
 
                 {/* Rates / Investment */}

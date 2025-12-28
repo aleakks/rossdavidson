@@ -31,10 +31,12 @@ export default async function Hero() {
         );
     }
 
-    const title = data?.title || "London-Based\nMusic & Nightlife\nPhotographer";
+    const title = data?.title || "Music & Nightlife\nPhotographer";
     const subtitle = data?.subtitle || "Touring, editorial and commercial photography for artists, labels and culture-led brands.";
+    // Fallback for eyebrow not in initial data
+    const eyebrow = data?.eyebrow || "ROSS DAVIDSON";
     // Map Sanity images to URLs
     const images = data?.images?.map((img: any) => urlFor(img).width(1920).quality(95).url()) || [];
 
-    return <HeroClient title={title} subtitle={subtitle} images={images} />;
+    return <HeroClient title={title} subtitle={subtitle} images={images} eyebrow={eyebrow} />;
 }

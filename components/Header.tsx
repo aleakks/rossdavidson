@@ -6,7 +6,12 @@ import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 
-export default function Header() {
+
+interface HeaderProps {
+    links: { label: string; url: string; }[];
+}
+
+export default function Header({ links: passedLinks }: HeaderProps) {
     const [hidden, setHidden] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const { scrollY } = useScroll();
@@ -22,13 +27,18 @@ export default function Header() {
         }
     });
 
-    const links = [
-        { name: "Work", href: isHome ? "#work" : "/#work" },
-        { name: "Services", href: "/info" }, // Renamed from Approach
-        { name: "About", href: isHome ? "#about" : "/#about" },
-        { name: "Journal", href: "/journal" },
-        // Contact removed from list, will be button
+    // Use passed links or default if empty (though layout provides default)
+    // Also ensuring internal links handle home anchor correctly if needed, 
+    // but the Sanity schema just gives full URLs or hashes. 
+    // We might need to process them if they are purely hash links like "#work" vs "/#work".
+    // For now, let's assume Sanity data is authoritative.
+    const navLinks = passedLinks?.length > 0 ? passedLinks : [
+        { label: "Work", url: isHome ? "#work" : "/#work" },
+        { label: "Services", url: "/info" },
+        { label: "About", url: isHome ? "#about" : "/#about" },
+        { label: "Journal", url: "/journal" },
     ];
+
 
     return (
         <>
@@ -50,9 +60,9 @@ export default function Header() {
                                 Home
                             </Link>
                         )}
-                        {links.map((link) => (
-                            <Link key={link.name} href={link.href} className="font-mono text-xs uppercase tracking-widest hover:opacity-50 transition-opacity">
-                                {link.name}
+                        {navLinks.map((link) => (
+                            <Link key={link.label} href={link.url} className="font-mono text-xs uppercase tracking-widest hover:opacity-50 transition-opacity">
+                                {link.label}
                             </Link>
                         ))}
 
@@ -65,29 +75,24 @@ export default function Header() {
                         </Link>
                     </nav>
 
-                    {/* Mobile Header: Menu Button Right */}
-                    <div className="md:hidden pointer-events-auto w-full flex justify-end">
-                        <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="uppercase font-mono text-xs tracking-widest z-[101] relative mix-blend-difference">
+                    {/* Mobile Header: CTA + Menu Button */}
+                    <div className="md:hidden pointer-events-auto w-full flex justify-end gap-4 items-center">
+                        {/* Mobile CTA - In Header (Item 6) */}
+                        <Link
+                            href={isHome ? "#contact" : "/#contact"}
+                            className="px-4 py-2 bg-white text-black font-mono text-[10px] uppercase tracking-widest z-[101] relative hover:scale-105 transition-transform"
+                        >
+                            Enquire
+                        </Link>
+
+                        <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="uppercase font-mono text-xs tracking-widest z-[101] relative mix-blend-difference pb-0.5 border-b border-transparent hover:border-white transition-colors">
                             {mobileMenuOpen ? "Close" : "Menu"}
                         </button>
                     </div>
                 </div>
             </motion.header>
 
-            {/* Mobile Fixed CTA - Always visible */}
-            <motion.div
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1 }}
-                className="fixed bottom-6 right-6 z-[98] md:hidden pointer-events-auto"
-            >
-                <Link
-                    href={isHome ? "#contact" : "/#contact"}
-                    className="flex items-center justify-center w-auto px-6 py-3 bg-white text-black font-mono text-xs uppercase tracking-widest shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:scale-105 transition-transform"
-                >
-                    Enquire
-                </Link>
-            </motion.div>
+            {/* Fixed Bottom CTA Removed per feedback (moved to header) */}
 
             {/* Mobile Menu Overlay */}
             <AnimatePresence>
@@ -108,14 +113,14 @@ export default function Header() {
                                 Home
                             </Link>
                         )}
-                        {links.map((link) => (
+                        {navLinks.map((link) => (
                             <Link
-                                key={link.name}
-                                href={link.href}
+                                key={link.label}
+                                href={link.url}
                                 onClick={() => setMobileMenuOpen(false)}
                                 className="font-display text-4xl uppercase tracking-tighter"
                             >
-                                {link.name}
+                                {link.label}
                             </Link>
                         ))}
                         {/* Mobile Menu Duplicate CTA - Optional, but we have the floating one. Adding it here too for completeness if they look for it in menu. */}

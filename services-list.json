@@ -1,0 +1,47 @@
+[
+  {
+    "_id": "service-0",
+    "description": null,
+    "title": "Creative Direction"
+  },
+  {
+    "_id": "service-1",
+    "description": null,
+    "title": "Art Direction"
+  },
+  {
+    "_id": "service-2",
+    "description": null,
+    "title": "Photography"
+  },
+  {
+    "_id": "service-3",
+    "description": null,
+    "title": "Videography"
+  },
+  {
+    "_id": "service-4",
+    "description": null,
+    "title": "Post-Production"
+  },
+  {
+    "_id": "service-5",
+    "description": null,
+    "title": "Brand Consultancy"
+  },
+  {
+    "_id": "service-brand",
+    "description": "Coverage for culture-led brand events, product launches, and nightlife marketing. Creating authentic visual assets that resonate with the audience.",
+    "title": "Brand Activation"
+  },
+  {
+    "_id": "service-editorial",
+    "description": "Styled photo shoots, magazine features, and album artwork. Concept-driven imagery that defines artist identity.",
+    "title": "Editorial & Press"
+  },
+  {
+    "_id": "service-touring",
+    "description": "Full tour coverage, backstage access, and immediate image delivery for social media. Capturing the raw energy of the performance and the intimate moments in between.",
+    "title": "Touring & Live Events"
+  }
+]

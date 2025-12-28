@@ -22,8 +22,8 @@ export default function Home() {
       <SocialProof />
       <PhotoStack />
       <About />
-      <Services />
       <Gallery />
+      <Services />
       <Contact />
     </main>
   );

@@ -2,13 +2,13 @@
  * This configuration is used to for the Sanity Studio that’s mounted on the `/app/studio/[[...index]]/page.tsx` route
  */
 
-import { visionTool } from '@sanity/vision'
+// import { visionTool } from '@sanity/vision'
 import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
 
 // Go to https://www.sanity.io/docs/api-versioning to learn how API versioning works
 import { apiVersion, dataset, projectId } from './sanity/env'
-import { hero, photoStack, about, service, galleryProject, contact, socialProof } from './sanity/schemas'
+import { hero, photoStack, about, service, galleryProject, contact, socialProof, category, settings, legalPage } from './sanity/schemas'
 
 export default defineConfig({
     basePath: '/studio',
@@ -16,40 +16,58 @@ export default defineConfig({
     dataset,
     // Add and edit the content schema in the './sanity/schema' folder
     schema: {
-        types: [hero, photoStack, about, service, galleryProject, contact, socialProof],
+        types: [hero, photoStack, about, service, galleryProject, contact, socialProof, category, settings, legalPage],
     },
     plugins: [
         structureTool({
             structure: (S) =>
                 S.list()
-                    .title('Content')
+                    .title('Website Content')
                     .items([
-                        // Singleton Items (One-off pages/sections)
+                        // 1. Global (Header/Footer)
                         S.listItem()
-                            .title('Home: Hero Section')
-                            .child(S.document().schemaType('hero').documentId('hero')),
-                        S.listItem()
-                            .title('Home: Selected Works (The Stack)')
-                            .child(S.document().schemaType('photoStack').documentId('photoStack')),
-                        S.listItem()
-                            .title('Home: About Section')
-                            .child(S.document().schemaType('about').documentId('about')),
-                        S.listItem()
-                            .title('Settings: Contact & Info')
-                            .child(S.document().schemaType('contact').documentId('contact')),
-                        S.listItem()
-                            .title('Settings: Client List')
-                            .child(S.document().schemaType('socialProof').documentId('socialProof')),
+                            .title('Global Site Settings (Header & Footer)')
+                            .child(S.document().schemaType('settings').documentId('settings')),
 
                         S.divider(),
 
-                        // List Items (Multiple documents)
-                        S.documentTypeListItem('galleryProject').title('Gallery Projects'),
-                        S.documentTypeListItem('service').title('Services List'),
+                        // 2. Page Flow (Top to Bottom)
+                        S.listItem()
+                            .title('1. Hero Section (Top)')
+                            .child(S.document().schemaType('hero').documentId('hero')),
+
+                        S.listItem()
+                            .title('2. Trusted By (Client Logos)')
+                            .child(S.document().schemaType('socialProof').documentId('socialProof')),
+
+                        S.listItem()
+                            .title('3. Selected Works (The Stack)')
+                            .child(S.document().schemaType('photoStack').documentId('photoStack')),
+
+                        S.listItem()
+                            .title('4. About Ross')
+                            .child(S.document().schemaType('about').documentId('about')),
+
+                        S.documentTypeListItem('galleryProject').title('5. Portfolio Gallery (All Projects)'),
+
+                        S.documentTypeListItem('service').title('6. Services List'),
+
+                        S.listItem()
+                            .title('7. Contact Info & Rights')
+                            .child(S.document().schemaType('contact').documentId('contact')),
+
+                        S.divider(),
+
+                        S.documentTypeListItem('legalPage').title('Legal / Policies'),
+
+                        S.divider(),
+
+                        // 3. Configuration
+                        S.documentTypeListItem('category').title('Manage Portfolio Filters'),
                     ]),
         }),
         // Vision exists to query your content with GROQ in the studio
         // https://www.sanity.io/docs/the-vision-plugin
-        visionTool({ defaultApiVersion: apiVersion }),
+
     ],
 })

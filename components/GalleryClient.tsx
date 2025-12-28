@@ -9,43 +9,26 @@ import { useState, useEffect } from "react";
 
 interface GalleryClientProps {
     photos: any[];
+    categories: { title: string; slug: string }[];
 }
 
 // Deterministic pattern for mixed grid:
 // Mobile: 2-column | Desktop: 6-column
-// Verified to align perfectly in both (summing to 2 and 6 respectively)
 const getSize = (index: number) => {
     const pattern = [
-        // 1. Small -> Mobile: 1 (half) | Desktop: 1
         "col-span-1 md:col-span-1 md:row-span-1",
-        // 2. Small -> Mobile: 1 (half) | Desktop: 1
         "col-span-1 md:col-span-1 md:row-span-1",
-        // Row 1 (Mobile): Full (1+1=2) | Row 1 (Desktop): Partial (2/6)
-
-        // 3. Big Square -> Mobile: 2 (Full) | Desktop: 2x2
         "col-span-2 md:col-span-2 md:row-span-2",
-        // Row 2 (Mobile): Full (2) | Row 1 (Desktop): Partial (4/6)
-
-        // 4. Small -> Mobile: 1 | Desktop: 1
         "col-span-1 md:col-span-1 md:row-span-1",
-        // 5. Small -> Mobile: 1 | Desktop: 1
         "col-span-1 md:col-span-1 md:row-span-1",
-        // Row 3 (Mobile): Full (1+1=2) | Row 1 (Desktop): Full (6/6)
-
-        // 6. Small -> Mobile: 1 | Desktop: 1
         "col-span-1 md:col-span-1 md:row-span-1",
-        // 7. Small -> Mobile: 1 | Desktop: 1
         "col-span-1 md:col-span-1 md:row-span-1",
-        // Row 4 (Mobile): Full (1+1=2) | Row 2 (Desktop): ... and so on.
-
-        // 8. Wide -> Mobile: 2 (Full) | Desktop: 2x1
         "col-span-2 md:col-span-2 md:row-span-1",
     ];
-
     return pattern[index % pattern.length];
 };
 
-export default function GalleryClient({ photos }: GalleryClientProps) {
+export default function GalleryClient({ photos, categories }: GalleryClientProps) {
     const [livePhotos, setLivePhotos] = useState<any[] | null>(null);
 
     useEffect(() => {
@@ -59,18 +42,49 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
         fetchFresh();
     }, []);
 
-    const displayPhotos = livePhotos || photos;
+    const allPhotos = livePhotos || photos;
+    const [filter, setFilter] = useState("all");
 
     // Strict Array Check
-    if (!displayPhotos || !Array.isArray(displayPhotos) || displayPhotos.length === 0) return null;
+    if (!allPhotos || !Array.isArray(allPhotos) || allPhotos.length === 0) return null;
+
+    // Filter Logic
+    const filteredPhotos = filter === "all"
+        ? allPhotos
+        : allPhotos.filter(p => p.category === filter); // Now comparing slug to slug
+
+    // Dynamic Filters: "All Work" + Sanity Categories
+    const filters = [
+        { id: 'all', label: 'All Work' },
+        ...(categories?.map(c => ({ id: c.slug, label: c.title })) || [])
+    ];
 
     return (
         <section id="work" className="bg-black min-h-screen p-4 md:p-8">
+
+            {/* Filter Bar (Static - Item 4 requested fix) */}
+            <div className="z-50 mb-8 flex justify-center">
+                <div className="bg-black/80 backdrop-blur-md border border-white/10 px-6 py-3 rounded-full flex gap-6 md:gap-8 overflow-x-auto max-w-full no-scrollbar">
+                    {filters.map((f) => (
+                        <button
+                            key={f.id}
+                            onClick={() => setFilter(f.id)}
+                            className={clsx(
+                                "font-mono text-xs uppercase tracking-widest transition-colors whitespace-nowrap",
+                                filter === f.id ? "text-white" : "text-white/40 hover:text-white/70"
+                            )}
+                        >
+                            {f.label}
+                        </button>
+                    ))}
+                </div>
+            </div>
+
             {/* 
          Mobile: 2 Columns | Desktop: 6 Columns
       */}
             <div className="grid grid-cols-2 md:grid-cols-6 gap-4 auto-rows-[300px] max-w-[1800px] mx-auto">
-                {displayPhotos.map((photo, index) => (
+                {filteredPhotos.map((photo, index) => (
                     <div
                         key={photo._id || index}
                         className={clsx(

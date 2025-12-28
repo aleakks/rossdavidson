@@ -18,16 +18,20 @@ export default async function Services() {
     // Fallback if no data
     const services = dataServices?.length > 0 ? dataServices : [
         {
-            title: "Touring & Live Events",
+            title: "Touring & Live Coverage",
             description: "Full tour coverage, backstage access, and immediate image delivery for social media. Capturing the raw energy of the performance and the intimate moments in between."
         },
         {
-            title: "Editorial & Press",
+            title: "Campaign Creative & Direction",
             description: "Styled photo shoots, magazine features, and album artwork. Concept-driven imagery that defines artist identity."
         },
         {
-            title: "Brand Activation",
-            description: "Coverage for culture-led brand events, product launches, and nightlife marketing. Creating authentic visual assets that resonate with the audience."
+            title: "Short-Form Social Assets",
+            description: "High-impact video snippets and motion content designed for Instagram and TikTok. keeping the feed alive during the tour."
+        },
+        {
+            title: "High-Speed Retouching",
+            description: "Rapid turnaround on selected highlights for press and socials, maintaining editorial quality at touring speed."
         }
     ];
 

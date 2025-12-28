@@ -10,9 +10,10 @@ interface HeroClientProps {
     title: string;
     subtitle: string;
     images: string[];
+    eyebrow: string; // Added prop
 }
 
-export default function HeroClient({ title, subtitle, images }: HeroClientProps) {
+export default function HeroClient({ title, subtitle, images, eyebrow }: HeroClientProps) {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [liveData, setLiveData] = useState<any>(null);
 
@@ -50,6 +51,7 @@ export default function HeroClient({ title, subtitle, images }: HeroClientProps)
     // Use live data if available, otherwise static props
     const displayTitle = liveData?.title || title;
     const displaySubtitle = liveData?.subtitle || subtitle;
+    const displayEyebrow = liveData?.eyebrow || eyebrow;
     const currentImage = images && images.length > 0 ? images[currentImageIndex] : null;
 
     return (
@@ -100,19 +102,31 @@ export default function HeroClient({ title, subtitle, images }: HeroClientProps)
             <div
                 className="relative z-20 w-full h-full flex flex-col items-center justify-center pointer-events-none p-4 md:p-8"
             >
+                {/* Eyebrow - Identity (Item 1) */}
+                <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3, duration: 0.8 }}
+                    className="mb-4 md:mb-6"
+                >
+                    <span className="font-mono text-xs md:text-sm lg:text-base text-white/50 uppercase tracking-[0.3em] font-medium">
+                        {displayEyebrow}
+                    </span>
+                </motion.div>
+
                 {/* Main Title - Clarified Role */}
-                <h1 className="text-[10vw] md:text-7xl lg:text-8xl leading-[0.9] font-display font-black text-white tracking-tighter text-center uppercase mix-blend-overlay drop-shadow-2xl whitespace-pre-line max-w-5xl">
+                <h1 className="text-[10vw] md:text-7xl lg:text-8xl leading-[0.9] font-display font-black text-white tracking-tighter text-center uppercase mix-blend-overlay drop-shadow-2xl whitespace-pre-line max-w-5xl px-5 md:px-0">
                     {displayTitle}
                 </h1>
 
-                {/* Subheading - Context & Clients */}
+                {/* Subheading - Context & Clients (Item 2: Safety Check) */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.5, duration: 0.8 }}
-                    className="mt-6 md:mt-8 max-w-xl text-center"
+                    className="mt-6 md:mt-8 max-w-xl text-center px-5 md:px-0"
                 >
-                    <p className="font-mono text-xs md:text-sm text-white/90 uppercase tracking-widest leading-relaxed">
+                    <p className="font-mono text-[14px] md:text-sm text-white/90 uppercase tracking-widest leading-relaxed">
                         {displaySubtitle}
                     </p>
                 </motion.div>
