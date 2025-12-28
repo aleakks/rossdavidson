@@ -1,0 +1,441 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - banner:
+    - navigation [ref=e2]:
+      - link "Work" [active] [ref=e3]:
+        - /url: /#work
+      - link "Services" [ref=e4]:
+        - /url: /info
+      - link "About" [ref=e5]:
+        - /url: "#about"
+      - link "Journal" [ref=e6]:
+        - /url: /journal
+      - link "Enquire" [ref=e7]:
+        - /url: "#contact"
+  - main [ref=e8]:
+    - generic [ref=e9]:
+      - generic [ref=e10]:
+        - img "Ross Davidson Phase" [ref=e12]
+        - img "Ross Davidson Phase" [ref=e14]
+        - img "Ross Davidson Phase" [ref=e16]
+        - img "Ross Davidson Phase" [ref=e18]
+        - img "Ross Davidson Phase" [ref=e20]
+        - img "Ross Davidson Phase" [ref=e22]
+        - img "Ross Davidson Phase" [ref=e24]
+        - img "Ross Davidson Phase" [ref=e26]
+        - img "Ross Davidson Phase" [ref=e28]
+        - img "Ross Davidson Phase" [ref=e30]
+        - img "Ross Davidson Phase" [ref=e32]
+        - img "Ross Davidson Phase" [ref=e34]
+        - img "Ross Davidson Phase" [ref=e36]
+        - img "Ross Davidson Phase" [ref=e38]
+        - img "Ross Davidson Phase" [ref=e40]
+        - img "Ross Davidson Phase" [ref=e42]
+        - img "Ross Davidson Phase" [ref=e44]
+        - img "Ross Davidson Phase" [ref=e46]
+        - img "Ross Davidson Phase" [ref=e48]
+        - img "Ross Davidson Phase" [ref=e50]
+        - img "Ross Davidson Phase" [ref=e52]
+        - img "Ross Davidson Phase" [ref=e54]
+        - img "Ross Davidson Phase" [ref=e56]
+      - generic:
+        - generic: Ross Davidson.
+        - heading "Music & Nightlife Photographer" [level=1]
+        - generic:
+          - paragraph: Touring, editorial and commercial photography for artists, agencies and culture-led brands.
+        - generic:
+          - generic: Scroll
+    - generic [ref=e60]:
+      - heading "Featured In & Trusted By" [level=2] [ref=e61]
+      - paragraph [ref=e63]: Official Tour Photographer for Skrillex – 2024
+      - generic [ref=e64]:
+        - generic [ref=e66]: Mixmag
+        - generic [ref=e68]: DJ Mag
+        - generic [ref=e70]: Insomniac
+        - generic [ref=e72]: Defected
+        - generic [ref=e74]: Cercle
+        - generic [ref=e76]: Afterlife
+    - generic [ref=e78]:
+      - generic [ref=e79]:
+        - heading "Selected Works" [level=2] [ref=e80]:
+          - text: Selected
+          - text: Works
+        - generic [ref=e81]:
+          - paragraph [ref=e82]: Archive
+          - paragraph [ref=e83]: Selected Works 2024
+      - generic [ref=e84]:
+        - generic [ref=e86]:
+          - generic [ref=e87]:
+            - img "Portfolio Image"
+          - generic [ref=e88]:
+            - generic [ref=e89]:
+              - generic [ref=e90]: "@skrillex"
+              - generic [ref=e91]: London
+            - generic [ref=e92]: Editorial
+        - generic [ref=e94]:
+          - generic [ref=e95]:
+            - img "Portfolio Image"
+          - generic [ref=e96]:
+            - generic [ref=e97]:
+              - generic [ref=e98]: "@anniemacmanus"
+              - generic [ref=e99]: London
+            - generic [ref=e100]: Editorial
+        - generic [ref=e102]:
+          - generic [ref=e103]:
+            - img "Portfolio Image"
+          - generic [ref=e104]:
+            - generic [ref=e105]:
+              - generic [ref=e106]: "@kilimanjaromusic"
+              - generic [ref=e107]: London
+            - generic [ref=e108]: Editorial
+        - generic [ref=e110]:
+          - generic [ref=e111]:
+            - img "Portfolio Image"
+          - generic [ref=e112]:
+            - generic [ref=e113]:
+              - generic [ref=e114]: "@marshmusician"
+              - generic [ref=e115]: Leake Street Graffiti Tunnels.
+            - generic [ref=e116]: Editorial
+        - generic [ref=e118]:
+          - generic [ref=e119]:
+            - img "Portfolio Image"
+          - generic [ref=e120]:
+            - generic [ref=e121]:
+              - generic [ref=e122]: "@appetiteonthefarm"
+              - generic [ref=e123]: Essex
+            - generic [ref=e124]: Editorial
+    - generic [ref=e126]:
+      - heading "The Artist" [level=2] [ref=e128]
+      - generic [ref=e129]:
+        - img "Ross Davidson" [ref=e131]
+        - generic [ref=e132]:
+          - generic [ref=e133]:
+            - heading "Capturing the Electricity of the Moment." [level=3] [ref=e134]
+            - paragraph [ref=e135]: I work with artists, labels and brands who need fast, reliable photography in high-pressure, low-light environments — from tours and festivals to editorial and commercial campaigns. My focus is on delivering authentic, high-impact imagery that defines artist identity.
+          - generic [ref=e136]:
+            - heading "Philosophy" [level=4] [ref=e137]
+            - paragraph [ref=e138]: "\"The image is the only thing that lasts.\""
+          - generic [ref=e140]: Ross Davidson
+    - generic [ref=e141]:
+      - navigation "Portfolio filters" [ref=e142]:
+        - generic [ref=e143]:
+          - button "All Work" [pressed] [ref=e144]
+          - button "Brand" [ref=e145]
+          - button "Editorial" [ref=e146]
+          - button "Touring" [ref=e147]
+      - generic [ref=e148]:
+        - generic [ref=e149]:
+          - img "Gallery Image 01" [ref=e150]
+          - generic [ref=e152]:
+            - heading "Gallery Image 01" [level=3] [ref=e153]
+            - generic [ref=e154]:
+              - generic [ref=e155]: London
+              - generic [ref=e157]: touring
+        - generic [ref=e158]:
+          - img "Gallery Image 02" [ref=e159]
+          - generic [ref=e161]:
+            - heading "Gallery Image 02" [level=3] [ref=e162]
+            - generic [ref=e163]:
+              - generic [ref=e164]: London
+              - generic [ref=e166]: editorial
+        - generic [ref=e167]:
+          - img "Gallery Image 03" [ref=e168]
+          - generic [ref=e170]:
+            - heading "Gallery Image 03" [level=3] [ref=e171]
+            - generic [ref=e172]:
+              - generic [ref=e173]: London
+              - generic [ref=e175]: editorial
+        - generic [ref=e176]:
+          - img "Gallery Image 04" [ref=e177]
+          - generic [ref=e179]:
+            - heading "Gallery Image 04" [level=3] [ref=e180]
+            - generic [ref=e181]:
+              - generic [ref=e182]: London
+              - generic [ref=e184]: editorial
+        - generic [ref=e185]:
+          - img "Gallery Image 05" [ref=e186]
+          - generic [ref=e188]:
+            - heading "Gallery Image 05" [level=3] [ref=e189]
+            - generic [ref=e190]:
+              - generic [ref=e191]: London
+              - generic [ref=e193]: editorial
+        - generic [ref=e194]:
+          - img "Gallery Image 06" [ref=e195]
+          - generic [ref=e197]:
+            - heading "Gallery Image 06" [level=3] [ref=e198]
+            - generic [ref=e199]:
+              - generic [ref=e200]: London
+              - generic [ref=e202]: touring
+        - generic [ref=e203]:
+          - img "Gallery Image 07" [ref=e204]
+          - generic [ref=e206]:
+            - heading "Gallery Image 07" [level=3] [ref=e207]
+            - generic [ref=e208]:
+              - generic [ref=e209]: London
+              - generic [ref=e211]: editorial
+        - generic [ref=e212]:
+          - img "Gallery Image 08" [ref=e213]
+          - generic [ref=e215]:
+            - heading "Gallery Image 08" [level=3] [ref=e216]
+            - generic [ref=e217]:
+              - generic [ref=e218]: London
+              - generic [ref=e220]: editorial
+        - generic [ref=e221]:
+          - img "Gallery Image 09" [ref=e222]
+          - generic [ref=e224]:
+            - heading "Gallery Image 09" [level=3] [ref=e225]
+            - generic [ref=e226]:
+              - generic [ref=e227]: London
+              - generic [ref=e229]: editorial
+        - generic [ref=e230]:
+          - img "Gallery Image 10" [ref=e231]
+          - generic [ref=e233]:
+            - heading "Gallery Image 10" [level=3] [ref=e234]
+            - generic [ref=e235]:
+              - generic [ref=e236]: London
+              - generic [ref=e238]: editorial
+        - generic [ref=e239]:
+          - img "Gallery Image 11" [ref=e240]
+          - generic [ref=e242]:
+            - heading "Gallery Image 11" [level=3] [ref=e243]
+            - generic [ref=e244]:
+              - generic [ref=e245]: London
+              - generic [ref=e247]: touring
+        - generic [ref=e248]:
+          - img "Gallery Image 12" [ref=e249]
+          - generic [ref=e251]:
+            - heading "Gallery Image 12" [level=3] [ref=e252]
+            - generic [ref=e253]:
+              - generic [ref=e254]: London
+              - generic [ref=e256]: editorial
+        - generic [ref=e257]:
+          - img "Gallery Image 13" [ref=e258]
+          - generic [ref=e260]:
+            - heading "Gallery Image 13" [level=3] [ref=e261]
+            - generic [ref=e262]:
+              - generic [ref=e263]: London
+              - generic [ref=e265]: editorial
+        - generic [ref=e266]:
+          - img "Gallery Image 14" [ref=e267]
+          - generic [ref=e269]:
+            - heading "Gallery Image 14" [level=3] [ref=e270]
+            - generic [ref=e271]:
+              - generic [ref=e272]: London
+              - generic [ref=e274]: editorial
+        - generic [ref=e275]:
+          - img "Gallery Image 15" [ref=e276]
+          - generic [ref=e278]:
+            - heading "Gallery Image 15" [level=3] [ref=e279]
+            - generic [ref=e280]:
+              - generic [ref=e281]: London
+              - generic [ref=e283]: editorial
+        - generic [ref=e284]:
+          - img "Gallery Image 16" [ref=e285]
+          - generic [ref=e287]:
+            - heading "Gallery Image 16" [level=3] [ref=e288]
+            - generic [ref=e289]:
+              - generic [ref=e290]: London
+              - generic [ref=e292]: touring
+        - generic [ref=e293]:
+          - img "Gallery Image 17" [ref=e294]
+          - generic [ref=e296]:
+            - heading "Gallery Image 17" [level=3] [ref=e297]
+            - generic [ref=e298]:
+              - generic [ref=e299]: London
+              - generic [ref=e301]: editorial
+        - generic [ref=e302]:
+          - img "Gallery Image 18" [ref=e303]
+          - generic [ref=e305]:
+            - heading "Gallery Image 18" [level=3] [ref=e306]
+            - generic [ref=e307]:
+              - generic [ref=e308]: London
+              - generic [ref=e310]: editorial
+        - generic [ref=e311]:
+          - img "Gallery Image 19" [ref=e312]
+          - generic [ref=e314]:
+            - heading "Gallery Image 19" [level=3] [ref=e315]
+            - generic [ref=e316]:
+              - generic [ref=e317]: London
+              - generic [ref=e319]: editorial
+        - generic [ref=e320]:
+          - img "Gallery Image 20" [ref=e321]
+          - generic [ref=e323]:
+            - heading "Gallery Image 20" [level=3] [ref=e324]
+            - generic [ref=e325]:
+              - generic [ref=e326]: London
+              - generic [ref=e328]: editorial
+        - generic [ref=e329]:
+          - img "Gallery Image 21" [ref=e330]
+          - generic [ref=e332]:
+            - heading "Gallery Image 21" [level=3] [ref=e333]
+            - generic [ref=e334]:
+              - generic [ref=e335]: London
+              - generic [ref=e337]: touring
+        - generic [ref=e338]:
+          - img "Gallery Image 22" [ref=e339]
+          - generic [ref=e341]:
+            - heading "Gallery Image 22" [level=3] [ref=e342]
+            - generic [ref=e343]:
+              - generic [ref=e344]: London
+              - generic [ref=e346]: editorial
+        - generic [ref=e347]:
+          - img "Gallery Image 23" [ref=e348]
+          - generic [ref=e350]:
+            - heading "Gallery Image 23" [level=3] [ref=e351]
+            - generic [ref=e352]:
+              - generic [ref=e353]: London
+              - generic [ref=e355]: editorial
+        - generic [ref=e356]:
+          - img "Gallery Image 24" [ref=e357]
+          - generic [ref=e359]:
+            - heading "Gallery Image 24" [level=3] [ref=e360]
+            - generic [ref=e361]:
+              - generic [ref=e362]: London
+              - generic [ref=e364]: editorial
+    - generic [ref=e367]:
+      - generic [ref=e369]:
+        - heading "(02) Capabilities" [level=2] [ref=e370]
+        - paragraph [ref=e371]: A multidisciplinary approach to visual storytelling, blending technical precision with raw emotion.
+        - generic [ref=e372]:
+          - heading "Licensing & Rights" [level=3] [ref=e373]
+          - paragraph [ref=e374]: All commercial work includes tailored licensing usage rights. Full buyouts available upon request.
+      - list [ref=e376]:
+        - listitem [ref=e377]:
+          - generic [ref=e378]:
+            - generic [ref=e379]:
+              - generic [ref=e380]: "01"
+              - heading "Touring & Live Coverage" [level=3] [ref=e381]
+            - paragraph [ref=e382]: Full tour coverage, backstage access, and immediate image delivery for social media. Capturing the raw energy of the performance and the intimate moments in between.
+        - listitem [ref=e383]:
+          - generic [ref=e384]:
+            - generic [ref=e385]:
+              - generic [ref=e386]: "02"
+              - heading "Campaign Creative & Direction" [level=3] [ref=e387]
+            - paragraph [ref=e388]: Styled photo shoots, magazine features, and album artwork. Concept-driven imagery that defines artist identity.
+        - listitem [ref=e389]:
+          - generic [ref=e390]:
+            - generic [ref=e391]:
+              - generic [ref=e392]: "03"
+              - heading "Short-Form Social Assets" [level=3] [ref=e393]
+            - paragraph [ref=e394]: High-impact video snippets and motion content designed for Instagram and TikTok. keeping the feed alive during the tour.
+        - listitem [ref=e395]:
+          - generic [ref=e396]:
+            - generic [ref=e397]:
+              - generic [ref=e398]: "04"
+              - heading "High-Speed Retouching" [level=3] [ref=e399]
+            - paragraph [ref=e400]: Rapid turnaround on selected highlights for press and socials, maintaining editorial quality at touring speed.
+    - generic [ref=e402]:
+      - generic [ref=e403]:
+        - generic [ref=e404]:
+          - generic [ref=e405]:
+            - generic [ref=e406]: Section 04
+            - heading "Let's Work" [level=2] [ref=e407]:
+              - text: Let's
+              - text: Work
+          - paragraph [ref=e408]:
+            - text: Seeking projects that challenge the norm.
+            - text: Fashion, Music, Art Direction.
+        - generic [ref=e409]:
+          - generic [ref=e410]:
+            - heading "Capabilities" [level=3] [ref=e411]
+            - list [ref=e412]:
+              - listitem [ref=e413]: Touring
+              - listitem [ref=e414]: Campaigns
+              - listitem [ref=e415]: Editorial
+          - generic [ref=e416]:
+            - heading "Status" [level=3] [ref=e417]
+            - generic [ref=e422]: Accepting New Projects
+        - generic [ref=e423]:
+          - generic [ref=e424]: Direct Line
+          - link "studio@rossdavidson.com" [ref=e425]:
+            - /url: mailto:studio@rossdavidson.com
+            - text: studio@rossdavidson.com
+            - img [ref=e426]
+      - generic [ref=e430]:
+        - generic [ref=e431]:
+          - generic [ref=e432]:
+            - generic [ref=e433]: Name / Company
+            - textbox "WHO ARE YOU?" [ref=e434]
+          - generic [ref=e435]:
+            - generic [ref=e436]: Email Address
+            - textbox "WHERE TO REPLY?" [ref=e437]
+          - generic [ref=e438]:
+            - generic [ref=e439]: Project Type
+            - combobox [ref=e440]:
+              - option "Select Option" [disabled] [selected]
+              - option "Tour Coverage"
+              - option "Event / Festival"
+              - option "Editorial / Press"
+              - option "Retainer / Long-term"
+              - option "Other"
+          - generic [ref=e441]:
+            - generic [ref=e442]: Location & Dates
+            - textbox "WHEN & WHERE?" [ref=e443]
+          - generic [ref=e444]:
+            - generic [ref=e445]: Project Details
+            - textbox "e.g. Live show in London, 2 nights, image delivery for press and social media." [ref=e446]
+        - generic [ref=e447]:
+          - generic [ref=e448]: By submitting this form you acknowledge that great work takes time and energy.
+          - button "Submit Request" [ref=e449]:
+            - text: Submit Request
+            - img [ref=e450]
+  - contentinfo [ref=e452]:
+    - generic [ref=e453]:
+      - generic [ref=e454]:
+        - generic [ref=e455]:
+          - generic [ref=e456]: Ross Davidson
+          - paragraph [ref=e457]: Capturing the energy of music and nightlife culture worldwide.
+        - generic [ref=e458]:
+          - heading "Explore" [level=4] [ref=e459]
+          - list [ref=e460]:
+            - listitem [ref=e461]:
+              - link "Portfolio" [ref=e462]:
+                - /url: /#work
+            - listitem [ref=e463]:
+              - link "Services" [ref=e464]:
+                - /url: /info
+            - listitem [ref=e465]:
+              - link "About" [ref=e466]:
+                - /url: /#about
+            - listitem [ref=e467]:
+              - link "Journal" [ref=e468]:
+                - /url: /journal
+        - generic [ref=e469]:
+          - heading "Connect" [level=4] [ref=e470]
+          - list [ref=e471]:
+            - listitem [ref=e472]:
+              - link "studio@rossdavidson.com" [ref=e473]:
+                - /url: mailto:studio@rossdavidson.com
+            - listitem [ref=e474]:
+              - link "Instagram" [ref=e475]:
+                - /url: https://instagram.com
+            - listitem [ref=e476]:
+              - link "LinkedIn" [ref=e477]:
+                - /url: https://linkedin.com
+            - listitem [ref=e478]:
+              - link "Email" [ref=e479]:
+                - /url: mailto:studio@rossdavidson.com
+          - link "Start a Project" [ref=e481]:
+            - /url: /#contact
+      - generic [ref=e482]:
+        - generic [ref=e483]: © 2025 Ross Davidson Photo.
+        - generic [ref=e484]:
+          - link "Privacy Policy" [ref=e485]:
+            - /url: /privacy-policy
+          - generic [ref=e486]: •
+          - generic [ref=e487]: London • Worldwide
+  - generic [ref=e492] [cursor=pointer]:
+    - button "Open Next.js Dev Tools" [ref=e493]:
+      - img [ref=e494]
+    - generic [ref=e497]:
+      - button "Open issues overlay" [ref=e498]:
+        - generic [ref=e499]:
+          - generic [ref=e500]: "0"
+          - generic [ref=e501]: "1"
+        - generic [ref=e502]: Issue
+      - button "Collapse issues badge" [ref=e503]:
+        - img [ref=e504]
+  - alert [ref=e506]
+```

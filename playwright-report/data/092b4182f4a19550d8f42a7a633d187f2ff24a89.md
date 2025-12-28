@@ -1,0 +1,60 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - banner:
+    - generic [ref=e2]:
+      - link "Enquire" [ref=e3] [cursor=pointer]:
+        - /url: /#contact
+      - button "Menu" [ref=e4]
+  - main [ref=e5]:
+    - heading "The Journal" [level=1] [ref=e7]
+  - contentinfo [ref=e8]:
+    - generic [ref=e9]:
+      - generic [ref=e10]:
+        - generic [ref=e11]:
+          - generic [ref=e12]: Ross Davidson
+          - paragraph [ref=e13]: Capturing the energy of music and nightlife culture worldwide.
+        - generic [ref=e14]:
+          - heading "Explore" [level=4] [ref=e15]
+          - list [ref=e16]:
+            - listitem [ref=e17]:
+              - link "Portfolio" [ref=e18] [cursor=pointer]:
+                - /url: /#work
+            - listitem [ref=e19]:
+              - link "Services" [ref=e20] [cursor=pointer]:
+                - /url: /info
+            - listitem [ref=e21]:
+              - link "About" [ref=e22] [cursor=pointer]:
+                - /url: /#about
+            - listitem [ref=e23]:
+              - link "Journal" [ref=e24] [cursor=pointer]:
+                - /url: /journal
+        - generic [ref=e25]:
+          - heading "Connect" [level=4] [ref=e26]
+          - list [ref=e27]:
+            - listitem [ref=e28]:
+              - link "studio@rossdavidson.com" [ref=e29] [cursor=pointer]:
+                - /url: mailto:studio@rossdavidson.com
+            - listitem [ref=e30]:
+              - link "Instagram" [ref=e31] [cursor=pointer]:
+                - /url: https://instagram.com
+            - listitem [ref=e32]:
+              - link "LinkedIn" [ref=e33] [cursor=pointer]:
+                - /url: https://linkedin.com
+            - listitem [ref=e34]:
+              - link "Email" [ref=e35] [cursor=pointer]:
+                - /url: mailto:studio@rossdavidson.com
+          - link "Start a Project" [ref=e37] [cursor=pointer]:
+            - /url: /#contact
+      - generic [ref=e38]:
+        - generic [ref=e39]: © 2025 Ross Davidson Photo.
+        - generic [ref=e40]:
+          - link "Privacy Policy" [ref=e41] [cursor=pointer]:
+            - /url: /privacy-policy
+          - generic [ref=e42]: •
+          - generic [ref=e43]: London • Worldwide
+  - button "Open Next.js Dev Tools" [ref=e49] [cursor=pointer]:
+    - img [ref=e50]
+  - alert [ref=e53]
+```

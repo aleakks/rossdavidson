@@ -1,0 +1,69 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - banner:
+    - navigation [ref=e2]:
+      - link "Home" [ref=e3]:
+        - /url: /
+      - link "Work" [ref=e4]:
+        - /url: /#work
+      - link "Services" [ref=e5]:
+        - /url: /info
+      - link "About" [active] [ref=e6]:
+        - /url: "#about"
+      - link "Journal" [ref=e7]:
+        - /url: /journal
+      - link "Enquire" [ref=e8]:
+        - /url: /#contact
+  - main [ref=e9]:
+    - heading "The Journal" [level=1] [ref=e11]
+  - contentinfo [ref=e12]:
+    - generic [ref=e13]:
+      - generic [ref=e14]:
+        - generic [ref=e15]:
+          - generic [ref=e16]: Ross Davidson
+          - paragraph [ref=e17]: Capturing the energy of music and nightlife culture worldwide.
+        - generic [ref=e18]:
+          - heading "Explore" [level=4] [ref=e19]
+          - list [ref=e20]:
+            - listitem [ref=e21]:
+              - link "Portfolio" [ref=e22]:
+                - /url: /#work
+            - listitem [ref=e23]:
+              - link "Services" [ref=e24]:
+                - /url: /info
+            - listitem [ref=e25]:
+              - link "About" [ref=e26]:
+                - /url: /#about
+            - listitem [ref=e27]:
+              - link "Journal" [ref=e28]:
+                - /url: /journal
+        - generic [ref=e29]:
+          - heading "Connect" [level=4] [ref=e30]
+          - list [ref=e31]:
+            - listitem [ref=e32]:
+              - link "studio@rossdavidson.com" [ref=e33]:
+                - /url: mailto:studio@rossdavidson.com
+            - listitem [ref=e34]:
+              - link "Instagram" [ref=e35]:
+                - /url: https://instagram.com
+            - listitem [ref=e36]:
+              - link "LinkedIn" [ref=e37]:
+                - /url: https://linkedin.com
+            - listitem [ref=e38]:
+              - link "Email" [ref=e39]:
+                - /url: mailto:studio@rossdavidson.com
+          - link "Start a Project" [ref=e41]:
+            - /url: /#contact
+      - generic [ref=e42]:
+        - generic [ref=e43]: © 2025 Ross Davidson Photo.
+        - generic [ref=e44]:
+          - link "Privacy Policy" [ref=e45]:
+            - /url: /privacy-policy
+          - generic [ref=e46]: •
+          - generic [ref=e47]: London • Worldwide
+  - button "Open Next.js Dev Tools" [ref=e53] [cursor=pointer]:
+    - img [ref=e54]
+  - alert [ref=e57]
+```

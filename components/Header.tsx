@@ -3,9 +3,11 @@
 
 import Link from "next/link";
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 
+
+import { useRouter } from "next/navigation";
 
 interface HeaderProps {
     links: { label: string; url: string; }[];
@@ -16,6 +18,7 @@ export default function Header({ links: passedLinks }: HeaderProps) {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const { scrollY } = useScroll();
     const pathname = usePathname();
+    const router = useRouter();
     const isHome = pathname === "/";
 
     useMotionValueEvent(scrollY, "change", (latest) => {
@@ -27,17 +30,65 @@ export default function Header({ links: passedLinks }: HeaderProps) {
         }
     });
 
-    // Use passed links or default if empty (though layout provides default)
-    // Also ensuring internal links handle home anchor correctly if needed, 
-    // but the Sanity schema just gives full URLs or hashes. 
-    // We might need to process them if they are purely hash links like "#work" vs "/#work".
-    // For now, let's assume Sanity data is authoritative.
-    const navLinks = passedLinks?.length > 0 ? passedLinks : [
-        { label: "Work", url: isHome ? "#work" : "/#work" },
+    // Restore standard Next.js conditional links for SEO/Accessibility
+    // CRITICAL FIX: explicit /#hash when not on home to trigger navigation
+    // Use passed links or default
+    const rawLinks = passedLinks?.length > 0 ? passedLinks : [
+        { label: "Work", url: "#work" },
         { label: "Services", url: "/info" },
-        { label: "About", url: isHome ? "#about" : "/#about" },
+        { label: "About", url: "#about" },
         { label: "Journal", url: "/journal" },
     ];
+
+    // TRANSFORM LINKS: Ensure hash links are absolute (/#hash) when not on home page
+    const navLinks = rawLinks.map(link => ({
+        ...link,
+        url: (!isHome && link.url.startsWith("#")) ? `/${link.url}` : link.url
+    }));
+
+    const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, url: string) => {
+        // We only need to intercept if we are ON the home page and clicking a hash link
+        // OR if we want to smooth scroll.
+        // For cross-page (e.g. /journal -> /#about), standard Next.js <Link> behavior
+        // usually works, but if it's failing, we can force it.
+
+        setMobileMenuOpen(false); // Always close menu
+
+        const isHash = url.startsWith("#");
+        const isCrossPageHash = url.startsWith("/#");
+
+        if (isHash) {
+            e.preventDefault();
+            const targetId = url.replace("#", "");
+            const element = document.getElementById(targetId);
+            if (element) {
+                element.scrollIntoView({ behavior: "smooth" });
+                window.history.pushState(null, "", url);
+            }
+        }
+        else if (isCrossPageHash) {
+            // e.g. /#about
+            if (isHome) {
+                // If we are already on home, treat it as local scroll
+                e.preventDefault();
+                const hash = url.replace("/", "");
+                const targetId = hash.replace("#", "");
+                const element = document.getElementById(targetId);
+                if (element) {
+                    element.scrollIntoView({ behavior: "smooth" });
+                    window.history.pushState(null, "", hash);
+                }
+            }
+            // If not home, let standard Link behavior happen (navigate to /#about)
+            // But user says it fails. So let's try router.push
+            else {
+                // e.preventDefault(); // Optional: try default first?
+                // router.push(url);
+            }
+        }
+    };
+
+
 
 
     return (
@@ -61,7 +112,12 @@ export default function Header({ links: passedLinks }: HeaderProps) {
                             </Link>
                         )}
                         {navLinks.map((link) => (
-                            <Link key={link.label} href={link.url} className="font-mono text-xs uppercase tracking-widest hover:opacity-50 transition-opacity">
+                            <Link
+                                key={link.label}
+                                href={link.url}
+                                onClick={(e) => handleNavClick(e, link.url)}
+                                className="font-mono text-xs uppercase tracking-widest hover:opacity-50 transition-opacity"
+                            >
                                 {link.label}
                             </Link>
                         ))}
@@ -69,6 +125,7 @@ export default function Header({ links: passedLinks }: HeaderProps) {
                         {/* Desktop CTA */}
                         <Link
                             href={isHome ? "#contact" : "/#contact"}
+                            onClick={(e) => handleNavClick(e, isHome ? "#contact" : "/#contact")}
                             className="ml-4 px-6 py-2 bg-white text-black font-mono text-xs uppercase tracking-widest hover:bg-gray-200 transition-colors"
                         >
                             Enquire
@@ -80,6 +137,7 @@ export default function Header({ links: passedLinks }: HeaderProps) {
                         {/* Mobile CTA - In Header (Item 6) */}
                         <Link
                             href={isHome ? "#contact" : "/#contact"}
+                            onClick={(e) => handleNavClick(e, isHome ? "#contact" : "/#contact")}
                             className="px-4 py-2 bg-white text-black font-mono text-[10px] uppercase tracking-widest z-[101] relative hover:scale-105 transition-transform"
                         >
                             Enquire
@@ -117,7 +175,7 @@ export default function Header({ links: passedLinks }: HeaderProps) {
                             <Link
                                 key={link.label}
                                 href={link.url}
-                                onClick={() => setMobileMenuOpen(false)}
+                                onClick={(e) => handleNavClick(e, link.url)}
                                 className="font-display text-4xl uppercase tracking-tighter"
                             >
                                 {link.label}

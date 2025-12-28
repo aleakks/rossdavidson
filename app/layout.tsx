@@ -49,12 +49,14 @@ import { settingsQuery } from "@/sanity/lib/queries";
 
 // ... existing imports
 
+import HashScroll from "@/components/HashScroll";
+
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const settings = await client.fetch(settingsQuery, {}, { next: { revalidate: 60 } });
+  const settings = await client.fetch(settingsQuery);
   const navLinks = settings?.headerLinks || [
     { label: "Work", url: "/#work" },
     { label: "Services", url: "/info" }, // Map Services to /info for now if using default
