@@ -30,7 +30,7 @@ export default function ContactClient({ capabilities, status, email }: ContactFo
                 {/* 1. Header / Context (Left Sidebar on Desktop) */}
                 <div className="col-span-12 md:col-span-4 border-b md:border-b-0 md:border-r border-white/20 p-8 md:p-12 flex flex-col justify-between bg-zinc-950/50">
                     <div>
-                        <div className="mb-12">
+                        <div className="mb-4 md:mb-12">
                             <span className="font-mono text-xs uppercase tracking-[0.5em] text-white/40 block mb-4">
                                 Section 04
                             </span>
@@ -38,14 +38,14 @@ export default function ContactClient({ capabilities, status, email }: ContactFo
                                 Let's<br />Work
                             </h2>
                         </div>
-                        <p className="font-sans text-white/50 text-lg leading-relaxed max-w-sm">
+                        <p className="hidden md:block font-sans text-white/50 text-lg leading-relaxed max-w-sm">
                             Seeking projects that challenge the norm. <br />
                             Fashion, Music, Art Direction.
                         </p>
                     </div>
 
                     {/* Middle Content - Services & Status to fill the void */}
-                    <div className="space-y-8 my-12 md:my-0">
+                    <div className="hidden md:block space-y-8 my-12 md:my-0">
                         <div className="space-y-4">
                             <h3 className="font-mono text-xs text-white/30 uppercase tracking-widest">Capabilities</h3>
                             <ul className="text-white/80 font-mono text-sm space-y-2 uppercase tracking-wider">

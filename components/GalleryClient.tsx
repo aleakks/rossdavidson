@@ -14,21 +14,7 @@ interface GalleryClientProps {
     categories: Category[];
 }
 
-// Deterministic pattern for mixed grid:
-// Mobile: 2-column | Desktop: 6-column
-const getSize = (index: number) => {
-    const pattern = [
-        "col-span-1 md:col-span-1 md:row-span-1",
-        "col-span-1 md:col-span-1 md:row-span-1",
-        "col-span-2 md:col-span-2 md:row-span-2",
-        "col-span-1 md:col-span-1 md:row-span-1",
-        "col-span-1 md:col-span-1 md:row-span-1",
-        "col-span-1 md:col-span-1 md:row-span-1",
-        "col-span-1 md:col-span-1 md:row-span-1",
-        "col-span-2 md:col-span-2 md:row-span-1",
-    ];
-    return pattern[index % pattern.length];
-};
+
 
 export default function GalleryClient({ photos, categories }: GalleryClientProps) {
     const [livePhotos, setLivePhotos] = useState<GalleryPhoto[] | null>(null);
@@ -97,13 +83,20 @@ export default function GalleryClient({ photos, categories }: GalleryClientProps
             {/* 
          Mobile: 2 Columns | Desktop: 6 Columns
       */}
-            <div className="grid grid-cols-2 md:grid-cols-6 gap-4 auto-rows-[300px] max-w-[1800px] mx-auto">
-                {filteredPhotos.map((photo, index) => (
+            {/* 
+                 Square Block (Desktop Only) / Scrolling Grid (Mobile)
+                 Mobile: 2 Col (Vertical scroll, big images)
+                 Desktop: 5 Col x 4 Row (Perfect Square)
+                 Total: 20 Images.
+            */}
+            <div className="grid grid-cols-2 md:grid-cols-5 md:grid-rows-4 gap-4 md:aspect-square max-w-[1800px] mx-auto w-full">
+                {filteredPhotos.slice(0, 20).map((photo, index) => (
                     <div
                         key={photo._id || index}
                         className={clsx(
                             "relative group overflow-hidden bg-neutral-900 border border-white/5",
-                            getSize(index), // Assigns the random size
+                            "w-full",
+                            "aspect-[4/5] md:aspect-auto md:h-full", // Mobile: Fixed Aspect | Desktop: Fill Grid Cell
                             "hover:z-10 hover:border-white/20 transition-all duration-500 ease-out"
                         )}
                         tabIndex={0}
@@ -115,12 +108,11 @@ export default function GalleryClient({ photos, categories }: GalleryClientProps
                                 alt={photo.altText || photo.title || "Music and Nightlife Photography by Ross Davidson"}
                                 fill
                                 className="object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-80 group-hover:opacity-100"
-                                sizes="(max-width: 768px) 100vw, 50vw"
-                                quality={90}
+                                sizes="(max-width: 768px) 25vw, 16vw"
                             />
                         ) : (
                             <div className="w-full h-full flex items-center justify-center bg-neutral-900">
-                                <span className="font-mono text-xs uppercase text-white/20 tracking-widest">
+                                <span className="font-mono text-[10px] md:text-xs uppercase text-white/20 tracking-widest px-2 text-center">
                                     No Image
                                 </span>
                             </div>
@@ -131,23 +123,21 @@ export default function GalleryClient({ photos, categories }: GalleryClientProps
                             style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")` }}
                         />
 
-                        {/* Hover/Tap Info Overlay */}
+                        {/* Hover/Tap Info Overlay - Simplified for smaller cells */}
                         <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 group-focus:opacity-100 active:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none md:pointer-events-auto">
-                            <div className="text-center p-4 transform translate-y-4 group-hover:translate-y-0 group-focus:translate-y-0 transition-transform duration-300">
-                                <h3 className="text-white font-display text-2xl uppercase tracking-tighter mb-2">
-                                    {photo.client || photo.title || "Client Name"}
+                            {/* Only show text if cell is big enough? Or keeping it minimal */}
+                            <div className="text-center p-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                                <h3 className="text-white font-display text-sm md:text-xl uppercase tracking-tighter mb-1 truncate px-2">
+                                    {photo.client || photo.title}
                                 </h3>
-                                <div className="flex flex-col gap-1 font-mono text-[10px] uppercase tracking-[0.2em] text-white/70">
-                                    <span>{photo.location || "London"}</span>
-                                    <span className="w-4 h-[1px] bg-white/30 mx-auto my-1"></span>
-                                    <span>{photo.category || "Editorial"}</span>
-                                </div>
                             </div>
                         </div>
 
                     </div>
                 ))}
             </div>
+
+            {/* Fallback for excess images or pagination/load more button could go here */}
         </section>
     );
 }
