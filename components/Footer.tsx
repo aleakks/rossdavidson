@@ -43,7 +43,7 @@ export default async function Footer() {
                         <h4 className="font-mono text-xs uppercase tracking-widest text-white/30">Connect</h4>
                         <ul className="space-y-4 font-mono text-sm uppercase tracking-wider text-white/70">
                             <li>
-                                <a href="mailto:studio@rossdavidson.com" className="hover:text-white transition-colors flex items-center gap-2">
+                                <a href="mailto:studio@rossdavidson.com" className="hover:text-white transition-colors flex items-center gap-2 break-all md:break-normal">
                                     studio@rossdavidson.com
                                 </a>
                             </li>

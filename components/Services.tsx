@@ -40,10 +40,10 @@ export default async function Services() {
     return (
         <section className="bg-black text-white py-24 md:py-32 border-t border-white/10 relative z-10" id="info">
             <div className="container mx-auto px-6">
-                <div className="flex flex-col md:grid md:grid-cols-12 gap-12">
+                <div className="flex flex-col lg:grid lg:grid-cols-12 gap-12">
 
                     {/* Section Label */}
-                    <div className="col-span-12 md:col-span-4">
+                    <div className="col-span-12 lg:col-span-4">
                         <div className="sticky top-32">
                             <h2 className="font-mono text-xs uppercase tracking-widest text-white/50 mb-8 opacity-0 animate-fade-in-up"
                                 style={{ animationFillMode: 'forwards' }}>
@@ -64,7 +64,7 @@ export default async function Services() {
                     </div>
 
                     {/* The List (The Breather) */}
-                    <div className="col-span-12 md:col-span-8">
+                    <div className="col-span-12 lg:col-span-8">
                         <ul className="space-y-12">
                             {services.map((service: any, i: number) => (
                                 <li key={i} className="group">

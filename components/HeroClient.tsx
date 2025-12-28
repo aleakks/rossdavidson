@@ -115,7 +115,7 @@ export default function HeroClient({ title, subtitle, images, eyebrow }: HeroCli
                 </motion.div>
 
                 {/* Main Title - Clarified Role */}
-                <h1 className="text-[10vw] md:text-7xl lg:text-8xl leading-[0.9] font-display font-black text-white tracking-tighter text-center uppercase mix-blend-overlay drop-shadow-2xl whitespace-pre-line max-w-5xl px-5 md:px-0">
+                <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl leading-[0.9] font-display font-black text-white tracking-tighter text-center uppercase mix-blend-overlay drop-shadow-2xl whitespace-pre-line max-w-5xl px-5 md:px-0">
                     {displayTitle}
                 </h1>
 
