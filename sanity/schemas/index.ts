@@ -245,3 +245,78 @@ export const legalPage = defineType({
         defineField({ name: 'updatedAt', type: 'date', title: 'Last Updated' })
     ]
 })
+
+// 8. Journal Entry Schema
+export const journal = defineType({
+    name: 'journal',
+    title: 'Journal Post',
+    type: 'document',
+    fields: [
+        defineField({ name: 'title', type: 'string', title: 'Title' }),
+        defineField({
+            name: 'slug',
+            type: 'slug',
+            title: 'Slug',
+            options: { source: 'title' }
+        }),
+        defineField({
+            name: 'publishedAt',
+            type: 'datetime',
+            title: 'Published At',
+            initialValue: (new Date()).toISOString()
+        }),
+        defineField({
+            name: 'coverImage',
+            type: 'image',
+            title: 'Cover Image',
+            options: { hotspot: true }
+        }),
+        defineField({
+            name: 'excerpt',
+            type: 'text',
+            title: 'Excerpt',
+            description: 'Short summary for the list view.'
+        }),
+        defineField({
+            name: 'description',
+            type: 'text',
+            title: 'Intro / Description',
+            description: 'The large introductory text at the top of the article.'
+        }),
+        defineField({
+            name: 'content',
+            type: 'array',
+            title: 'Content Body',
+            of: [
+                { type: 'block' },
+                { type: 'image', options: { hotspot: true } }
+            ]
+        }),
+        defineField({
+            name: 'gallery',
+            type: 'array',
+            title: 'Photo Gallery',
+            description: 'Grid of images shown below the text',
+            of: [{ type: 'image', options: { hotspot: true } }]
+        }),
+        defineField({
+            name: 'credits',
+            type: 'array',
+            title: 'Credits',
+            of: [{
+                type: 'object',
+                fields: [
+                    defineField({ name: 'role', type: 'string', title: 'Role' }),
+                    defineField({ name: 'name', type: 'string', title: 'Name' })
+                ]
+            }]
+        })
+    ],
+    preview: {
+        select: {
+            title: 'title',
+            subtitle: 'publishedAt',
+            media: 'coverImage'
+        }
+    }
+})

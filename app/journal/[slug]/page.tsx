@@ -1,14 +1,18 @@
 import Link from "next/link";
 import Image from "next/image";
-import { getJournalEntry, journalEntries } from "@/lib/journal";
+import { client } from "@/sanity/lib/client";
+import { journalSlugQuery } from "@/sanity/lib/queries";
+import { urlFor } from "@/sanity/lib/image";
 import { notFound } from "next/navigation";
-
+import { PortableText } from "@portabletext/react";
 import { Metadata } from "next";
+
+export const revalidate = 60; // ISR refresh
 
 // Generate customized metadata for each page
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
     const { slug } = await params;
-    const entry = getJournalEntry(slug);
+    const entry = await client.fetch(journalSlugQuery, { slug });
 
     if (!entry) {
         return {
@@ -18,34 +22,25 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
     return {
         title: entry.title,
-        description: entry.description,
+        description: entry.excerpt,
         openGraph: {
             title: entry.title,
-            description: entry.description,
-            images: [
+            description: entry.excerpt,
+            images: entry.coverImage ? [
                 {
-                    url: entry.coverImage,
+                    url: urlFor(entry.coverImage).width(1200).height(630).url(),
                     width: 1200,
                     height: 630,
                     alt: entry.title,
                 },
-            ],
+            ] : [],
         },
     };
 }
 
-// Generate static params for export
-export function generateStaticParams() {
-    return journalEntries.map((entry) => ({
-        slug: entry.slug,
-    }));
-}
-
-export const dynamicParams = false;
-
 export default async function JournalEntryPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
-    const entry = getJournalEntry(slug);
+    const entry = await client.fetch(journalSlugQuery, { slug });
 
     if (!entry) {
         notFound();
@@ -56,13 +51,15 @@ export default async function JournalEntryPage({ params }: { params: Promise<{ s
 
             {/* Hero Header */}
             <div className="relative h-[70vh] w-full bg-neutral-900">
-                <Image
-                    src={entry.coverImage}
-                    alt={entry.title}
-                    fill
-                    priority
-                    className="object-cover opacity-60"
-                />
+                {entry.coverImage && (
+                    <Image
+                        src={urlFor(entry.coverImage).width(1920).quality(90).url()}
+                        alt={entry.title}
+                        fill
+                        priority
+                        className="object-cover opacity-60"
+                    />
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
 
                 <div className="absolute bottom-0 left-0 w-full p-6 md:p-12">
@@ -85,40 +82,55 @@ export default async function JournalEntryPage({ params }: { params: Promise<{ s
                     <div className="md:col-span-3 space-y-12">
                         <div>
                             <h3 className="text-xs font-mono uppercase tracking-widest text-white/40 mb-4">Date</h3>
-                            <p className="font-sans text-lg">{entry.date}</p>
+                            <p className="font-sans text-lg">{new Date(entry.publishedAt).toLocaleDateString('en-GB')}</p>
                         </div>
-                        <div>
-                            <h3 className="text-xs font-mono uppercase tracking-widest text-white/40 mb-4">Credits</h3>
-                            <ul className="space-y-2">
-                                {entry.credits.map((credit, i) => (
-                                    <li key={i} className="font-sans text-sm text-white/80">
-                                        <span className="text-white/40 block text-[10px] uppercase tracking-wider">{credit.role}</span>
-                                        {credit.name}
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
+                        {entry.credits && entry.credits.length > 0 && (
+                            <div>
+                                <h3 className="text-xs font-mono uppercase tracking-widest text-white/40 mb-4">Credits</h3>
+                                <ul className="space-y-2">
+                                    {entry.credits.map((credit: any, i: number) => (
+                                        <li key={i} className="font-sans text-sm text-white/80">
+                                            <span className="text-white/40 block text-[10px] uppercase tracking-wider">{credit.role}</span>
+                                            {credit.name}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
                     </div>
 
                     {/* Main Story */}
                     <div className="md:col-span-9 space-y-24">
-                        <p className="text-xl md:text-2xl font-sans leading-relaxed text-white/80 max-w-3xl">
-                            {entry.description}
-                        </p>
 
-                        {/* Image Grid */}
-                        <div className="space-y-8 md:space-y-24">
-                            {entry.images.map((img, index) => (
-                                <div key={index} className="relative w-full aspect-[3/2] bg-neutral-900 overflow-hidden">
-                                    <Image
-                                        src={img}
-                                        alt={`Moment ${index + 1}`}
-                                        fill
-                                        className="object-cover"
-                                    />
-                                </div>
-                            ))}
-                        </div>
+                        {/* Intro Description */}
+                        {entry.description && (
+                            <p className="text-xl md:text-2xl font-sans leading-relaxed text-white/80 max-w-3xl">
+                                {entry.description}
+                            </p>
+                        )}
+
+                        {/* Rich Text Content (if any) */}
+                        {entry.content && (
+                            <div className="prose prose-invert prose-lg max-w-3xl">
+                                <PortableText value={entry.content} />
+                            </div>
+                        )}
+
+                        {/* Image Grid / Gallery */}
+                        {entry.gallery && (
+                            <div className="space-y-8 md:space-y-24">
+                                {entry.gallery.map((img: any, index: number) => (
+                                    <div key={index} className="relative w-full aspect-[3/2] bg-neutral-900 overflow-hidden">
+                                        <Image
+                                            src={urlFor(img).width(1600).quality(90).url()}
+                                            alt={`Gallery Image ${index + 1}`}
+                                            fill
+                                            className="object-cover"
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                     </div>
 
                 </div>

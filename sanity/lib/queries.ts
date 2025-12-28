@@ -71,3 +71,22 @@ export const privacyQuery = groq`*[_type == "legalPage" && slug.current == "priv
   content,
   updatedAt
 }`;
+// Fetch all journal posts
+export const journalListQuery = groq`*[_type == "journal"]|order(publishedAt desc){
+  title,
+  "slug": slug.current,
+  publishedAt,
+  coverImage,
+  excerpt
+}`;
+
+// Fetch single journal post
+export const journalSlugQuery = groq`*[_type == "journal" && slug.current == $slug][0]{
+  title,
+  publishedAt,
+  coverImage,
+  description,
+  content,
+  gallery,
+  credits
+}`;
