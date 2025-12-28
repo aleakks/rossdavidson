@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 import { PortableText } from "@portabletext/react";
 import { Metadata } from "next";
 
+export const runtime = 'edge';
 export const revalidate = 60; // ISR refresh
 
 // Generate customized metadata for each page

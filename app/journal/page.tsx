@@ -10,6 +10,7 @@ export const metadata: Metadata = {
     description: "Editorial stories, behind-the-scenes case studies, and insights into the creative process of Ross Davidson.",
 };
 
+export const runtime = 'edge';
 export const revalidate = 60; // ISR
 
 export default async function JournalIndex() {
