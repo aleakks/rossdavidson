@@ -12,8 +12,7 @@ async function populateSettings() {
             headerLinks: [
                 { label: "Work", url: "/#work" },
                 { label: "Services", url: "/info" }, // Was Approach, renamed to Services
-                { label: "About", url: "#about" },
-                { label: "Journal", url: "/journal" }
+                { label: "About", url: "#about" }
             ],
             footerText: "Capturing the energy of music and nightlife culture worldwide.",
             socialLinks: [

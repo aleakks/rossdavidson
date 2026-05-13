@@ -34,7 +34,7 @@ export default async function Footer() {
                             <li><Link href="/#work" className="hover:text-white transition-colors">Portfolio</Link></li>
                             <li><Link href="/info" className="hover:text-white transition-colors">Services</Link></li>
                             <li><Link href="/#about" className="hover:text-white transition-colors">About</Link></li>
-                            <li><Link href="/journal" className="hover:text-white transition-colors">Journal</Link></li>
+
                         </ul>
                     </div>
 

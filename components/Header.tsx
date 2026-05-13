@@ -37,7 +37,6 @@ export default function Header({ links: passedLinks }: HeaderProps) {
         { label: "Work", url: "#work" },
         { label: "Services", url: "/info" },
         { label: "About", url: "#about" },
-        { label: "Journal", url: "/journal" },
     ];
 
     // TRANSFORM LINKS: Ensure hash links are absolute (/#hash) when not on home page

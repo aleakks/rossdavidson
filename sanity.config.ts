@@ -8,7 +8,7 @@ import { structureTool } from 'sanity/structure'
 
 // Go to https://www.sanity.io/docs/api-versioning to learn how API versioning works
 import { apiVersion, dataset, projectId } from './sanity/env'
-import { hero, photoStack, about, service, galleryProject, contact, socialProof, category, settings, legalPage, journal } from './sanity/schemas'
+import { hero, photoStack, about, service, galleryProject, contact, socialProof, category, settings, legalPage } from './sanity/schemas'
 
 export default defineConfig({
     basePath: '/studio',
@@ -16,7 +16,7 @@ export default defineConfig({
     dataset,
     // Add and edit the content schema in the './sanity/schema' folder
     schema: {
-        types: [hero, photoStack, about, service, galleryProject, contact, socialProof, category, settings, legalPage, journal],
+        types: [hero, photoStack, about, service, galleryProject, contact, socialProof, category, settings, legalPage],
     },
     plugins: [
         structureTool({
@@ -51,8 +51,6 @@ export default defineConfig({
                         S.documentTypeListItem('galleryProject').title('5. Portfolio Gallery (All Projects)'),
 
                         S.documentTypeListItem('service').title('6. Services List'),
-
-                        S.documentTypeListItem('journal').title('7. Journal / Blog'),
 
                         S.listItem()
                             .title('8. Contact Info & Rights')

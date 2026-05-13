@@ -1,9 +1,9 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Navigation', () => {
-    test('navigate from journal to about section', async ({ page, isMobile }) => {
-        // 1. Go to Journal page
-        await page.goto('/journal');
+    test('navigate from services to about section', async ({ page, isMobile }) => {
+        // 1. Go to Services page
+        await page.goto('/info');
 
         // 2. Click proper nav link depending on mobile/desktop
         if (isMobile) {

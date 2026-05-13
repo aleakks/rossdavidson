@@ -61,7 +61,6 @@ export default async function RootLayout({
     { label: "Work", url: "/#work" },
     { label: "Services", url: "/info" }, // Map Services to /info for now if using default
     { label: "About", url: "/#about" },
-    { label: "Journal", url: "/journal" },
   ];
 
   return (

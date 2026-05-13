@@ -36,24 +36,9 @@ test.describe('Full Site Navigation Check', () => {
         await expect(page.getByRole('heading', { level: 1 })).toBeVisible(); // Check for some content
     });
 
-    test('Journal Navigation', async ({ page, isMobile }) => {
-        await page.goto('/');
-
-        // 1. Journal (Page)
-        await clickNav(page, isMobile, /Journal/i);
-        await expect(page).toHaveURL(/\/journal/);
-
-        // 2. Click first article
-        const firstArticle = page.locator('a[href^="/journal/"]').first();
-        if (await firstArticle.isVisible()) {
-            await firstArticle.click();
-            await expect(page).toHaveURL(/\/journal\/.+/);
-        }
-    });
-
     test('Cross-Page Navigation (The Bug Check)', async ({ page, isMobile }) => {
-        // Start from Journal
-        await page.goto('/journal');
+        // Start from Services page
+        await page.goto('/info');
 
         // Navigate to About (should go to Home -> Scroll to #about)
         await clickNav(page, isMobile, /About/i);
@@ -66,12 +51,13 @@ test.describe('Full Site Navigation Check', () => {
         // We give it a generous timeout because of our 2000ms retry logic
         await expect(page.locator('#about')).toBeInViewport({ timeout: 10000 });
 
-        // Navigate to Work from Journal (Cross-page) - testing another one
-        await page.goto('/journal');
+        // Navigate to Work from Services (Cross-page) - testing another one
+        await page.goto('/info');
         await clickNav(page, isMobile, /Work/i);
         await page.waitForURL(/#work/);
         await expect(page.locator('#work')).toBeInViewport({ timeout: 10000 });
     });
+
 
     test('CTA Button Navigation', async ({ page, isMobile }) => {
         await page.goto('/');

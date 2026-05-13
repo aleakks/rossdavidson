@@ -22,10 +22,3 @@ export interface GalleryPhoto {
     altText?: string;
 }
 
-export interface JournalPost {
-    title: string;
-    slug: string;
-    publishedAt: string;
-    coverImage: SanityImage;
-    excerpt?: string;
-}
