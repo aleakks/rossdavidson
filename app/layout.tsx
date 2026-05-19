@@ -56,11 +56,13 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const settings = await client.fetch(settingsQuery);
+  const settings = await client.fetch(settingsQuery, {}, { next: { revalidate: 60 } });
   const navLinks = settings?.headerLinks || [
-    { label: "Work", url: "/#work" },
-    { label: "Services", url: "/info" }, // Map Services to /info for now if using default
+    { label: "Home", url: "/" },
+    { label: "Live", url: "/live" },
+    { label: "Publications", url: "/publications" },
     { label: "About", url: "/#about" },
+    { label: "Contact", url: "/contact" },
   ];
 
   return (
