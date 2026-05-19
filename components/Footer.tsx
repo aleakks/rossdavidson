@@ -56,7 +56,7 @@ export default async function Footer() {
                             ))}
                         </ul>
                         <div className="pt-4">
-                            <Link href="/#contact" className="inline-block border border-white/20 px-6 py-3 font-mono text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-colors">
+                            <Link href="/contact" className="inline-block border border-white/20 px-6 py-3 font-mono text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-colors">
                                 Start a Project
                             </Link>
                         </div>

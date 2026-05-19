@@ -57,7 +57,7 @@ export default async function InfoPage() {
                                 Because every project is unique, I provide bespoke quotes tailored to your specific requirements and usage rights.
                             </p>
                         </div>
-                        <Link href="/#contact" className="px-8 py-4 bg-white text-black font-mono text-xs uppercase tracking-[0.2em] hover:bg-white/90 transition-colors">
+                        <Link href="/contact" className="px-8 py-4 bg-white text-black font-mono text-xs uppercase tracking-[0.2em] hover:bg-white/90 transition-colors">
                             Request Rate Card
                         </Link>
                     </div>

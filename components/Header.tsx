@@ -34,9 +34,11 @@ export default function Header({ links: passedLinks }: HeaderProps) {
     // CRITICAL FIX: explicit /#hash when not on home to trigger navigation
     // Use passed links or default
     const rawLinks = passedLinks?.length > 0 ? passedLinks : [
-        { label: "Work", url: "#work" },
-        { label: "Services", url: "/info" },
-        { label: "About", url: "#about" },
+        { label: "Home", url: "/" },
+        { label: "Live", url: "/live" },
+        { label: "Publications", url: "/publications" },
+        { label: "About", url: "/#about" },
+        { label: "Contact", url: "/contact" },
     ];
 
     // TRANSFORM LINKS: Ensure hash links are absolute (/#hash) when not on home page
@@ -105,11 +107,6 @@ export default function Header({ links: passedLinks }: HeaderProps) {
 
                     {/* Desktop Nav */}
                     <nav className="pointer-events-auto hidden md:flex gap-12 items-center">
-                        {!isHome && (
-                            <Link href="/" className="font-mono text-xs uppercase tracking-widest hover:opacity-50 transition-opacity">
-                                Home
-                            </Link>
-                        )}
                         {navLinks.map((link) => (
                             <Link
                                 key={link.label}
@@ -123,8 +120,7 @@ export default function Header({ links: passedLinks }: HeaderProps) {
 
                         {/* Desktop CTA */}
                         <Link
-                            href={isHome ? "#contact" : "/#contact"}
-                            onClick={(e) => handleNavClick(e, isHome ? "#contact" : "/#contact")}
+                            href="/contact"
                             className="ml-4 px-6 py-2 bg-white text-black font-mono text-xs uppercase tracking-widest hover:bg-gray-200 transition-colors"
                         >
                             Enquire
@@ -135,8 +131,8 @@ export default function Header({ links: passedLinks }: HeaderProps) {
                     <div className="md:hidden pointer-events-auto w-full flex justify-end gap-4 items-center">
                         {/* Mobile CTA - In Header (Item 6) */}
                         <Link
-                            href={isHome ? "#contact" : "/#contact"}
-                            onClick={(e) => handleNavClick(e, isHome ? "#contact" : "/#contact")}
+                            href="/contact"
+                            onClick={() => setMobileMenuOpen(false)}
                             className="px-4 py-2 bg-white text-black font-mono text-[10px] uppercase tracking-widest z-[101] relative hover:scale-105 transition-transform"
                         >
                             Enquire
@@ -161,15 +157,6 @@ export default function Header({ links: passedLinks }: HeaderProps) {
                         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                         className="fixed inset-0 z-[99] bg-black text-white flex flex-col justify-center items-center gap-8 md:hidden"
                     >
-                        {!isHome && (
-                            <Link
-                                href="/"
-                                onClick={() => setMobileMenuOpen(false)}
-                                className="font-display text-4xl uppercase tracking-tighter"
-                            >
-                                Home
-                            </Link>
-                        )}
                         {navLinks.map((link) => (
                             <Link
                                 key={link.label}
@@ -180,14 +167,6 @@ export default function Header({ links: passedLinks }: HeaderProps) {
                                 {link.label}
                             </Link>
                         ))}
-                        {/* Mobile Menu Duplicate CTA - Optional, but we have the floating one. Adding it here too for completeness if they look for it in menu. */}
-                        <Link
-                            href={isHome ? "#contact" : "/#contact"}
-                            onClick={() => setMobileMenuOpen(false)}
-                            className="font-display text-4xl uppercase tracking-tighter text-white/50"
-                        >
-                            Contact
-                        </Link>
                     </motion.div>
                 )}
             </AnimatePresence>

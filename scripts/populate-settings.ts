@@ -10,9 +10,11 @@ async function populateSettings() {
             _type: 'settings',
             _id: 'settings',
             headerLinks: [
-                { label: "Work", url: "/#work" },
-                { label: "Services", url: "/info" }, // Was Approach, renamed to Services
-                { label: "About", url: "#about" }
+                { label: "Home", url: "/" },
+                { label: "Live", url: "/live" },
+                { label: "Publications", url: "/publications" },
+                { label: "About", url: "/#about" },
+                { label: "Contact", url: "/contact" }
             ],
             footerText: "Capturing the energy of music and nightlife culture worldwide.",
             socialLinks: [

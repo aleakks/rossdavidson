@@ -16,12 +16,7 @@ test.describe('Full Site Navigation Check', () => {
     test('Home Page Internal Navigation', async ({ page, isMobile }) => {
         await page.goto('/');
 
-        // 1. Work (Scroll)
-        await clickNav(page, isMobile, /Work/i);
-        await expect(page).toHaveURL(/#work/);
-        await expect(page.locator('#work')).toBeInViewport();
-
-        // 2. About (Scroll)
+        // 1. About (Scroll to The Artist section)
         await clickNav(page, isMobile, /About/i);
         await expect(page).toHaveURL(/#about/);
         await expect(page.locator('#about')).toBeInViewport();
@@ -30,15 +25,26 @@ test.describe('Full Site Navigation Check', () => {
     test('External Page Navigation', async ({ page, isMobile }) => {
         await page.goto('/');
 
-        // 1. Services (Page)
-        await clickNav(page, isMobile, /Services/i);
-        await expect(page).toHaveURL(/\/info/);
-        await expect(page.getByRole('heading', { level: 1 })).toBeVisible(); // Check for some content
+        // 1. Live Page
+        await clickNav(page, isMobile, /Live/i);
+        await expect(page).toHaveURL(/\/live/);
+        await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+
+        // 2. Publications Page
+        await page.goto('/');
+        await clickNav(page, isMobile, /Publications/i);
+        await expect(page).toHaveURL(/\/publications/);
+        await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+
+        // 3. Contact Page
+        await page.goto('/');
+        await clickNav(page, isMobile, /Contact/i);
+        await expect(page).toHaveURL(/\/contact/);
     });
 
     test('Cross-Page Navigation (The Bug Check)', async ({ page, isMobile }) => {
-        // Start from Services page
-        await page.goto('/info');
+        // Start from Live page
+        await page.goto('/live');
 
         // Navigate to About (should go to Home -> Scroll to #about)
         await clickNav(page, isMobile, /About/i);
@@ -46,31 +52,20 @@ test.describe('Full Site Navigation Check', () => {
         // Wait for navigation
         await page.waitForURL(/#about/);
 
-        // Assert we are on homepage
         // Assert Element is visible (implies scroll happened)
-        // We give it a generous timeout because of our 2000ms retry logic
         await expect(page.locator('#about')).toBeInViewport({ timeout: 10000 });
-
-        // Navigate to Work from Services (Cross-page) - testing another one
-        await page.goto('/info');
-        await clickNav(page, isMobile, /Work/i);
-        await page.waitForURL(/#work/);
-        await expect(page.locator('#work')).toBeInViewport({ timeout: 10000 });
     });
-
 
     test('CTA Button Navigation', async ({ page, isMobile }) => {
         await page.goto('/');
 
         // Enquire Button
         if (isMobile) {
-            // Mobile header has "Enquire" button visible
             await page.getByRole('link', { name: /Enquire/i }).first().click();
         } else {
             await page.getByRole('link', { name: /Enquire/i }).last().click();
         }
-        await expect(page).toHaveURL(/#contact/);
-        await expect(page.locator('#contact')).toBeInViewport();
+        await expect(page).toHaveURL(/\/contact/);
     });
 
 });
