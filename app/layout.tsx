@@ -57,13 +57,23 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const settings = await client.fetch(settingsQuery, {}, { next: { revalidate: 60 } });
-  const navLinks = settings?.headerLinks || [
+  const rawNavLinks = settings?.headerLinks || [
     { label: "Home", url: "/" },
     { label: "Live", url: "/live" },
     { label: "Publications", url: "/publications" },
-    { label: "About", url: "/#about" },
     { label: "Contact", url: "/contact" },
+    { label: "About", url: "/#about" },
   ];
+
+  // Dynamically swap Contact and About if they exist in the wrong order (e.g. from Sanity settings)
+  const navLinks = [...rawNavLinks];
+  const contactIndex = navLinks.findIndex(l => l.label.toLowerCase() === 'contact');
+  const aboutIndex = navLinks.findIndex(l => l.label.toLowerCase() === 'about');
+  if (contactIndex !== -1 && aboutIndex !== -1 && aboutIndex < contactIndex) {
+    const temp = navLinks[contactIndex];
+    navLinks[contactIndex] = navLinks[aboutIndex];
+    navLinks[aboutIndex] = temp;
+  }
 
   return (
     <html lang="en">

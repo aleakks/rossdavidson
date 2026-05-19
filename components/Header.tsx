@@ -32,14 +32,23 @@ export default function Header({ links: passedLinks }: HeaderProps) {
 
     // Restore standard Next.js conditional links for SEO/Accessibility
     // CRITICAL FIX: explicit /#hash when not on home to trigger navigation
-    // Use passed links or default
-    const rawLinks = passedLinks?.length > 0 ? passedLinks : [
+    const rawLinksWithDefaults = passedLinks?.length > 0 ? passedLinks : [
         { label: "Home", url: "/" },
         { label: "Live", url: "/live" },
         { label: "Publications", url: "/publications" },
-        { label: "About", url: "/#about" },
         { label: "Contact", url: "/contact" },
+        { label: "About", url: "/#about" },
     ];
+
+    // Dynamically swap Contact and About if they exist in the wrong order
+    const rawLinks = [...rawLinksWithDefaults];
+    const contactIndex = rawLinks.findIndex(l => l.label.toLowerCase() === 'contact');
+    const aboutIndex = rawLinks.findIndex(l => l.label.toLowerCase() === 'about');
+    if (contactIndex !== -1 && aboutIndex !== -1 && aboutIndex < contactIndex) {
+        const temp = rawLinks[contactIndex];
+        rawLinks[contactIndex] = rawLinks[aboutIndex];
+        rawLinks[aboutIndex] = temp;
+    }
 
     // TRANSFORM LINKS: Ensure hash links are absolute (/#hash) when not on home page
     const navLinks = rawLinks.map(link => ({
@@ -117,27 +126,10 @@ export default function Header({ links: passedLinks }: HeaderProps) {
                                 {link.label}
                             </Link>
                         ))}
-
-                        {/* Desktop CTA */}
-                        <Link
-                            href="/contact"
-                            className="ml-4 px-6 py-2 bg-white text-black font-mono text-xs uppercase tracking-widest hover:bg-gray-200 transition-colors"
-                        >
-                            Enquire
-                        </Link>
                     </nav>
 
-                    {/* Mobile Header: CTA + Menu Button */}
+                    {/* Mobile Header: Menu Button */}
                     <div className="md:hidden pointer-events-auto w-full flex justify-end gap-4 items-center">
-                        {/* Mobile CTA - In Header (Item 6) */}
-                        <Link
-                            href="/contact"
-                            onClick={() => setMobileMenuOpen(false)}
-                            className="px-4 py-2 bg-white text-black font-mono text-[10px] uppercase tracking-widest z-[101] relative hover:scale-105 transition-transform"
-                        >
-                            Enquire
-                        </Link>
-
                         <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="uppercase font-mono text-xs tracking-widest z-[101] relative mix-blend-difference pb-0.5 border-b border-transparent hover:border-white transition-colors">
                             {mobileMenuOpen ? "Close" : "Menu"}
                         </button>

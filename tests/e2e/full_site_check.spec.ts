@@ -56,16 +56,4 @@ test.describe('Full Site Navigation Check', () => {
         await expect(page.locator('#about')).toBeInViewport({ timeout: 10000 });
     });
 
-    test('CTA Button Navigation', async ({ page, isMobile }) => {
-        await page.goto('/');
-
-        // Enquire Button
-        if (isMobile) {
-            await page.getByRole('link', { name: /Enquire/i }).first().click();
-        } else {
-            await page.getByRole('link', { name: /Enquire/i }).last().click();
-        }
-        await expect(page).toHaveURL(/\/contact/);
-    });
-
 });
