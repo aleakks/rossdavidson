@@ -8,9 +8,9 @@ test.describe('Navigation', () => {
         // 2. Click proper nav link depending on mobile/desktop
         if (isMobile) {
             await page.getByRole('button', { name: /Menu/i }).click();
-            await page.getByRole('link', { name: /About/i }).click();
+            await page.locator('div.fixed').getByRole('link', { name: /About/i }).click();
         } else {
-            await page.getByRole('link', { name: /About/i }).click();
+            await page.locator('nav').getByRole('link', { name: /About/i }).click();
         }
 
         // 3. Check URL

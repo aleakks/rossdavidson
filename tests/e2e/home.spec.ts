@@ -22,15 +22,15 @@ test.describe('Homepage Experience', () => {
             await expect(menuButton).toBeVisible();
             await menuButton.click();
             // Wait for menu overlay
-            await expect(page.getByRole('link', { name: /Work/i }).first()).toBeVisible();
+            await expect(page.getByRole('link', { name: /Home/i }).first()).toBeVisible();
         } else {
             // Desktop check
             const nav = page.locator('nav').first();
             await expect(nav).toBeVisible();
 
-            // Check for specific links (e.g., Work)
-            const workLink = page.getByRole('link', { name: /Work/i }).first();
-            await expect(workLink).toBeVisible();
+            // Check for specific links (e.g., Home)
+            const homeLink = page.getByRole('link', { name: /Home/i }).first();
+            await expect(homeLink).toBeVisible();
         }
     });
 
