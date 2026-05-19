@@ -3,8 +3,6 @@ import Gallery from "@/components/Gallery";
 import About from "@/components/About";
 import SocialProof from "@/components/SocialProof";
 import PhotoStack from "@/components/PhotoStack";
-import Services from "@/components/Services";
-import Contact from "@/components/Contact";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -23,8 +21,6 @@ export default function Home() {
       <PhotoStack />
       <About />
       <Gallery />
-      <Services />
-      <Contact />
     </main>
   );
 }

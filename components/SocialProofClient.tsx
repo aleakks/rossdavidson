@@ -11,15 +11,11 @@ export default function SocialProofClient({ clients, callout }: SocialProofClien
     return (
         <section className="bg-black py-20 border-t border-white/5 overflow-hidden">
             <div className="container mx-auto px-6 mb-16 text-center">
-                <h2 className="text-xs font-mono tracking-[0.5em] text-white/40 uppercase mb-8">
-                    Featured In & Trusted By
-                </h2>
-
                 {/* Primary Callout */}
                 <div className="mb-16">
-                    <p className="text-xl md:text-3xl font-display uppercase tracking-wider text-white">
-                        {callout || "Official Tour Photographer for Skrillex – 2024"}
-                    </p>
+                    <h2 className="text-xl md:text-3xl font-display uppercase tracking-wider text-white">
+                        Featured in & Trusted by
+                    </h2>
                 </div>
 
                 {/* Logo Grid (Visual Authority - Item 3) */}

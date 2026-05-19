@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Oswald, Inter } from "next/font/google";
-import CustomCursor from "@/components/CustomCursor";
+
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import "./globals.css";
@@ -69,7 +69,7 @@ export default async function RootLayout({
       <body
         className={`${oswald.variable} ${inter.variable} antialiased`}
       >
-        <CustomCursor />
+
         <Header links={navLinks} />
         {children}
         <Footer />
