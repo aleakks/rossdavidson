@@ -202,8 +202,8 @@ export default function LiveGalleryClient({ liveEvents, pageSettings }: { liveEv
                             <div className="absolute inset-0 pointer-events-none opacity-[0.03] mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
 
                             {/* Hover/Standard Info Overlay */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6 md:p-8">
-                                <div className="transform translate-y-2 md:translate-y-4 md:group-hover:translate-y-0 transition-transform duration-300 space-y-2">
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6 md:p-8">
+                                <div className="space-y-2">
                                     <span className="font-mono text-[10px] text-white/50 uppercase tracking-[0.2em] block">
                                         Event / 0{index + 1}
                                     </span>
