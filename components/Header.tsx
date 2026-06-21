@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { client } from "@/sanity/lib/client";
 import { settingsQuery } from "@/sanity/lib/queries";
+import { Menu, X } from "lucide-react";
 
 interface HeaderProps {
     links: { label: string; url: string; }[];
@@ -160,9 +161,23 @@ export default function Header({ links: passedLinks }: HeaderProps) {
                     </nav>
 
                     {/* Mobile Header: Menu Button */}
-                    <div className="md:hidden pointer-events-auto w-full flex justify-end gap-4 items-center">
-                        <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="uppercase font-mono text-xs tracking-widest z-[101] relative mix-blend-difference pb-0.5 border-b border-transparent hover:border-white transition-colors">
-                            {mobileMenuOpen ? "Close" : "Menu"}
+                    <div className="md:hidden pointer-events-auto w-full flex justify-center items-center">
+                        <button 
+                            onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
+                            className="flex items-center gap-2 uppercase font-mono text-xs tracking-widest z-[101] relative mix-blend-difference py-2.5 px-5 border border-white/20 rounded-full bg-black/60 backdrop-blur-md hover:bg-white hover:text-black hover:border-white transition-all duration-300 shadow-lg"
+                            aria-label="Toggle Menu"
+                        >
+                            {mobileMenuOpen ? (
+                                <>
+                                    <X className="w-3.5 h-3.5" />
+                                    <span>Close</span>
+                                </>
+                            ) : (
+                                <>
+                                    <Menu className="w-3.5 h-3.5" />
+                                    <span>Menu</span>
+                                </>
+                            )}
                         </button>
                     </div>
                 </div>
