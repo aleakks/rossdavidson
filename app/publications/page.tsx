@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     description: "Selected editorial covers, feature articles, and printed publications by Ross Davidson.",
 };
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 export default async function PublicationsPage() {
     let publications = [];

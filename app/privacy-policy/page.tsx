@@ -3,7 +3,7 @@ import { privacyQuery } from "@/sanity/lib/queries";
 import { PortableText } from "@portabletext/react";
 import { notFound } from "next/navigation";
 
-export const revalidate = 60; // Revalidate every minute
+export const dynamic = "force-dynamic";
 
 export default async function PrivacyPolicyPage() {
     const data = await client.fetch(privacyQuery);

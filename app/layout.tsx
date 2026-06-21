@@ -44,6 +44,8 @@ export const metadata: Metadata = {
   },
 };
 
+export const dynamic = "force-dynamic";
+
 import { client } from "@/sanity/lib/client";
 import { settingsQuery } from "@/sanity/lib/queries";
 
@@ -56,7 +58,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const settings = await client.fetch(settingsQuery, {}, { next: { revalidate: 60 } });
+  const settings = await client.fetch(settingsQuery, {}, { cache: 'no-store' });
   const rawNavLinks = settings?.headerLinks || [
     { label: "Home", url: "/" },
     { label: "Live", url: "/live" },

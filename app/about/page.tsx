@@ -6,6 +6,8 @@ export const metadata: Metadata = {
     description: "Learn more about London-based photographer Ross Davidson, his biography, creative philosophy, and portrait work.",
 };
 
+export const dynamic = "force-dynamic";
+
 export default function AboutPage() {
     return (
         <main className="pt-20">

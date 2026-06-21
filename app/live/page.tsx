@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     description: "Selected live music and touring photography collections by Ross Davidson.",
 };
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 export default async function LivePage() {
     let liveEvents = [];

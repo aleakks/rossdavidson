@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 import { client } from "@/sanity/lib/client";
 import { servicesQuery, infoPageQuery } from "@/sanity/lib/queries";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 export default async function InfoPage() {
     let services = [];

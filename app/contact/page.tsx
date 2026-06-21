@@ -6,6 +6,8 @@ export const metadata: Metadata = {
     description: "Start a project, inquire about licensing, or request a rate card. London-based music and nightlife photographer Ross Davidson.",
 };
 
+export const dynamic = "force-dynamic";
+
 export default function ContactPage() {
     return (
         <main className="pt-20">
