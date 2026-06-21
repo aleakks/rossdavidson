@@ -1,13 +1,29 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import { client } from "@/sanity/lib/client";
 import { settingsQuery } from "@/sanity/lib/queries";
 import Link from "next/link";
 
-export default async function Footer() {
-    const settings = await client.fetch(settingsQuery, {}, { next: { revalidate: 60 } });
+export default function Footer({ settings }: { settings: any }) {
+    const [liveSettings, setLiveSettings] = useState<any>(null);
+
+    useEffect(() => {
+        const fetchFresh = async () => {
+            try {
+                const fresh = await client.fetch(settingsQuery, { _t: Date.now() }, { filterResponse: false, cache: 'no-store' });
+                // @ts-ignore
+                if (fresh?.result) setLiveSettings(fresh.result);
+            } catch (e) { console.error("Settings fetch failed", e); }
+        };
+        fetchFresh();
+    }, []);
+
+    const currentSettings = liveSettings || settings;
 
     // Fallbacks
-    const footerText = settings?.footerText || "Capturing the energy of music and nightlife culture worldwide.";
-    const socialLinks = settings?.socialLinks || [
+    const footerText = currentSettings?.footerText || "Capturing the energy of music and nightlife culture worldwide.";
+    const socialLinks = currentSettings?.socialLinks || [
         { platform: "Instagram", url: "https://instagram.com" },
         { platform: "LinkedIn", url: "https://linkedin.com" }
     ];

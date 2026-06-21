@@ -92,7 +92,7 @@ export default async function RootLayout({
 
         <Header links={navLinks} />
         {children}
-        <Footer />
+        <Footer settings={settings} />
       </body>
     </html>
   );

@@ -1,13 +1,12 @@
 "use client";
 
-
 import Link from "next/link";
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-
-
 import { useRouter } from "next/navigation";
+import { client } from "@/sanity/lib/client";
+import { settingsQuery } from "@/sanity/lib/queries";
 
 interface HeaderProps {
     links: { label: string; url: string; }[];
@@ -20,6 +19,36 @@ export default function Header({ links: passedLinks }: HeaderProps) {
     const pathname = usePathname();
     const router = useRouter();
     const isHome = pathname === "/";
+    const [liveLinks, setLiveLinks] = useState<any[] | null>(null);
+
+    useEffect(() => {
+        const fetchFresh = async () => {
+            try {
+                const fresh = await client.fetch(settingsQuery, { _t: Date.now() }, { filterResponse: false, cache: 'no-store' });
+                // @ts-ignore
+                if (fresh?.result?.headerLinks) {
+                    // @ts-ignore
+                    const rawLinks = fresh.result.headerLinks;
+                    const normalized = rawLinks.map((link: any) => {
+                        if (link.label.toLowerCase() === 'about') {
+                            return { ...link, url: '/about' };
+                        }
+                        return link;
+                    });
+                    const navLinks = [...normalized];
+                    const contactIndex = navLinks.findIndex(l => l.label.toLowerCase() === 'contact');
+                    const aboutIndex = navLinks.findIndex(l => l.label.toLowerCase() === 'about');
+                    if (contactIndex !== -1 && aboutIndex !== -1 && aboutIndex < contactIndex) {
+                        const temp = navLinks[contactIndex];
+                        navLinks[contactIndex] = navLinks[aboutIndex];
+                        navLinks[aboutIndex] = temp;
+                    }
+                    setLiveLinks(navLinks);
+                }
+            } catch (e) { console.error("Header settings fetch failed", e); }
+        };
+        fetchFresh();
+    }, []);
 
     useMotionValueEvent(scrollY, "change", (latest) => {
         const previous = scrollY.getPrevious() ?? 0;
@@ -31,7 +60,7 @@ export default function Header({ links: passedLinks }: HeaderProps) {
     });
 
     // Restore standard Next.js conditional links for SEO/Accessibility
-    const rawLinksWithDefaults = passedLinks?.length > 0 ? passedLinks : [
+    const rawLinksWithDefaults = liveLinks || passedLinks || [
         { label: "Home", url: "/" },
         { label: "Live", url: "/live" },
         { label: "Publications", url: "/publications" },
