@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 
 import { client } from "@/sanity/lib/client";
 import { aboutQuery } from "@/sanity/lib/queries";
+import { urlFor } from "@/sanity/lib/image";
 import { useState, useEffect } from "react";
 
 export default function AboutClient({ data, artistImage }: { data: any, artistImage: { src: string; alt: string } }) {
@@ -25,6 +26,11 @@ export default function AboutClient({ data, artistImage }: { data: any, artistIm
     const displayData = liveData || data;
 
     if (!displayData) return null;
+
+    const imageUrl = displayData.artistImage 
+        ? urlFor(displayData.artistImage).width(1200).quality(100).url()
+        : artistImage.src;
+    const imageAlt = displayData.artistImage?.alt || artistImage.alt;
 
     return (
         <section id="about" className="bg-black py-12 md:py-32 relative z-10 border-t border-white/5">
@@ -47,8 +53,8 @@ export default function AboutClient({ data, artistImage }: { data: any, artistIm
                         className="relative aspect-[3/4] w-full max-w-md mx-auto md:mx-0 overflow-hidden grayscale contrast-125"
                     >
                         <Image
-                            src={artistImage.src}
-                            alt={artistImage.alt}
+                            src={imageUrl}
+                            alt={imageAlt}
                             fill
                             className="object-cover"
                             sizes="(max-width: 768px) 100vw, 50vw"
@@ -86,7 +92,7 @@ export default function AboutClient({ data, artistImage }: { data: any, artistIm
                         {/* Signature / Name */}
                         <div className="pt-8">
                             <div className="text-2xl font-display uppercase tracking-widest text-white">
-                                {data.signature || "Ross Davidson"}
+                                {displayData.signature || "Ross Davidson"}
                             </div>
                         </div>
                     </div>

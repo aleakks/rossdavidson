@@ -14,7 +14,7 @@ export default function SocialProofClient({ clients, callout }: SocialProofClien
                 {/* Primary Callout */}
                 <div className="mb-16">
                     <h2 className="text-xl md:text-3xl font-display uppercase tracking-wider text-white">
-                        Featured in & Trusted by
+                        {callout || "Featured in & Trusted by"}
                     </h2>
                 </div>
 

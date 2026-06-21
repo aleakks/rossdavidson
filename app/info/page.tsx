@@ -39,6 +39,22 @@ export default async function InfoPage() {
         }
     ];
 
+    // Default static services if empty in Sanity
+    const displayServices = (services && services.length > 0) ? services : [
+        {
+            title: "Touring & Live Events",
+            description: "Full tour coverage, backstage access, and immediate image delivery for social media. Capturing the raw energy of the performance and the intimate moments in between."
+        },
+        {
+            title: "Editorial & Press",
+            description: "Styled photo shoots, magazine features, and album artwork. Concept-driven imagery that defines artist identity."
+        },
+        {
+            title: "Brand Activation",
+            description: "Coverage for culture-led brand events, product launches, and nightlife marketing. Creating authentic visual assets that resonate with the audience."
+        }
+    ];
+
     return (
         <main className="bg-black min-h-screen text-white pt-32 pb-24 px-6">
             <div className="container mx-auto max-w-5xl">
@@ -55,7 +71,7 @@ export default async function InfoPage() {
 
                 {/* Services Grid (Dynamic from Sanity) */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 mb-32 border-t border-white/10 pt-16">
-                    {services && services.map((service: any, i: number) => (
+                    {displayServices.map((service: any, i: number) => (
                         <div key={service._id || i} className="space-y-6">
                             <h2 className="font-mono text-xs uppercase tracking-[0.3em] text-white/50">
                                 0{i + 1}

@@ -127,10 +127,19 @@ export default function LiveGalleryClient({ liveEvents, pageSettings }: { liveEv
         fetchFresh();
     }, [liveEvents]);
 
-    // Ensure we have exactly 12 events (pad with mock if sanity returns fewer than 12)
-    const displayEvents = events.length >= 12 
+    // Ensure we have exactly 12 events (pad with mock if sanity returns fewer than 12) and fall back to mock assets if fields are empty
+    const mockEvents = generateMockEvents();
+    const displayEvents = (events.length >= 12 
         ? events.slice(0, 12) 
-        : [...events, ...generateMockEvents().slice(0, 12 - events.length)];
+        : [...events, ...mockEvents.slice(0, 12 - events.length)]
+    ).map((event, index) => {
+        const mock = mockEvents[index] || mockEvents[0];
+        return {
+            ...event,
+            coverImage: event.coverImage || mock.coverImage,
+            images: (event.images && event.images.length > 0) ? event.images : mock.images,
+        };
+    });
 
     const getEventImageUrl = (imgObj: any, width = 800) => {
         if (!imgObj) return "";
