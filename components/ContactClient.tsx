@@ -49,7 +49,7 @@ export default function ContactClient({
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setFormState('sending');
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        await new Promise(resolve => setTimeout(resolve, 1000));
         setFormState('success');
     };
 

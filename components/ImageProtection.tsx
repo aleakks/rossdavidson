@@ -37,7 +37,7 @@ export default function ImageProtection() {
         if (toast?.show) {
             const timer = setTimeout(() => {
                 setToast(null);
-            }, 2000);
+            }, 1000);
             return () => clearTimeout(timer);
         }
     }, [toast]);
