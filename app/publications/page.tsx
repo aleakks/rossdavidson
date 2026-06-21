@@ -1,7 +1,7 @@
 import { client } from "@/sanity/lib/client";
-import { publicationsPageQuery } from "@/sanity/lib/queries";
-import Link from "next/link";
+import { publicationsPageQuery, publicationsQuery } from "@/sanity/lib/queries";
 import { Metadata } from "next";
+import PublicationsClient from "@/components/PublicationsClient";
 
 export const metadata: Metadata = {
     title: "Publications & Editorial",
@@ -11,41 +11,21 @@ export const metadata: Metadata = {
 export const revalidate = 60;
 
 export default async function PublicationsPage() {
+    let publications = [];
     let pageSettings = null;
+
     try {
-        pageSettings = await client.fetch(publicationsPageQuery);
+        [publications, pageSettings] = await Promise.all([
+            client.fetch(publicationsQuery),
+            client.fetch(publicationsPageQuery)
+        ]);
     } catch (error) {
         console.error("Publications page fetch error:", error);
     }
 
     return (
-        <main className="bg-black min-h-screen text-white flex items-center justify-center pt-24 px-6 relative overflow-hidden">
-            {/* Background Grid Lines */}
-            <div className="absolute inset-0 pointer-events-none"
-                style={{
-                    backgroundImage: 'linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px)',
-                    backgroundSize: '40px 40px'
-                }}
-            />
-            {/* Noise Texture */}
-            <div className="absolute inset-0 pointer-events-none opacity-[0.03] mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
-
-            <div className="max-w-2xl text-center space-y-8 z-10">
-                <span className="font-mono text-xs uppercase tracking-[0.5em] text-white/40 block">
-                    {pageSettings?.eyebrow || "Collection / 02"}
-                </span>
-                <h1 className="text-5xl md:text-8xl font-display font-black uppercase tracking-tighter leading-none text-white animate-pulse">
-                    {pageSettings?.title || "Publications"}
-                </h1>
-                <p className="font-sans text-white/60 text-lg leading-relaxed max-w-md mx-auto">
-                    {pageSettings?.subtitle || "A curated archive of printed features, magazine covers, and digital editorials. This section is currently in production."}
-                </p>
-                <div className="pt-8">
-                    <Link href="/" className="inline-block border border-white/20 px-8 py-4 font-mono text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-all">
-                        Return to Homepage
-                    </Link>
-                </div>
-            </div>
+        <main className="bg-black min-h-screen text-white pt-24 pb-12">
+            <PublicationsClient publications={publications} pageSettings={pageSettings} />
         </main>
     );
 }

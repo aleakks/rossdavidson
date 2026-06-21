@@ -8,7 +8,7 @@ import { structureTool } from 'sanity/structure'
 
 // Go to https://www.sanity.io/docs/api-versioning to learn how API versioning works
 import { apiVersion, dataset, projectId } from './sanity/env'
-import { hero, photoStack, about, service, galleryProject, contact, socialProof, category, settings, legalPage, liveEvent, infoPage, livePage, publicationsPage } from './sanity/schemas'
+import { hero, photoStack, about, service, galleryProject, contact, socialProof, category, settings, legalPage, liveEvent, infoPage, livePage, publicationsPage, publication } from './sanity/schemas'
 
 export default defineConfig({
     basePath: '/studio',
@@ -16,7 +16,7 @@ export default defineConfig({
     dataset,
     // Add and edit the content schema in the './sanity/schema' folder
     schema: {
-        types: [hero, photoStack, about, service, galleryProject, contact, socialProof, category, settings, legalPage, liveEvent, infoPage, livePage, publicationsPage],
+        types: [hero, photoStack, about, service, galleryProject, contact, socialProof, category, settings, legalPage, liveEvent, infoPage, livePage, publicationsPage, publication],
     },
     plugins: [
         structureTool({
@@ -58,8 +58,10 @@ export default defineConfig({
                         S.documentTypeListItem('liveEvent').title('5b. Live Event Folders (12 Events)'),
 
                         S.listItem()
-                            .title('6. Publications Page Settings')
+                            .title('6a. Publications Page Settings')
                             .child(S.document().schemaType('publicationsPage').documentId('publicationsPage')),
+
+                        S.documentTypeListItem('publication').title('6b. Publications List (8-10 Links)'),
 
                         S.listItem()
                             .title('7a. Info Page Settings & FAQs')

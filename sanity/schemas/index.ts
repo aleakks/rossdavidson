@@ -372,4 +372,27 @@ export const publicationsPage = defineType({
     }
 })
 
+export const publication = defineType({
+    name: 'publication',
+    title: 'Publication Link',
+    type: 'document',
+    fields: [
+        defineField({ name: 'title', type: 'string', title: 'Publication Title (e.g. DJ Mag Feature)' }),
+        defineField({ name: 'publisher', type: 'string', title: 'Publisher / Magazine Name' }),
+        defineField({ name: 'url', type: 'url', title: 'External URL (Link to Publication)' }),
+        defineField({
+            name: 'image',
+            type: 'image',
+            title: 'Featured Image',
+            options: { hotspot: true },
+            fields: [
+                defineField({ name: 'alt', type: 'string', title: 'Alternative Text' })
+            ]
+        }),
+        defineField({ name: 'ctaLabel', type: 'string', title: 'CTA Button Label', initialValue: 'Read Article' }),
+        defineField({ name: 'order', type: 'number', title: 'Order', description: 'Used to sort publications.' })
+    ],
+    orderings: [{ title: 'Order', name: 'orderAsc', by: [{ field: 'order', direction: 'asc' }] }]
+})
+
 

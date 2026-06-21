@@ -111,3 +111,13 @@ export const publicationsPageQuery = groq`*[_type == "publicationsPage"][0]{
   subtitle
 }`;
 
+export const publicationsQuery = groq`*[_type == "publication"]|order(order asc){
+  _id,
+  title,
+  publisher,
+  url,
+  image,
+  ctaLabel,
+  order
+}`;
+

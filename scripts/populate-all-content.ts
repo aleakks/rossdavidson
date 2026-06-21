@@ -139,6 +139,53 @@ async function run() {
         console.log(`Live event placeholder ${i + 1} created/verified.`);
     }
 
+    // 7. Create 8 Publications placeholders
+    console.log("Creating 8 Publications placeholders...");
+    const pubTitles = [
+        "Ross Davidson: Capturing Nightlife's Raw Energy",
+        "Behind the Lens: The Art of Live Music Photography",
+        "Defected Croatia 2025: The Official Photo Gallery",
+        "Visual Identity in Modern Dance Music",
+        "How Ross Davidson Captures Ibiza's Darkest Raves",
+        "Touring with the World's Biggest DJs",
+        "Nightlife Aesthetics: Editorial Meets Rave",
+        "Behind the Stage: Printworks Closing Gallery"
+    ];
+    const pubPublishers = [
+        "DJ Mag",
+        "Mixmag",
+        "Defected Records",
+        "Beatportal",
+        "Resident Advisor",
+        "Music Radar",
+        "Vogue Music",
+        "Dazed & Confused"
+    ];
+    const pubUrls = [
+        "https://djmag.com",
+        "https://mixmag.net",
+        "https://defected.com",
+        "https://www.beatport.com",
+        "https://ra.co",
+        "https://www.musicradar.com",
+        "https://vogue.com",
+        "https://dazeddigital.com"
+    ];
+
+    for (let i = 0; i < 8; i++) {
+        const docId = `publication-${i + 1}`;
+        await client.createIfNotExists({
+            _type: 'publication',
+            _id: docId,
+            title: pubTitles[i],
+            publisher: pubPublishers[i],
+            url: pubUrls[i],
+            ctaLabel: "Read Article",
+            order: i + 1
+        });
+        console.log(`Publication placeholder ${i + 1} created/verified.`);
+    }
+
     console.log("Database update completed successfully!");
 }
 
