@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { client } from "@/sanity/lib/client";
 import { liveEventsQuery, livePageQuery } from "@/sanity/lib/queries";
 import LiveGalleryClient from "@/components/LiveGalleryClient";
