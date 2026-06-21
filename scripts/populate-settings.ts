@@ -20,7 +20,7 @@ async function populateSettings() {
             socialLinks: [
                 { platform: "Instagram", url: "https://instagram.com" },
                 { platform: "LinkedIn", url: "https://linkedin.com" },
-                { platform: "Email", url: "mailto:studio@rossdavidson.com" }
+                { platform: "Email", url: "mailto:contact@rossdavidsonphoto.com" }
             ]
         }
 

@@ -11,7 +11,7 @@ export default async function Contact() {
     // Default fallback values if Sanity is empty
     const capabilities = data?.capabilities || ["Editorial Photography", "Commercial Campaign", "Creative Direction", "Moving Image"];
     const status = data?.status || "Accepting New Projects";
-    const email = data?.email || "studio@rossdavidson.com";
+    const email = data?.email || "contact@rossdavidsonphoto.com";
     const title = data?.title || "Let's Work";
     const description = data?.description || "Seeking projects that challenge the norm. Fashion, Music, Art Direction.";
     const disclaimer = data?.disclaimer || "By submitting this form you acknowledge that great work takes time and energy.";

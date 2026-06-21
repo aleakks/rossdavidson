@@ -253,7 +253,7 @@ export const contact = defineType({
         defineField({ name: 'description', type: 'text', title: 'Contact Page Description', initialValue: "Seeking projects that challenge the norm. Fashion, Music, Art Direction." }),
         defineField({ name: 'disclaimer', type: 'string', title: 'Disclaimer Text (Form Footer)', initialValue: "By submitting this form you acknowledge that great work takes time and energy." }),
         defineField({ name: 'status', type: 'string', title: 'Current Status', initialValue: 'Accepting New Projects' }),
-        defineField({ name: 'email', type: 'string', title: 'Contact Email', initialValue: 'studio@rossdavidson.com' }),
+        defineField({ name: 'email', type: 'string', title: 'Contact Email', initialValue: 'contact@rossdavidsonphoto.com' }),
         defineField({ name: 'capabilities', type: 'array', of: [{ type: 'string' }], title: 'Capabilities List (Sidebar)' }),
         defineField({ name: 'licensingText', type: 'text', title: 'Licensing & Rights Text' })
     ]

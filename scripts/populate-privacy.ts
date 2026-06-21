@@ -51,7 +51,7 @@ const PRIVACY_CONTENT = [
     {
         _type: 'block',
         style: 'normal',
-        children: [{ _type: 'span', text: 'If you have any questions about this policy, please contact us at studio@rossdavidson.com.' }]
+        children: [{ _type: 'span', text: 'If you have any questions about this policy, please contact us at contact@rossdavidsonphoto.com.' }]
     }
 ]
 

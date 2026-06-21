@@ -80,7 +80,7 @@ async function run() {
             description: "Seeking projects that challenge the norm. Fashion, Music, Art Direction.",
             disclaimer: "By submitting this form you acknowledge that great work takes time and energy.",
             status: "Accepting New Projects",
-            email: "studio@rossdavidson.com",
+            email: "contact@rossdavidsonphoto.com",
             capabilities: ["Editorial Photography", "Commercial Campaign", "Creative Direction", "Moving Image"],
             licensingText: "All commercial work includes tailored licensing usage rights. Full buyouts available upon request."
         });

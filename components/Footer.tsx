@@ -30,7 +30,7 @@ export default function Footer({ settings }: { settings: any }) {
 
     // Extract email dynamic link and filter duplicates
     const emailLink = socialLinks.find((link: any) => link.platform.toLowerCase() === 'email');
-    const emailAddress = emailLink ? emailLink.url.replace(/^mailto:/i, "") : "studio@rossdavidson.com";
+    const emailAddress = emailLink ? emailLink.url.replace(/^mailto:/i, "") : "contact@rossdavidsonphoto.com";
     const emailMailto = emailLink ? emailLink.url : `mailto:${emailAddress}`;
     const filteredSocialLinks = socialLinks.filter((link: any) => link.platform.toLowerCase() !== 'email');
 
