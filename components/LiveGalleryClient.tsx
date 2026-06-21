@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Calendar, MapPin, ZoomIn } from "lucide-react";
+import { X, Calendar, MapPin, ZoomIn, ChevronLeft, ChevronRight } from "lucide-react";
 import { urlFor } from "@/sanity/lib/image";
 import { client } from "@/sanity/lib/client";
 import { liveEventsQuery } from "@/sanity/lib/queries";
@@ -100,6 +100,33 @@ const generateMockEvents = (): LiveEvent[] => {
 export default function LiveGalleryClient({ liveEvents, pageSettings }: { liveEvents: LiveEvent[], pageSettings?: any }) {
     const [events, setEvents] = useState<LiveEvent[]>([]);
     const [selectedEvent, setSelectedEvent] = useState<LiveEvent | null>(null);
+    const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+
+    const handlePrevImage = (e?: React.MouseEvent) => {
+        if (e) e.stopPropagation();
+        if (selectedEvent?.images && lightboxIndex !== null) {
+            setLightboxIndex((prev) => (prev === 0 ? selectedEvent.images!.length - 1 : prev! - 1));
+        }
+    };
+
+    const handleNextImage = (e?: React.MouseEvent) => {
+        if (e) e.stopPropagation();
+        if (selectedEvent?.images && lightboxIndex !== null) {
+            setLightboxIndex((prev) => (prev === selectedEvent.images!.length - 1 ? 0 : prev! + 1));
+        }
+    };
+
+    // Keyboard navigation for Lightbox
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (lightboxIndex === null) return;
+            if (e.key === "ArrowLeft") handlePrevImage();
+            if (e.key === "ArrowRight") handleNextImage();
+            if (e.key === "Escape") setLightboxIndex(null);
+        };
+        window.addEventListener("keydown", handleKeyDown);
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, [lightboxIndex, selectedEvent]);
 
     // Live Refresh
     useEffect(() => {
@@ -286,7 +313,8 @@ export default function LiveGalleryClient({ liveEvents, pageSettings }: { liveEv
                                                 initial={{ opacity: 0, scale: 0.95 }}
                                                 animate={{ opacity: 1, scale: 1 }}
                                                 transition={{ duration: 0.5, delay: idx * 0.05 }}
-                                                className="break-inside-avoid relative overflow-hidden bg-neutral-900 group border border-white/5 hover:border-white/20 transition-colors"
+                                                onClick={() => setLightboxIndex(idx)}
+                                                className="break-inside-avoid relative overflow-hidden bg-neutral-900 group border border-white/5 hover:border-white/20 transition-colors cursor-zoom-in"
                                             >
                                                 <div className="relative aspect-[3/4] sm:aspect-auto sm:min-h-[300px]">
                                                     <Image
@@ -314,6 +342,71 @@ export default function LiveGalleryClient({ liveEvents, pageSettings }: { liveEv
                                     </p>
                                 </div>
                             )}
+
+                            {/* Lightbox / Fullscreen Carousel Overlay */}
+                            <AnimatePresence>
+                                {lightboxIndex !== null && selectedEvent.images && selectedEvent.images[lightboxIndex] && (() => {
+                                    const activeImgUrl = getEventImageUrl(selectedEvent.images[lightboxIndex], 1600);
+                                    return (
+                                        <motion.div
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            exit={{ opacity: 0 }}
+                                            onClick={() => setLightboxIndex(null)}
+                                            className="fixed inset-0 z-[200] bg-black/98 flex items-center justify-center p-4 md:p-8 cursor-zoom-out"
+                                        >
+                                            {/* Close Button */}
+                                            <button
+                                                onClick={() => setLightboxIndex(null)}
+                                                className="absolute top-8 right-6 z-[210] bg-white text-black p-3 hover:bg-neutral-200 transition-colors flex items-center justify-center rounded-full"
+                                                aria-label="Close Lightbox"
+                                            >
+                                                <X className="w-5 h-5" />
+                                            </button>
+
+                                            {/* Left Arrow */}
+                                            <button
+                                                onClick={handlePrevImage}
+                                                className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-[210] bg-white/10 hover:bg-white/20 text-white p-3 md:p-4 rounded-full transition-colors flex items-center justify-center cursor-pointer"
+                                                aria-label="Previous Image"
+                                            >
+                                                <ChevronLeft className="w-6 h-6 md:w-8 md:h-8" />
+                                            </button>
+
+                                            {/* Image container */}
+                                            <div 
+                                                className="relative max-w-[90vw] max-h-[85vh] w-full h-full flex items-center justify-center"
+                                                onClick={(e) => e.stopPropagation()}
+                                            >
+                                                {activeImgUrl && (
+                                                    <Image
+                                                        src={activeImgUrl}
+                                                        alt={`${selectedEvent.title} Fullscreen ${lightboxIndex + 1}`}
+                                                        fill
+                                                        className="object-contain pointer-events-none select-none"
+                                                        sizes="90vw"
+                                                        priority
+                                                    />
+                                                )}
+                                            </div>
+
+                                            {/* Right Arrow */}
+                                            <button
+                                                onClick={handleNextImage}
+                                                className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-[210] bg-white/10 hover:bg-white/20 text-white p-3 md:p-4 rounded-full transition-colors flex items-center justify-center cursor-pointer"
+                                                aria-label="Next Image"
+                                            >
+                                                <ChevronRight className="w-6 h-6 md:w-8 md:h-8" />
+                                            </button>
+
+                                            {/* Indicator Counter */}
+                                            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 font-mono text-xs uppercase tracking-[0.2em] text-white/50 bg-black/60 px-4 py-2 border border-white/10 rounded-full">
+                                                {lightboxIndex + 1} / {selectedEvent.images.length}
+                                            </div>
+                                        </motion.div>
+                                    );
+                                })()}
+                            </AnimatePresence>
 
                         </div>
                     </motion.div>
