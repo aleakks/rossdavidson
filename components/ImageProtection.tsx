@@ -10,8 +10,13 @@ export default function ImageProtection() {
         const handleContextMenu = (e: MouseEvent) => {
             const target = e.target as HTMLElement;
             
-            // Check if the right-clicked element is an image
-            if (target.tagName === "IMG" || target.closest("img")) {
+            // Check if the clicked target is an image, contains an image, 
+            // or is a relative/aspect container wrapping an image
+            const isImage = target.tagName === "IMG" || target.closest("img");
+            const containsImage = target.querySelector("img") !== null;
+            const parentHasImage = target.closest(".relative")?.querySelector("img") !== null;
+            
+            if (isImage || containsImage || parentHasImage) {
                 e.preventDefault();
                 
                 // Show dynamic copyright toast at cursor position
