@@ -54,9 +54,7 @@ export default function Footer({ settings }: { settings: any }) {
                         <h4 className="font-mono text-xs uppercase tracking-widest text-white/30">Explore</h4>
                         <ul className="space-y-4 font-mono text-sm uppercase tracking-wider text-white/70">
                             <li><Link href="/#work" className="hover:text-white transition-colors">Portfolio</Link></li>
-                            <li><Link href="/info" className="hover:text-white transition-colors">Services</Link></li>
                             <li><Link href="/about" className="hover:text-white transition-colors">About</Link></li>
-
                         </ul>
                     </div>
 

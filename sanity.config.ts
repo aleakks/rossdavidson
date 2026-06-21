@@ -8,7 +8,7 @@ import { structureTool } from 'sanity/structure'
 
 // Go to https://www.sanity.io/docs/api-versioning to learn how API versioning works
 import { apiVersion, dataset, projectId } from './sanity/env'
-import { hero, photoStack, about, service, galleryProject, contact, socialProof, category, settings, legalPage, liveEvent, infoPage, livePage, publicationsPage, publication } from './sanity/schemas'
+import { hero, photoStack, about, galleryProject, contact, socialProof, category, settings, legalPage, liveEvent, livePage, publicationsPage, publication } from './sanity/schemas'
 
 export default defineConfig({
     basePath: '/studio',
@@ -16,7 +16,7 @@ export default defineConfig({
     dataset,
     // Add and edit the content schema in the './sanity/schema' folder
     schema: {
-        types: [hero, photoStack, about, service, galleryProject, contact, socialProof, category, settings, legalPage, liveEvent, infoPage, livePage, publicationsPage, publication],
+        types: [hero, photoStack, about, galleryProject, contact, socialProof, category, settings, legalPage, liveEvent, livePage, publicationsPage, publication],
     },
     plugins: [
         structureTool({
@@ -26,7 +26,7 @@ export default defineConfig({
                     .items([
                         // Global Settings
                         S.listItem()
-                            .title('Global Site Settings')
+                            .title('0. Global Settings (Header, Footer, Socials)')
                             .child(S.document().schemaType('settings').documentId('settings')),
 
                         S.divider(),
@@ -48,11 +48,11 @@ export default defineConfig({
 
                         // 2. Inner Pages
                         S.listItem()
-                            .title('4. About Ross Page')
+                            .title('4. About Page')
                             .child(S.document().schemaType('about').documentId('about')),
 
                         S.listItem()
-                            .title('5a. Live Music Page Settings')
+                            .title('5a. Live Page Settings')
                             .child(S.document().schemaType('livePage').documentId('livePage')),
 
                         S.documentTypeListItem('liveEvent').title('5b. Live Event Folders (12 Events)'),
@@ -64,18 +64,12 @@ export default defineConfig({
                         S.documentTypeListItem('publication').title('6b. Publications List (8-10 Links)'),
 
                         S.listItem()
-                            .title('7a. Info Page Settings & FAQs')
-                            .child(S.document().schemaType('infoPage').documentId('infoPage')),
-
-                        S.documentTypeListItem('service').title('7b. Services List'),
-
-                        S.listItem()
-                            .title('8. Contact Page & Form Settings')
+                            .title('7. Contact Page & Form Settings')
                             .child(S.document().schemaType('contact').documentId('contact')),
 
                         S.divider(),
 
-                        S.documentTypeListItem('legalPage').title('Legal / Policies'),
+                        S.documentTypeListItem('legalPage').title('8. Legal Policies (Privacy, etc.)'),
                     ]),
         }),
         // Vision exists to query your content with GROQ in the studio
