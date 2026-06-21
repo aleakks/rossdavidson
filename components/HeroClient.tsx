@@ -118,7 +118,7 @@ export default function HeroClient({ title, subtitle, images, eyebrow }: HeroCli
                     transition={{ delay: 0.3, duration: 0.8 }}
                     className="mb-4 md:mb-6"
                 >
-                    <span className="font-mono text-xs md:text-sm lg:text-base text-white/50 uppercase tracking-[0.3em] font-medium">
+                    <span className="font-mono text-sm md:text-base lg:text-lg text-white/50 uppercase tracking-[0.3em] font-medium">
                         {displayEyebrow}
                     </span>
                 </motion.div>
