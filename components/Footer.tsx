@@ -28,6 +28,12 @@ export default function Footer({ settings }: { settings: any }) {
         { platform: "LinkedIn", url: "https://linkedin.com" }
     ];
 
+    // Extract email dynamic link and filter duplicates
+    const emailLink = socialLinks.find((link: any) => link.platform.toLowerCase() === 'email');
+    const emailAddress = emailLink ? emailLink.url.replace(/^mailto:/i, "") : "studio@rossdavidson.com";
+    const emailMailto = emailLink ? emailLink.url : `mailto:${emailAddress}`;
+    const filteredSocialLinks = socialLinks.filter((link: any) => link.platform.toLowerCase() !== 'email');
+
     return (
         <footer className="bg-black text-white pt-24 pb-12 border-t border-white/5">
             <div className="container mx-auto px-6">
@@ -59,11 +65,11 @@ export default function Footer({ settings }: { settings: any }) {
                         <h4 className="font-mono text-xs uppercase tracking-widest text-white/30">Connect</h4>
                         <ul className="space-y-4 font-mono text-sm uppercase tracking-wider text-white/70">
                             <li>
-                                <a href="mailto:studio@rossdavidson.com" className="hover:text-white transition-colors flex items-center gap-2 break-all md:break-normal">
-                                    studio@rossdavidson.com
+                                <a href={emailMailto} className="hover:text-white transition-colors flex items-center gap-2 break-all md:break-normal">
+                                    {emailAddress}
                                 </a>
                             </li>
-                            {socialLinks.map((link: any, i: number) => (
+                            {filteredSocialLinks.map((link: any, i: number) => (
                                 <li key={i}>
                                     <a href={link.url} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
                                         {link.platform}

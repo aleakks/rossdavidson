@@ -1,8 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ArrowDownRight, ArrowRight } from "lucide-react";
+import { client } from "@/sanity/lib/client";
+import { contactQuery } from "@/sanity/lib/queries";
 
 interface ContactFormProps {
     capabilities: string[];
@@ -13,9 +15,36 @@ interface ContactFormProps {
     disclaimer: string;
 }
 
-export default function ContactClient({ capabilities, status, email, title, description, disclaimer }: ContactFormProps) {
+export default function ContactClient({ 
+    capabilities: initialCapabilities, 
+    status: initialStatus, 
+    email: initialEmail, 
+    title: initialTitle, 
+    description: initialDescription, 
+    disclaimer: initialDisclaimer 
+}: ContactFormProps) {
+    const [liveData, setLiveData] = useState<any>(null);
     const [focusedField, setFocusedField] = useState<string | null>(null);
     const [formState, setFormState] = useState<'idle' | 'sending' | 'success'>('idle');
+
+    useEffect(() => {
+        const fetchFresh = async () => {
+            try {
+                const fresh = await client.fetch(contactQuery, { _t: Date.now() }, { filterResponse: false, cache: 'no-store' });
+                // @ts-ignore
+                if (fresh?.result) setLiveData(fresh.result);
+            } catch (e) { console.error("Contact settings fetch failed", e); }
+        };
+        fetchFresh();
+    }, []);
+
+    const title = liveData?.title || initialTitle;
+    const description = liveData?.description || initialDescription;
+    const capabilities = liveData?.capabilities || initialCapabilities;
+    const status = liveData?.status || initialStatus;
+    const email = liveData?.email || initialEmail;
+    const disclaimer = liveData?.disclaimer || initialDisclaimer;
+
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -51,7 +80,7 @@ export default function ContactClient({ capabilities, status, email, title, desc
                         <div className="space-y-4">
                             <h3 className="font-mono text-xs text-white/30 uppercase tracking-widest">Capabilities</h3>
                             <ul className="text-white/80 font-mono text-sm space-y-2 uppercase tracking-wider">
-                                {capabilities.map((cap, i) => (
+                                {capabilities.map((cap: string, i: number) => (
                                     <li key={i}>{cap}</li>
                                 ))}
                             </ul>
