@@ -26,7 +26,7 @@ const MOCK_IMAGES = [
     "photo-1514525253161-7a46d19cd819", // Resident Advisor
     "photo-1533174072545-7a4b6ad7a6c3", // Music Radar
     "photo-1459749411175-04bf5292ceea", // Vogue Music
-    "photo-1489641499593-954546dbdf5c"  // Dazed
+    "photo-1516450360452-9312f5e86fc7"  // Dazed
 ];
 
 const generateMockPublications = (): Publication[] => {
@@ -192,7 +192,10 @@ export default function PublicationsClient({
                                 )}
                                 
                                 {/* Subtle grain texture overlay */}
-                                <div className="absolute inset-0 pointer-events-none opacity-[0.03] mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+                                <div 
+                                    className="absolute inset-0 pointer-events-none opacity-[0.03] mix-blend-overlay"
+                                    style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E\")" }}
+                                />
                             </div>
 
                             {/* Info Block */}

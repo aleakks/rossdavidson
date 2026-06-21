@@ -22,7 +22,7 @@ const MOCK_EVENT_PHOTOS = [
     "photo-1516450360452-9312f5e86fc7", // Mixmag Live
     "photo-1470225620780-dba8ba36b745", // Defected Croatia
     "photo-1514525253161-7a46d19cd819", // Afterlife Ibiza
-    "photo-1489641499593-954546dbdf5c", // DJ Mag Paris
+    "photo-1516450360452-9312f5e86fc7", // DJ Mag Paris
     "photo-1506157786151-b8491531f063", // Cercle Colosseum
     "photo-1459749411175-04bf5292ceea", // Coachella Stage
     "photo-1501386761578-eac5c94b800a", // Fabric Club
@@ -199,7 +199,10 @@ export default function LiveGalleryClient({ liveEvents, pageSettings }: { liveEv
                             )}
 
                             {/* Grain Overlay */}
-                            <div className="absolute inset-0 pointer-events-none opacity-[0.03] mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
+                            <div 
+                                className="absolute inset-0 pointer-events-none opacity-[0.03] mix-blend-overlay"
+                                style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E\")" }}
+                            ></div>
 
                             {/* Hover/Standard Info Overlay */}
                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6 md:p-8">
