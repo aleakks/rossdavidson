@@ -48,8 +48,8 @@ export default function PhotoStackClient({ cards }: { cards: any[] }) {
                     </h2>
                 </div>
 
-                {/* Mobile: Vertical List | Desktop: Messy Desk Area */}
-                <div className="relative w-full flex flex-col items-center gap-12 md:gap-0 md:block md:h-[600px] md:flex-none">
+                {/* Mobile/Tablet: Vertical List | Desktop/Large Laptops: Messy Desk Area */}
+                <div className="relative w-full flex flex-col items-center gap-12 xl:gap-0 xl:block xl:h-[600px] xl:flex-none">
                     {displayCards.map((card: any, index: number) => (
                         <ScatteredCard
                             key={index}
@@ -70,7 +70,7 @@ function ScatteredCard({ card, index }: { card: any, index: number }) {
     useEffect(() => {
         const handleResize = () => {
             setWindowWidth(window.innerWidth);
-            setIsDesktop(window.innerWidth >= 768);
+            setIsDesktop(window.innerWidth >= 1280);
         };
         handleResize();
         window.addEventListener('resize', handleResize);
@@ -110,13 +110,13 @@ function ScatteredCard({ card, index }: { card: any, index: number }) {
                 transition: { duration: 0.3 }
             } : {}}
             className={`
-                bg-white p-3 pb-8 md:p-3 shadow-2xl cursor-default
-                relative w-full max-w-[340px] h-auto md:h-auto md:aspect-[4/5]
-                md:absolute md:w-[24vw] md:max-w-[420px] md:min-w-[260px] md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2
+                bg-white p-3 pb-8 xl:p-3 shadow-2xl cursor-default
+                relative w-full max-w-[340px] h-auto xl:h-auto xl:aspect-[4/5]
+                xl:absolute xl:w-[24vw] xl:max-w-[420px] xl:min-w-[260px] xl:top-1/2 xl:left-1/2 xl:-translate-x-1/2 xl:-translate-y-1/2
             `}
         >
             <div className="relative w-full h-full flex flex-col">
-                <div className="relative w-full aspect-[4/5] md:aspect-auto md:flex-grow overflow-hidden bg-black">
+                <div className="relative w-full aspect-[4/5] xl:aspect-auto xl:flex-grow overflow-hidden bg-black">
                     {/* Sanity Image URL - Safe Check */}
                     {card.image ? (
                         <Image
@@ -138,10 +138,10 @@ function ScatteredCard({ card, index }: { card: any, index: number }) {
                 </div>
                 <div className="flex items-center justify-between px-1 font-mono text-black uppercase tracking-widest mt-3 mb-1">
                     <div className="flex flex-col justify-center leading-none text-left">
-                        <span className="text-[10px] md:text-sm font-bold">{card.client}</span>
-                        <span className="text-[8px] md:text-[10px] text-black/60 mt-1">{card.location}</span>
+                        <span className="text-[10px] xl:text-sm font-bold">{card.client}</span>
+                        <span className="text-[8px] xl:text-[10px] text-black/60 mt-1">{card.location}</span>
                     </div>
-                    <span className="text-[10px] md:text-xs opacity-40">Editorial</span>
+                    <span className="text-[10px] xl:text-xs opacity-40">Editorial</span>
                 </div>
             </div>
         </motion.div>
