@@ -1,14 +1,42 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
 import { client } from "@/sanity/lib/client";
 import { photoStackQuery } from "@/sanity/lib/queries";
+import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function PhotoStackClient({ cards }: { cards: any[] }) {
     const [liveCards, setLiveCards] = useState<any[] | null>(null);
+    const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+
+    const handlePrevImage = (e?: React.MouseEvent) => {
+        if (e) e.stopPropagation();
+        if (displayCards && lightboxIndex !== null) {
+            setLightboxIndex((prev) => (prev === 0 ? displayCards.length - 1 : prev! - 1));
+        }
+    };
+
+    const handleNextImage = (e?: React.MouseEvent) => {
+        if (e) e.stopPropagation();
+        if (displayCards && lightboxIndex !== null) {
+            setLightboxIndex((prev) => (prev === displayCards.length - 1 ? 0 : prev! + 1));
+        }
+    };
+
+    // Keyboard navigation for Lightbox
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (lightboxIndex === null) return;
+            if (e.key === "ArrowLeft") handlePrevImage();
+            if (e.key === "ArrowRight") handleNextImage();
+            if (e.key === "Escape") setLightboxIndex(null);
+        };
+        window.addEventListener("keydown", handleKeyDown);
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, [lightboxIndex, liveCards, cards]);
 
     useEffect(() => {
         const fetchFresh = async () => {
@@ -45,15 +73,89 @@ export default function PhotoStackClient({ cards }: { cards: any[] }) {
                             key={index}
                             card={card}
                             index={index}
+                            onClick={() => setLightboxIndex(index)}
                         />
                     ))}
                 </div>
+
+                {/* Lightbox / Fullscreen Carousel Overlay */}
+                <AnimatePresence>
+                    {lightboxIndex !== null && displayCards[lightboxIndex] && (() => {
+                        const activeCard = displayCards[lightboxIndex];
+                        const activeImgUrl = activeCard.image ? urlFor(activeCard.image).width(1600).quality(95).url() : "";
+                        return (
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                onClick={() => setLightboxIndex(null)}
+                                className="fixed inset-0 z-[200] bg-black/98 flex items-center justify-center p-4 md:p-8 cursor-zoom-out"
+                            >
+                                {/* Close Button */}
+                                <button
+                                    onClick={() => setLightboxIndex(null)}
+                                    className="absolute top-8 right-6 z-[210] bg-white text-black p-3 hover:bg-neutral-200 transition-colors flex items-center justify-center rounded-full"
+                                    aria-label="Close Lightbox"
+                                >
+                                    <X className="w-5 h-5" />
+                                </button>
+
+                                {/* Left Arrow */}
+                                <button
+                                    onClick={handlePrevImage}
+                                    className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-[210] bg-white/10 hover:bg-white/20 text-white p-3 md:p-4 rounded-full transition-colors flex items-center justify-center cursor-pointer"
+                                    aria-label="Previous Image"
+                                >
+                                    <ChevronLeft className="w-6 h-6 md:w-8 md:h-8" />
+                                </button>
+
+                                {/* Image container */}
+                                <div 
+                                    className="relative max-w-[90vw] max-h-[80vh] w-full h-full flex flex-col items-center justify-center"
+                                    onClick={(e) => e.stopPropagation()}
+                                >
+                                    <div className="relative w-full h-full flex-grow flex items-center justify-center">
+                                        {activeImgUrl && (
+                                            <Image
+                                                src={activeImgUrl}
+                                                alt={`${activeCard.client} Fullscreen ${lightboxIndex + 1}`}
+                                                fill
+                                                className="object-contain pointer-events-none select-none"
+                                                sizes="90vw"
+                                                priority
+                                            />
+                                        )}
+                                    </div>
+                                    {/* Subtitle Caption */}
+                                    <div className="text-center font-mono uppercase mt-6 select-none pointer-events-none">
+                                        <div className="text-white text-sm font-bold tracking-widest">{activeCard.client}</div>
+                                        <div className="text-white/40 text-[10px] tracking-wider mt-1">{activeCard.location}</div>
+                                    </div>
+                                </div>
+
+                                {/* Right Arrow */}
+                                <button
+                                    onClick={handleNextImage}
+                                    className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-[210] bg-white/10 hover:bg-white/20 text-white p-3 md:p-4 rounded-full transition-colors flex items-center justify-center cursor-pointer"
+                                    aria-label="Next Image"
+                                >
+                                    <ChevronRight className="w-6 h-6 md:w-8 md:h-8" />
+                                </button>
+
+                                {/* Indicator Counter */}
+                                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 font-mono text-xs uppercase tracking-[0.2em] text-white/50 bg-black/60 px-4 py-2 border border-white/10 rounded-full">
+                                    {lightboxIndex + 1} / {displayCards.length}
+                                </div>
+                            </motion.div>
+                        );
+                    })()}
+                </AnimatePresence>
             </div>
         </section>
     );
 }
 
-function GridCard({ card, index }: { card: any, index: number }) {
+function GridCard({ card, index, onClick }: { card: any, index: number, onClick: () => void }) {
     return (
         <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -64,7 +166,8 @@ function GridCard({ card, index }: { card: any, index: number }) {
                 scale: 1.02,
                 transition: { duration: 0.3 }
             }}
-            className="bg-white p-3 pb-8 shadow-2xl cursor-default relative w-full aspect-[4/5] flex flex-col border border-white/5"
+            onClick={onClick}
+            className="bg-white p-3 pb-8 shadow-2xl cursor-zoom-in relative w-full aspect-[4/5] flex flex-col border border-white/5"
         >
             <div className="relative w-full flex-grow overflow-hidden bg-black">
                 {card.image ? (
