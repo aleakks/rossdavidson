@@ -92,3 +92,9 @@ body {
 .animate-glitch {
   animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
 }
+
+/* Image Protection (Prevents dragging & saving) */
+img {
+  user-select: none;
+  -webkit-user-drag: none;
+}

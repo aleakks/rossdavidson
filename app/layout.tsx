@@ -52,6 +52,7 @@ import { settingsQuery } from "@/sanity/lib/queries";
 // ... existing imports
 
 import HashScroll from "@/components/HashScroll";
+import ImageProtection from "@/components/ImageProtection";
 
 export default async function RootLayout({
   children,
@@ -95,6 +96,7 @@ export default async function RootLayout({
         <Header links={navLinks} />
         {children}
         <Footer settings={settings} />
+        <ImageProtection />
       </body>
     </html>
   );
