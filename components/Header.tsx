@@ -153,7 +153,7 @@ export default function Header({ links: passedLinks }: HeaderProps) {
                                 key={link.label}
                                 href={link.url}
                                 onClick={(e) => handleNavClick(e, link.url)}
-                                className="font-mono text-xs uppercase tracking-widest hover:opacity-50 transition-opacity"
+                                className="font-mono text-sm uppercase tracking-widest hover:opacity-50 transition-opacity"
                             >
                                 {link.label}
                             </Link>
