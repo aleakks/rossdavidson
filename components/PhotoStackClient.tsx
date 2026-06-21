@@ -115,16 +115,29 @@ export default function PhotoStackClient({ cards }: { cards: any[] }) {
                                     onClick={(e) => e.stopPropagation()}
                                 >
                                     <div className="relative w-full h-full flex-grow flex items-center justify-center">
-                                        {activeImgUrl && (
-                                            <Image
-                                                src={activeImgUrl}
-                                                alt={`${activeCard.client} Fullscreen ${lightboxIndex + 1}`}
-                                                fill
-                                                className="object-contain pointer-events-none select-none"
-                                                sizes="90vw"
-                                                priority
-                                            />
-                                        )}
+                                        {displayCards.map((card: any, idx: number) => {
+                                            const imgUrl = card.image ? urlFor(card.image).width(1600).quality(95).url() : "";
+                                            if (!imgUrl) return null;
+                                            return (
+                                                <div 
+                                                    key={idx}
+                                                    className="absolute inset-0 transition-opacity duration-300 ease-in-out"
+                                                    style={{ 
+                                                        opacity: idx === lightboxIndex ? 1 : 0,
+                                                        pointerEvents: idx === lightboxIndex ? "auto" : "none"
+                                                    }}
+                                                >
+                                                    <Image
+                                                        src={imgUrl}
+                                                        alt={`${card.client} Fullscreen ${idx + 1}`}
+                                                        fill
+                                                        className="object-contain pointer-events-none select-none"
+                                                        sizes="90vw"
+                                                        priority={true}
+                                                    />
+                                                </div>
+                                            );
+                                        })}
                                     </div>
                                     {/* Subtitle Caption */}
                                     <div className="text-center font-mono uppercase mt-6 select-none pointer-events-none">

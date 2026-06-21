@@ -378,16 +378,29 @@ export default function LiveGalleryClient({ liveEvents, pageSettings }: { liveEv
                                                 className="relative max-w-[90vw] max-h-[85vh] w-full h-full flex items-center justify-center"
                                                 onClick={(e) => e.stopPropagation()}
                                             >
-                                                {activeImgUrl && (
-                                                    <Image
-                                                        src={activeImgUrl}
-                                                        alt={`${selectedEvent.title} Fullscreen ${lightboxIndex + 1}`}
-                                                        fill
-                                                        className="object-contain pointer-events-none select-none"
-                                                        sizes="90vw"
-                                                        priority
-                                                    />
-                                                )}
+                                                {selectedEvent.images.map((img: any, idx: number) => {
+                                                    const imgUrl = getEventImageUrl(img, 1600);
+                                                    if (!imgUrl) return null;
+                                                    return (
+                                                        <div
+                                                            key={img._key || idx}
+                                                            className="absolute inset-0 transition-opacity duration-300 ease-in-out"
+                                                            style={{
+                                                                opacity: idx === lightboxIndex ? 1 : 0,
+                                                                pointerEvents: idx === lightboxIndex ? "auto" : "none"
+                                                            }}
+                                                        >
+                                                            <Image
+                                                                src={imgUrl}
+                                                                alt={`${selectedEvent.title} Fullscreen ${idx + 1}`}
+                                                                fill
+                                                                className="object-contain pointer-events-none select-none"
+                                                                sizes="90vw"
+                                                                priority={true}
+                                                            />
+                                                        </div>
+                                                    );
+                                                })}
                                             </div>
 
                                             {/* Right Arrow */}
