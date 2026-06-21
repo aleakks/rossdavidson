@@ -31,17 +31,24 @@ export default function Header({ links: passedLinks }: HeaderProps) {
     });
 
     // Restore standard Next.js conditional links for SEO/Accessibility
-    // CRITICAL FIX: explicit /#hash when not on home to trigger navigation
     const rawLinksWithDefaults = passedLinks?.length > 0 ? passedLinks : [
         { label: "Home", url: "/" },
         { label: "Live", url: "/live" },
         { label: "Publications", url: "/publications" },
+        { label: "About", url: "/about" },
         { label: "Contact", url: "/contact" },
-        { label: "About", url: "/#about" },
     ];
 
+    // Normalize any "About" link url to "/about" (in case it comes from Sanity as "/#about" or "#about")
+    const normalizedLinks = rawLinksWithDefaults.map((link: any) => {
+        if (link.label.toLowerCase() === 'about') {
+            return { ...link, url: '/about' };
+        }
+        return link;
+    });
+
     // Dynamically swap Contact and About if they exist in the wrong order
-    const rawLinks = [...rawLinksWithDefaults];
+    const rawLinks = [...normalizedLinks];
     const contactIndex = rawLinks.findIndex(l => l.label.toLowerCase() === 'contact');
     const aboutIndex = rawLinks.findIndex(l => l.label.toLowerCase() === 'about');
     if (contactIndex !== -1 && aboutIndex !== -1 && aboutIndex < contactIndex) {
@@ -89,12 +96,7 @@ export default function Header({ links: passedLinks }: HeaderProps) {
                     window.history.pushState(null, "", hash);
                 }
             }
-            // If not home, let standard Link behavior happen (navigate to /#about)
-            // But user says it fails. So let's try router.push
-            else {
-                // e.preventDefault(); // Optional: try default first?
-                // router.push(url);
-            }
+            // If not home, let standard Link behavior happen
         }
     };
 

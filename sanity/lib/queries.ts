@@ -54,6 +54,9 @@ export const galleryQuery = groq`*[_type == "galleryProject"]|order(date desc){
 }`;
 
 export const contactQuery = groq`*[_type == "contact"][0]{
+  title,
+  description,
+  disclaimer,
   status,
   email,
   capabilities,
@@ -76,5 +79,35 @@ export const privacyQuery = groq`*[_type == "legalPage" && slug.current == "priv
   title,
   content,
   updatedAt
+}`;
+
+export const liveEventsQuery = groq`*[_type == "liveEvent"]|order(order asc){
+  _id,
+  title,
+  location,
+  date,
+  coverImage,
+  images
+}`;
+
+export const infoPageQuery = groq`*[_type == "infoPage"][0]{
+  approachTitle,
+  approachDescription,
+  investmentTitle,
+  investmentDescription,
+  investmentCta,
+  faqs
+}`;
+
+export const livePageQuery = groq`*[_type == "livePage"][0]{
+  eyebrow,
+  title,
+  subtitle
+}`;
+
+export const publicationsPageQuery = groq`*[_type == "publicationsPage"][0]{
+  eyebrow,
+  title,
+  subtitle
 }`;
 

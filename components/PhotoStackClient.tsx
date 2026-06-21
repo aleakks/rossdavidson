@@ -49,14 +49,6 @@ export default function PhotoStackClient({ cards }: { cards: any[] }) {
                     <h2 className="text-4xl md:text-5xl font-display font-black text-white uppercase tracking-tighter">
                         Selected<br /><span className="text-white/40">Works</span>
                     </h2>
-                    <div className="text-right hidden md:block">
-                        <p className="font-mono text-xs text-white/40 uppercase tracking-widest">
-                            Archive
-                        </p>
-                        <p className="font-sans text-white/60 text-sm">
-                            Selected Works 2024
-                        </p>
-                    </div>
                 </div>
 
                 {/* Mobile: Vertical List | Desktop: Messy Desk Area */}

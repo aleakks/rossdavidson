@@ -14,11 +14,9 @@ test.describe('Navigation', () => {
         }
 
         // 3. Check URL
-        await expect(page).toHaveURL(/#about/);
+        await expect(page).toHaveURL(/\/about/);
 
-        // 4. Check if we actually scrolled to the About section
-        // We'll check if the "The Artist" text (in AboutClient) is in the viewport
-        // or getting close to it.
+        // 4. Check if we actually navigated to the About section
         const aboutSection = page.locator('#about');
         await expect(aboutSection).toBeInViewport({ timeout: 10000 });
     });

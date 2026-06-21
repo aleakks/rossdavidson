@@ -34,14 +34,4 @@ test.describe('Homepage Experience', () => {
         }
     });
 
-    test('gallery loads images', async ({ page }) => {
-        await page.goto('/');
-
-        // Wait for gallery to load (it might take a moment due to animation/fetch)
-        await expect(page.locator('#work')).toBeVisible();
-
-        // Check if at least one image is loaded in the gallery
-        const images = page.locator('#work img');
-        await expect(images.first()).toBeVisible();
-    });
 });

@@ -61,12 +61,20 @@ export default async function RootLayout({
     { label: "Home", url: "/" },
     { label: "Live", url: "/live" },
     { label: "Publications", url: "/publications" },
+    { label: "About", url: "/about" },
     { label: "Contact", url: "/contact" },
-    { label: "About", url: "/#about" },
   ];
 
+  // Normalize any "About" link url to "/about" (in case it comes from Sanity as "/#about" or "#about")
+  const normalizedLinks = rawNavLinks.map((link: any) => {
+    if (link.label.toLowerCase() === 'about') {
+      return { ...link, url: '/about' };
+    }
+    return link;
+  });
+
   // Dynamically swap Contact and About if they exist in the wrong order (e.g. from Sanity settings)
-  const navLinks = [...rawNavLinks];
+  const navLinks = [...normalizedLinks];
   const contactIndex = navLinks.findIndex(l => l.label.toLowerCase() === 'contact');
   const aboutIndex = navLinks.findIndex(l => l.label.toLowerCase() === 'about');
   if (contactIndex !== -1 && aboutIndex !== -1 && aboutIndex < contactIndex) {

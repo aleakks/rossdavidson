@@ -1,6 +1,4 @@
 import Hero from "@/components/Hero";
-import Gallery from "@/components/Gallery";
-import About from "@/components/About";
 import SocialProof from "@/components/SocialProof";
 import PhotoStack from "@/components/PhotoStack";
 import { Metadata } from "next";
@@ -19,8 +17,7 @@ export default function Home() {
       <Hero />
       <SocialProof />
       <PhotoStack />
-      <About />
-      <Gallery />
     </main>
   );
 }
+

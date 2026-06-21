@@ -13,13 +13,27 @@ test.describe('Full Site Navigation Check', () => {
         await page.getByRole('link', { name: label }).first().click();
     };
 
-    test('Home Page Internal Navigation', async ({ page, isMobile }) => {
+    test('About Page Displays Section', async ({ page, isMobile }) => {
         await page.goto('/');
 
-        // 1. About (Scroll to The Artist section)
+        // Click About in nav
         await clickNav(page, isMobile, /About/i);
-        await expect(page).toHaveURL(/#about/);
-        await expect(page.locator('#about')).toBeInViewport();
+        await expect(page).toHaveURL(/\/about/);
+
+        // Assert About section is visible
+        await expect(page.locator('#about')).toBeVisible();
+    });
+
+    test('Contact Page Displays Form', async ({ page, isMobile }) => {
+        await page.goto('/');
+
+        // Click Contact in nav
+        await clickNav(page, isMobile, /Contact/i);
+        await expect(page).toHaveURL(/\/contact/);
+
+        // Assert Contact section is visible but About section is NOT on this page
+        await expect(page.locator('#contact')).toBeVisible();
+        await expect(page.locator('#about')).not.toBeVisible();
     });
 
     test('External Page Navigation', async ({ page, isMobile }) => {
@@ -46,14 +60,37 @@ test.describe('Full Site Navigation Check', () => {
         // Start from Live page
         await page.goto('/live');
 
-        // Navigate to About (should go to Home -> Scroll to #about)
+        // Navigate to About via nav link
         await clickNav(page, isMobile, /About/i);
 
         // Wait for navigation
-        await page.waitForURL(/#about/);
+        await page.waitForURL(/\/about/);
 
-        // Assert Element is visible (implies scroll happened)
+        // Assert Element is visible
         await expect(page.locator('#about')).toBeInViewport({ timeout: 10000 });
+    });
+
+    test('Live Page Grid and Event Modal Check', async ({ page }) => {
+        await page.goto('/live');
+
+        // Verify page loads 12 event items
+        const eventItems = page.locator('.grid > div');
+        await expect(eventItems).toHaveCount(12);
+
+        // Click on the first event item
+        await eventItems.first().click();
+
+        // Expect modal to be open showing the showcase images
+        const modalHeader = page.getByText(/Live Showcase Folder/i);
+        await expect(modalHeader).toBeVisible();
+
+        // Check if close button is visible and click it
+        const closeBtn = page.getByRole('button', { name: /Close Gallery/i });
+        await expect(closeBtn).toBeVisible();
+        await closeBtn.click();
+
+        // Expect modal to be closed
+        await expect(modalHeader).not.toBeVisible();
     });
 
 });

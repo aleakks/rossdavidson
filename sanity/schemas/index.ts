@@ -249,6 +249,9 @@ export const contact = defineType({
     title: 'Settings: Contact & Licensing',
     type: 'document',
     fields: [
+        defineField({ name: 'title', type: 'string', title: 'Contact Page Title', initialValue: "Let's Work" }),
+        defineField({ name: 'description', type: 'text', title: 'Contact Page Description', initialValue: "Seeking projects that challenge the norm. Fashion, Music, Art Direction." }),
+        defineField({ name: 'disclaimer', type: 'string', title: 'Disclaimer Text (Form Footer)', initialValue: "By submitting this form you acknowledge that great work takes time and energy." }),
         defineField({ name: 'status', type: 'string', title: 'Current Status', initialValue: 'Accepting New Projects' }),
         defineField({ name: 'email', type: 'string', title: 'Contact Email', initialValue: 'studio@rossdavidson.com' }),
         defineField({ name: 'capabilities', type: 'array', of: [{ type: 'string' }], title: 'Capabilities List (Sidebar)' }),
@@ -272,4 +275,101 @@ export const legalPage = defineType({
         defineField({ name: 'updatedAt', type: 'date', title: 'Last Updated' })
     ]
 })
+
+export const liveEvent = defineType({
+    name: 'liveEvent',
+    title: 'Live Event Portfolio',
+    type: 'document',
+    fields: [
+        defineField({ name: 'title', type: 'string', title: 'Event/Client Title' }),
+        defineField({ name: 'location', type: 'string', title: 'Location' }),
+        defineField({ name: 'date', type: 'date', title: 'Event Date' }),
+        defineField({
+            name: 'coverImage',
+            type: 'image',
+            title: 'Cover Image',
+            options: { hotspot: true },
+            fields: [
+                defineField({ name: 'alt', type: 'string', title: 'Alternative Text' })
+            ]
+        }),
+        defineField({
+            name: 'images',
+            type: 'array',
+            title: 'Event Gallery (Showcase up to 10+ images)',
+            of: [{
+                type: 'image',
+                options: { hotspot: true },
+                fields: [
+                    defineField({ name: 'alt', type: 'string', title: 'Alternative Text' })
+                ]
+            }]
+        }),
+        defineField({ name: 'order', type: 'number', title: 'Order', description: 'Used to sort events (1-12).' })
+    ],
+    orderings: [{ title: 'Order', name: 'orderAsc', by: [{ field: 'order', direction: 'asc' }] }]
+})
+
+export const infoPage = defineType({
+    name: 'infoPage',
+    title: 'Info Page Settings',
+    type: 'document',
+    fields: [
+        defineField({ name: 'approachTitle', type: 'string', title: 'Approach Title', initialValue: 'Approach' }),
+        defineField({ name: 'approachDescription', type: 'text', title: 'Approach Description', initialValue: "A bespoke approach to capturing nightlife, music, and editorial fashion. I don't just document events; I create iconic imagery that defines brands." }),
+        defineField({ name: 'investmentTitle', type: 'string', title: 'Investment Title', initialValue: 'Investment' }),
+        defineField({ name: 'investmentDescription', type: 'text', title: 'Investment Description', initialValue: 'Because every project is unique, I provide bespoke quotes tailored to your specific requirements and usage rights.' }),
+        defineField({ name: 'investmentCta', type: 'string', title: 'Investment CTA Button Label', initialValue: 'Request Rate Card' }),
+        defineField({
+            name: 'faqs',
+            type: 'array',
+            title: 'Common Questions (FAQs)',
+            of: [{
+                type: 'object',
+                fields: [
+                    defineField({ name: 'question', type: 'string', title: 'Question' }),
+                    defineField({ name: 'answer', type: 'text', title: 'Answer' })
+                ]
+            }]
+        })
+    ],
+    preview: {
+        prepare() {
+            return { title: 'Info Page Settings' }
+        }
+    }
+})
+
+export const livePage = defineType({
+    name: 'livePage',
+    title: 'Live Page Settings',
+    type: 'document',
+    fields: [
+        defineField({ name: 'eyebrow', type: 'string', title: 'Eyebrow Label', initialValue: 'Collection / 01' }),
+        defineField({ name: 'title', type: 'string', title: 'Title', initialValue: 'Live & Touring' }),
+        defineField({ name: 'subtitle', type: 'text', title: 'Subtitle Description', initialValue: 'Highlighting the 12 best live events. Click any event to open its folder and explore the full collection of detail shots from the night.' })
+    ],
+    preview: {
+        prepare() {
+            return { title: 'Live Page Settings' }
+        }
+    }
+})
+
+export const publicationsPage = defineType({
+    name: 'publicationsPage',
+    title: 'Publications Page Settings',
+    type: 'document',
+    fields: [
+        defineField({ name: 'eyebrow', type: 'string', title: 'Eyebrow Label', initialValue: 'Collection / 02' }),
+        defineField({ name: 'title', type: 'string', title: 'Title', initialValue: 'Publications' }),
+        defineField({ name: 'subtitle', type: 'text', title: 'Subtitle Description', initialValue: 'A curated archive of printed features, magazine covers, and digital editorials. This section is currently in production.' })
+    ],
+    preview: {
+        prepare() {
+            return { title: 'Publications Page Settings' }
+        }
+    }
+})
+
 

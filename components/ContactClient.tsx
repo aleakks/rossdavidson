@@ -8,9 +8,12 @@ interface ContactFormProps {
     capabilities: string[];
     status: string;
     email: string;
+    title: string;
+    description: string;
+    disclaimer: string;
 }
 
-export default function ContactClient({ capabilities, status, email }: ContactFormProps) {
+export default function ContactClient({ capabilities, status, email, title, description, disclaimer }: ContactFormProps) {
     const [focusedField, setFocusedField] = useState<string | null>(null);
     const [formState, setFormState] = useState<'idle' | 'sending' | 'success'>('idle');
 
@@ -34,13 +37,12 @@ export default function ContactClient({ capabilities, status, email }: ContactFo
                             <span className="font-mono text-xs uppercase tracking-[0.5em] text-white/40 block mb-4">
                                 Section 04
                             </span>
-                            <h2 className="text-6xl md:text-8xl font-display font-black text-white uppercase tracking-tighter leading-[0.8]">
-                                Let's<br />Work
+                            <h2 className="text-6xl md:text-8xl font-display font-black text-white uppercase tracking-tighter leading-[0.8] whitespace-pre-line">
+                                {title}
                             </h2>
                         </div>
-                        <p className="hidden md:block font-sans text-white/50 text-lg leading-relaxed max-w-sm">
-                            Seeking projects that challenge the norm. <br />
-                            Fashion, Music, Art Direction.
+                        <p className="hidden md:block font-sans text-white/50 text-lg leading-relaxed max-w-sm whitespace-pre-line">
+                            {description}
                         </p>
                     </div>
 
@@ -175,7 +177,7 @@ export default function ContactClient({ capabilities, status, email }: ContactFo
                         {/* Footer / Submit */}
                         <div className="flex justify-between items-end pt-8">
                             <div className="hidden md:block font-mono text-xs text-white/20 uppercase max-w-[200px] leading-relaxed">
-                                By submitting this form you acknowledge that great work takes time and energy.
+                                {disclaimer}
                             </div>
 
                             <motion.button

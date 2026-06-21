@@ -8,7 +8,7 @@ import { structureTool } from 'sanity/structure'
 
 // Go to https://www.sanity.io/docs/api-versioning to learn how API versioning works
 import { apiVersion, dataset, projectId } from './sanity/env'
-import { hero, photoStack, about, service, galleryProject, contact, socialProof, category, settings, legalPage } from './sanity/schemas'
+import { hero, photoStack, about, service, galleryProject, contact, socialProof, category, settings, legalPage, liveEvent, infoPage, livePage, publicationsPage } from './sanity/schemas'
 
 export default defineConfig({
     basePath: '/studio',
@@ -16,7 +16,7 @@ export default defineConfig({
     dataset,
     // Add and edit the content schema in the './sanity/schema' folder
     schema: {
-        types: [hero, photoStack, about, service, galleryProject, contact, socialProof, category, settings, legalPage],
+        types: [hero, photoStack, about, service, galleryProject, contact, socialProof, category, settings, legalPage, liveEvent, infoPage, livePage, publicationsPage],
     },
     plugins: [
         structureTool({
@@ -24,46 +24,56 @@ export default defineConfig({
                 S.list()
                     .title('Website Content')
                     .items([
-                        // 1. Global (Header/Footer)
+                        // Global Settings
                         S.listItem()
-                            .title('Global Site Settings (Header & Footer)')
+                            .title('Global Site Settings')
                             .child(S.document().schemaType('settings').documentId('settings')),
 
                         S.divider(),
 
-                        // 2. Page Flow (Top to Bottom)
+                        // 1. Home Page
                         S.listItem()
-                            .title('1. Hero Section (Top)')
+                            .title('1. Home: Hero Section (Top)')
                             .child(S.document().schemaType('hero').documentId('hero')),
 
                         S.listItem()
-                            .title('2. Trusted By (Client Logos)')
+                            .title('2. Home: Trusted By (Logos)')
                             .child(S.document().schemaType('socialProof').documentId('socialProof')),
 
                         S.listItem()
-                            .title('3. Selected Works (The Stack)')
+                            .title('3. Home: Selected Works (Stack)')
                             .child(S.document().schemaType('photoStack').documentId('photoStack')),
 
+                        S.divider(),
+
+                        // 2. Inner Pages
                         S.listItem()
-                            .title('4. About Ross')
+                            .title('4. About Ross Page')
                             .child(S.document().schemaType('about').documentId('about')),
 
-                        S.documentTypeListItem('galleryProject').title('5. Portfolio Gallery (All Projects)'),
+                        S.listItem()
+                            .title('5a. Live Music Page Settings')
+                            .child(S.document().schemaType('livePage').documentId('livePage')),
 
-                        S.documentTypeListItem('service').title('6. Services List'),
+                        S.documentTypeListItem('liveEvent').title('5b. Live Event Folders (12 Events)'),
 
                         S.listItem()
-                            .title('8. Contact Info & Rights')
+                            .title('6. Publications Page Settings')
+                            .child(S.document().schemaType('publicationsPage').documentId('publicationsPage')),
+
+                        S.listItem()
+                            .title('7a. Info Page Settings & FAQs')
+                            .child(S.document().schemaType('infoPage').documentId('infoPage')),
+
+                        S.documentTypeListItem('service').title('7b. Services List'),
+
+                        S.listItem()
+                            .title('8. Contact Page & Form Settings')
                             .child(S.document().schemaType('contact').documentId('contact')),
 
                         S.divider(),
 
                         S.documentTypeListItem('legalPage').title('Legal / Policies'),
-
-                        S.divider(),
-
-                        // 3. Configuration
-                        S.documentTypeListItem('category').title('Manage Portfolio Filters'),
                     ]),
         }),
         // Vision exists to query your content with GROQ in the studio
