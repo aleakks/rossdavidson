@@ -7,13 +7,13 @@ import { urlFor } from "@/sanity/lib/image";
 import { client } from "@/sanity/lib/client";
 import { photoStackQuery } from "@/sanity/lib/queries";
 
-// Deterministic chaotic positions for the "Messy Desk" look (Desktop Only)
+// Dynamic positioning factors for the "Messy Desk" look (scaled based on viewport width)
 const SCATTER_POSITIONS = [
-    { x: -650, y: -20, rotate: -6 },   // Far Left
-    { x: -350, y: 40, rotate: -2 },    // Mid Left
-    { x: 0, y: -30, rotate: 4 },       // Center
-    { x: 350, y: 50, rotate: -3 },     // Mid Right
-    { x: 650, y: -10, rotate: 6 },     // Far Right
+    { xFactor: -0.38, y: -20, rotate: -6 },   // Far Left
+    { xFactor: -0.19, y: 40, rotate: -2 },    // Mid Left
+    { xFactor: 0, y: -30, rotate: 4 },       // Center
+    { xFactor: 0.19, y: 50, rotate: -3 },     // Mid Right
+    { xFactor: 0.38, y: -10, rotate: 6 },     // Far Right
 ];
 
 export default function PhotoStackClient({ cards }: { cards: any[] }) {
@@ -22,9 +22,6 @@ export default function PhotoStackClient({ cards }: { cards: any[] }) {
     useEffect(() => {
         const fetchFresh = async () => {
             try {
-                // Ensure we select the 'cards' array from the result object if query returns object
-                // The query is defined as: *[_type == "photoStack"][0] { cards[] { ... } }
-                // So result is { cards: [...] }
                 const fresh = await client.fetch(photoStackQuery, { _t: Date.now() }, { filterResponse: false, cache: 'no-store' });
                 // @ts-ignore
                 if (fresh?.result?.cards && Array.isArray(fresh.result.cards)) {
@@ -68,22 +65,29 @@ export default function PhotoStackClient({ cards }: { cards: any[] }) {
 
 function ScatteredCard({ card, index }: { card: any, index: number }) {
     const [isDesktop, setIsDesktop] = useState(false);
+    const [windowWidth, setWindowWidth] = useState(1200);
 
     useEffect(() => {
-        const check = () => setIsDesktop(window.innerWidth >= 768);
-        check();
-        window.addEventListener('resize', check);
-        return () => window.removeEventListener('resize', check);
+        const handleResize = () => {
+            setWindowWidth(window.innerWidth);
+            setIsDesktop(window.innerWidth >= 768);
+        };
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
     }, []);
 
     const desktopPos = SCATTER_POSITIONS[index % SCATTER_POSITIONS.length];
+    
+    // Scale horizontal distance dynamically based on screen width
+    const xOffset = isDesktop ? (desktopPos.xFactor * Math.min(windowWidth, 1800)) : 0;
 
     const variants = {
         hidden: { opacity: 0, y: 50 },
         visible: {
             opacity: 1,
             y: isDesktop ? desktopPos.y : 0,
-            x: isDesktop ? desktopPos.x : 0,
+            x: xOffset,
             rotate: isDesktop ? desktopPos.rotate : 0,
             transition: {
                 type: "spring" as const,
@@ -108,7 +112,7 @@ function ScatteredCard({ card, index }: { card: any, index: number }) {
             className={`
                 bg-white p-3 pb-8 md:p-3 shadow-2xl cursor-default
                 relative w-full max-w-[340px] h-auto md:h-auto md:aspect-[4/5]
-                md:absolute md:w-[420px] md:max-w-none md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2
+                md:absolute md:w-[24vw] md:max-w-[420px] md:min-w-[260px] md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2
             `}
         >
             <div className="relative w-full h-full flex flex-col">
