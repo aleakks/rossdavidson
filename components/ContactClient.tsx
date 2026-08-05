@@ -71,6 +71,8 @@ export default function ContactClient({
             if (data.success) {
                 setFormState('success');
                 form.reset();
+                alert("Thank you! Your request has been sent successfully.");
+                setTimeout(() => setFormState('idle'), 3000);
             } else {
                 console.error("Form submission error:", data);
                 setFormState('idle');
