@@ -50,7 +50,8 @@ export default function ContactClient({
         e.preventDefault();
         setFormState('sending');
 
-        const formData = new FormData(e.currentTarget);
+        const form = e.currentTarget;
+        const formData = new FormData(form);
         const object = Object.fromEntries(formData);
         object.access_key = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY || "";
         const json = JSON.stringify(object);
@@ -69,16 +70,16 @@ export default function ContactClient({
 
             if (data.success) {
                 setFormState('success');
-                e.currentTarget.reset();
+                form.reset();
             } else {
                 console.error("Form submission error:", data);
                 setFormState('idle');
                 alert(data.message || "Something went wrong. Please try again.");
             }
-        } catch (error) {
+        } catch (error: any) {
             console.error("Form submission error:", error);
             setFormState('idle');
-            alert("Something went wrong. Please try again.");
+            alert(`Error: ${error?.message || "Something went wrong. Please try again."}`);
         }
     };
 
