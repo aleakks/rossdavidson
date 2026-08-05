@@ -46,11 +46,35 @@ export default function ContactClient({
     const disclaimer = liveData?.disclaimer || initialDisclaimer;
 
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setFormState('sending');
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        setFormState('success');
+
+        const formData = new FormData(e.currentTarget);
+        // Append the access key from environment variables
+        formData.append("access_key", process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY || "");
+
+        try {
+            const response = await fetch("https://api.web3forms.com/submit", {
+                method: "POST",
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                setFormState('success');
+                e.currentTarget.reset();
+            } else {
+                console.error("Form submission error:", data);
+                setFormState('idle');
+                alert(data.message || "Something went wrong. Please try again.");
+            }
+        } catch (error) {
+            console.error("Form submission error:", error);
+            setFormState('idle');
+            alert("Something went wrong. Please try again.");
+        }
     };
 
     return (
@@ -129,6 +153,7 @@ export default function ContactClient({
                                 </label>
                                 <input
                                     type="text"
+                                    name="name"
                                     required
                                     placeholder="WHO ARE YOU?"
                                     onFocus={() => setFocusedField('name')}
@@ -144,6 +169,7 @@ export default function ContactClient({
                                 </label>
                                 <input
                                     type="email"
+                                    name="email"
                                     required
                                     placeholder="WHERE TO REPLY?"
                                     onFocus={() => setFocusedField('email')}
@@ -158,12 +184,14 @@ export default function ContactClient({
                                     Project Type
                                 </label>
                                 <select
+                                    name="project_type"
                                     required
                                     onFocus={() => setFocusedField('type')}
                                     onBlur={() => setFocusedField(null)}
                                     className="w-full bg-black border-b border-white/20 py-3 text-xl md:text-2xl font-display font-medium text-white uppercase focus:outline-none focus:border-white transition-all appearance-none cursor-pointer"
+                                    defaultValue=""
                                 >
-                                    <option value="" disabled selected className="text-white/20">Select Option</option>
+                                    <option value="" disabled className="text-white/20">Select Option</option>
                                     <option value="tour">Tour Coverage</option>
                                     <option value="event">Event / Festival</option>
                                     <option value="editorial">Editorial / Press</option>
@@ -179,6 +207,7 @@ export default function ContactClient({
                                 </label>
                                 <input
                                     type="text"
+                                    name="location_dates"
                                     placeholder="WHEN & WHERE?"
                                     onFocus={() => setFocusedField('location')}
                                     onBlur={() => setFocusedField(null)}
@@ -192,6 +221,7 @@ export default function ContactClient({
                                     Project Details
                                 </label>
                                 <textarea
+                                    name="details"
                                     required
                                     rows={2}
                                     placeholder="e.g. Live show in London, 2 nights, image delivery for press and social media."
@@ -216,7 +246,7 @@ export default function ContactClient({
                                 disabled={formState !== 'idle'}
                                 className={`flex items-center gap-4 text-xl md:text-2xl font-mono uppercase tracking-widest transition-colors ${formState === 'idle' ? 'text-white hover:text-white/70' : 'text-white/50'}`}
                             >
-                                {formState === 'idle' ? 'Submit Request' : 'Transmission...'}
+                                {formState === 'idle' ? 'Submit Request' : formState === 'sending' ? 'Sending...' : 'Sent Successfully!'}
                                 <ArrowRight className="w-8 h-8" />
                             </motion.button>
                         </div>
