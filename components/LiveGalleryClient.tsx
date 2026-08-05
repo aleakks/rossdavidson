@@ -122,7 +122,10 @@ export default function LiveGalleryClient({ liveEvents, pageSettings }: { liveEv
             if (lightboxIndex === null) return;
             if (e.key === "ArrowLeft") handlePrevImage();
             if (e.key === "ArrowRight") handleNextImage();
-            if (e.key === "Escape") setLightboxIndex(null);
+            if (e.key === "Escape") {
+                setLightboxIndex(null);
+                setSelectedEvent(null);
+            }
         };
         window.addEventListener("keydown", handleKeyDown);
         return () => window.removeEventListener("keydown", handleKeyDown);
@@ -206,7 +209,12 @@ export default function LiveGalleryClient({ liveEvents, pageSettings }: { liveEv
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.6, delay: (index % 3) * 0.1 }}
-                            onClick={() => setSelectedEvent(event)}
+                            onClick={() => {
+                                if (event.images && event.images.length > 0) {
+                                    setSelectedEvent(event);
+                                    setLightboxIndex(0);
+                                }
+                            }}
                             className="group relative aspect-[3/4] overflow-hidden bg-neutral-900 border border-white/5 cursor-pointer hover:border-white/20 transition-colors"
                         >
                             {/* Cover Image */}
@@ -251,118 +259,26 @@ export default function LiveGalleryClient({ liveEvents, pageSettings }: { liveEv
                 })}
             </div>
 
-            {/* Folder Modal Showcase */}
+            {/* Lightbox / Fullscreen Carousel Overlay */}
             <AnimatePresence>
-                {selectedEvent && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md overflow-y-auto pt-24 pb-12 px-6"
-                    >
-                        <div className="max-w-[1600px] mx-auto w-full relative">
-                            
+                {selectedEvent && lightboxIndex !== null && selectedEvent.images && selectedEvent.images[lightboxIndex] && (() => {
+                    const activeImgUrl = getEventImageUrl(selectedEvent.images[lightboxIndex], 1600);
+                    return (
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => { setLightboxIndex(null); setSelectedEvent(null); }}
+                            className="fixed inset-0 z-[200] bg-black/98 flex items-center justify-center p-4 md:p-8 cursor-zoom-out"
+                        >
                             {/* Close Button */}
                             <button
-                                onClick={() => setSelectedEvent(null)}
-                                className="fixed top-8 right-6 md:right-12 z-[110] bg-white text-black p-3 hover:bg-neutral-200 transition-colors flex items-center justify-center rounded-full shadow-lg"
-                                aria-label="Close Gallery"
+                                onClick={(e) => { e.stopPropagation(); setLightboxIndex(null); setSelectedEvent(null); }}
+                                className="absolute top-8 right-6 z-[210] bg-white text-black p-3 hover:bg-neutral-200 transition-colors flex items-center justify-center rounded-full"
+                                aria-label="Close Lightbox"
                             >
-                                <X className="w-6 h-6" />
+                                <X className="w-5 h-5" />
                             </button>
-
-                            {/* Modal Header */}
-                            <div className="mb-12 border-b border-white/10 pb-8 pr-16">
-                                <span className="font-mono text-xs uppercase tracking-[0.3em] text-white/50 block mb-2">
-                                    Live Showcase Folder
-                                </span>
-                                <h2 className="text-4xl md:text-6xl font-display font-black uppercase tracking-tighter leading-none mb-4">
-                                    {selectedEvent.title}
-                                </h2>
-                                <div className="flex flex-wrap gap-6 items-center text-white/60 font-mono text-xs uppercase tracking-wider">
-                                    <div className="flex items-center gap-2">
-                                        <MapPin className="w-4 h-4" />
-                                        <span>{selectedEvent.location}</span>
-                                    </div>
-                                    {selectedEvent.date && (
-                                        <div className="flex items-center gap-2">
-                                            <Calendar className="w-4 h-4" />
-                                            <span>
-                                                {new Date(selectedEvent.date).toLocaleDateString("en-US", {
-                                                    year: "numeric",
-                                                    month: "long",
-                                                    day: "numeric"
-                                                })}
-                                            </span>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-
-                            {/* Event Detailed Images Masonry/Grid */}
-                            {selectedEvent.images && selectedEvent.images.length > 0 ? (
-                                <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-6 space-y-6">
-                                    {selectedEvent.images.map((img: any, idx: number) => {
-                                        const imgUrl = getEventImageUrl(img, 1000);
-                                        if (!imgUrl) return null;
-
-                                        return (
-                                            <motion.div
-                                                key={img._key || idx}
-                                                initial={{ opacity: 0, scale: 0.95 }}
-                                                animate={{ opacity: 1, scale: 1 }}
-                                                transition={{ duration: 0.5, delay: idx * 0.05 }}
-                                                onClick={() => setLightboxIndex(idx)}
-                                                className="break-inside-avoid relative overflow-hidden bg-neutral-900 group border border-white/5 hover:border-white/20 transition-colors cursor-zoom-in"
-                                            >
-                                                <div className="relative aspect-[3/4] sm:aspect-auto sm:min-h-[300px]">
-                                                    <Image
-                                                        src={imgUrl}
-                                                        alt={`${selectedEvent.title} Showcase ${idx + 1}`}
-                                                        width={800}
-                                                        height={1000}
-                                                        className="w-full object-cover transition-transform duration-700 ease-out group-hover:scale-102"
-                                                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                                                    />
-                                                    
-                                                    {/* Custom micro-animation zoom indicator on hover */}
-                                                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
-                                                        <ZoomIn className="w-8 h-8 text-white/80 transform scale-75 group-hover:scale-100 transition-transform duration-300" />
-                                                    </div>
-                                                </div>
-                                            </motion.div>
-                                        );
-                                    })}
-                                </div>
-                            ) : (
-                                <div className="py-24 text-center">
-                                    <p className="font-mono text-white/30 text-sm uppercase tracking-widest">
-                                        No event showcase images uploaded yet.
-                                    </p>
-                                </div>
-                            )}
-
-                            {/* Lightbox / Fullscreen Carousel Overlay */}
-                            <AnimatePresence>
-                                {lightboxIndex !== null && selectedEvent.images && selectedEvent.images[lightboxIndex] && (() => {
-                                    const activeImgUrl = getEventImageUrl(selectedEvent.images[lightboxIndex], 1600);
-                                    return (
-                                        <motion.div
-                                            initial={{ opacity: 0 }}
-                                            animate={{ opacity: 1 }}
-                                            exit={{ opacity: 0 }}
-                                            onClick={() => setLightboxIndex(null)}
-                                            className="fixed inset-0 z-[200] bg-black/98 flex items-center justify-center p-4 md:p-8 cursor-zoom-out"
-                                        >
-                                            {/* Close Button */}
-                                            <button
-                                                onClick={() => setLightboxIndex(null)}
-                                                className="absolute top-8 right-6 z-[210] bg-white text-black p-3 hover:bg-neutral-200 transition-colors flex items-center justify-center rounded-full"
-                                                aria-label="Close Lightbox"
-                                            >
-                                                <X className="w-5 h-5" />
-                                            </button>
 
                                             {/* Left Arrow */}
                                             <button
@@ -419,11 +335,6 @@ export default function LiveGalleryClient({ liveEvents, pageSettings }: { liveEv
                                         </motion.div>
                                     );
                                 })()}
-                            </AnimatePresence>
-
-                        </div>
-                    </motion.div>
-                )}
             </AnimatePresence>
 
         </section>
