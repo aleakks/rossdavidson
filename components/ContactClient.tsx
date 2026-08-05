@@ -51,16 +51,18 @@ export default function ContactClient({
         setFormState('sending');
 
         const formData = new FormData(e.currentTarget);
-        // Append the access key from environment variables
-        formData.append("access_key", process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY || "");
+        const object = Object.fromEntries(formData);
+        object.access_key = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY || "";
+        const json = JSON.stringify(object);
 
         try {
             const response = await fetch("https://api.web3forms.com/submit", {
                 method: "POST",
                 headers: {
+                    "Content-Type": "application/json",
                     "Accept": "application/json"
                 },
-                body: formData
+                body: json
             });
 
             const data = await response.json();
