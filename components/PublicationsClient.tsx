@@ -147,15 +147,9 @@ export default function PublicationsClient({
             
             {/* Header Settings */}
             <div className="mb-16 md:mb-24">
-                <span className="font-mono text-xs uppercase tracking-[0.5em] text-white/40 block mb-4">
-                    {settings?.eyebrow || "Collection / 02"}
-                </span>
                 <h1 className="text-5xl md:text-8xl font-display font-black uppercase tracking-tighter leading-none text-white mb-6">
                     {settings?.title || "Publications"}
                 </h1>
-                <p className="font-sans text-white/60 text-lg md:text-xl leading-relaxed max-w-2xl">
-                    {settings?.subtitle || "A curated archive of printed features, magazine covers, and digital editorials."}
-                </p>
             </div>
 
             {/* Grid of Publications */}

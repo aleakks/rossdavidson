@@ -186,15 +186,9 @@ export default function LiveGalleryClient({ liveEvents, pageSettings }: { liveEv
             
             {/* Header */}
             <div className="mb-16 md:mb-24">
-                <span className="font-mono text-xs uppercase tracking-[0.5em] text-white/40 block mb-4">
-                    {pageSettings?.eyebrow || "Collection / 01"}
-                </span>
                 <h1 className="text-5xl md:text-8xl font-display font-black uppercase tracking-tighter leading-none text-white mb-6">
-                    {pageSettings?.title || "Live & Touring"}
+                    {pageSettings?.title || "Live"}
                 </h1>
-                <p className="font-sans text-white/60 text-lg md:text-xl leading-relaxed max-w-2xl">
-                    {pageSettings?.subtitle || "Highlighting the 12 best live events. Click any event to open its folder and explore the full collection of detail shots from the night."}
-                </p>
             </div>
 
             {/* Grid of 12 Events */}

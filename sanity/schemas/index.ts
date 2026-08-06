@@ -345,9 +345,7 @@ export const livePage = defineType({
     title: 'Live Page Settings',
     type: 'document',
     fields: [
-        defineField({ name: 'eyebrow', type: 'string', title: 'Eyebrow Label', initialValue: 'Collection / 01' }),
-        defineField({ name: 'title', type: 'string', title: 'Title', initialValue: 'Live & Touring' }),
-        defineField({ name: 'subtitle', type: 'text', title: 'Subtitle Description', initialValue: 'Highlighting the 12 best live events. Click any event to open its folder and explore the full collection of detail shots from the night.' })
+        defineField({ name: 'title', type: 'string', title: 'Title', initialValue: 'Live' })
     ],
     preview: {
         prepare() {
@@ -361,9 +359,7 @@ export const publicationsPage = defineType({
     title: 'Publications Page Settings',
     type: 'document',
     fields: [
-        defineField({ name: 'eyebrow', type: 'string', title: 'Eyebrow Label', initialValue: 'Collection / 02' }),
-        defineField({ name: 'title', type: 'string', title: 'Title', initialValue: 'Publications' }),
-        defineField({ name: 'subtitle', type: 'text', title: 'Subtitle Description', initialValue: 'A curated archive of printed features, magazine covers, and digital editorials. This section is currently in production.' })
+        defineField({ name: 'title', type: 'string', title: 'Title', initialValue: 'Publications' })
     ],
     preview: {
         prepare() {
