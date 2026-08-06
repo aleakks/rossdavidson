@@ -90,7 +90,8 @@ const generateMockEvents = (): LiveEvent[] => {
             location: locations[i],
             date: `2026-0${(i % 9) + 1}-15`,
             coverImage: {
-                mockUrl: `https://images.unsplash.com/${MOCK_EVENT_PHOTOS[i]}?q=80&w=1200`
+                mockUrl: `https://images.unsplash.com/${MOCK_EVENT_PHOTOS[i]}?q=80&w=1200`,
+                asset: { metadata: { dimensions: { aspectRatio: i % 2 === 0 ? 0.666 : 1.5 } } }
             },
             images: gallery
         };
@@ -192,9 +193,11 @@ export default function LiveGalleryClient({ liveEvents, pageSettings }: { liveEv
             </div>
 
             {/* Grid of 12 Events */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-[1800px] mx-auto w-full">
+            <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 md:gap-8 max-w-[1800px] mx-auto w-full">
                 {displayEvents.map((event, index) => {
                     const imageUrl = getEventImageUrl(event.coverImage, 1000);
+                    const aspectRatio = event.coverImage?.asset?.metadata?.dimensions?.aspectRatio || 0.666;
+                    const isLandscape = aspectRatio > 1;
 
                     return (
                         <motion.div
@@ -209,7 +212,7 @@ export default function LiveGalleryClient({ liveEvents, pageSettings }: { liveEv
                                     setLightboxIndex(0);
                                 }
                             }}
-                            className="group relative aspect-[3/4] overflow-hidden bg-neutral-900 border border-white/5 cursor-pointer hover:border-white/20 transition-colors"
+                            className={`group relative overflow-hidden bg-neutral-900 border border-white/5 cursor-pointer hover:border-white/20 transition-colors break-inside-avoid mb-6 md:mb-8 ${isLandscape ? 'aspect-[3/2]' : 'aspect-[2/3]'}`}
                         >
                             {/* Cover Image */}
                             {imageUrl ? (

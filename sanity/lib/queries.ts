@@ -86,7 +86,15 @@ export const liveEventsQuery = groq`*[_type == "liveEvent"]|order(order asc){
   title,
   location,
   date,
-  coverImage,
+  coverImage {
+    ...,
+    asset->{
+      ...,
+      metadata {
+        dimensions
+      }
+    }
+  },
   images
 }`;
 
@@ -116,7 +124,15 @@ export const publicationsQuery = groq`*[_type == "publication"]|order(order asc)
   title,
   publisher,
   url,
-  image,
+  image {
+    ...,
+    asset->{
+      ...,
+      metadata {
+        dimensions
+      }
+    }
+  },
   ctaLabel,
   order
 }`;

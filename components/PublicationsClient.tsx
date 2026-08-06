@@ -68,7 +68,8 @@ const generateMockPublications = (): Publication[] => {
         url: urls[i],
         ctaLabel: "Read Article",
         image: {
-            mockUrl: `https://images.unsplash.com/${MOCK_IMAGES[i]}?q=80&w=1000`
+            mockUrl: `https://images.unsplash.com/${MOCK_IMAGES[i]}?q=80&w=1000`,
+            asset: { metadata: { dimensions: { aspectRatio: i % 2 === 0 ? 0.666 : 1.5 } } }
         }
     }));
 };
@@ -156,6 +157,8 @@ export default function PublicationsClient({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 max-w-[1400px] mx-auto w-full pb-24">
                 {displayItems.map((item, idx) => {
                     const imgUrl = getImageUrl(item.image);
+                    const aspectRatio = item.image?.asset?.metadata?.dimensions?.aspectRatio || 1.5;
+                    const isPortrait = aspectRatio < 1;
 
                     return (
                         <motion.a
@@ -170,7 +173,7 @@ export default function PublicationsClient({
                             className="group block space-y-6 cursor-pointer"
                         >
                             {/* Hero Card Image Box */}
-                            <div className="relative aspect-[16/10] w-full overflow-hidden bg-neutral-900 border border-white/5 group-hover:border-white/20 transition-colors duration-500">
+                            <div className="relative w-full overflow-hidden bg-neutral-900 border border-white/5 group-hover:border-white/20 transition-colors duration-500 aspect-[3/2]">
                                 {imgUrl ? (
                                     <Image
                                         src={imgUrl}
