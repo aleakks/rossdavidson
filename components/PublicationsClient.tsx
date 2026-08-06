@@ -149,7 +149,7 @@ export default function PublicationsClient({
             {/* Header Settings */}
             <div className="mb-16 md:mb-24">
                 <h1 className="text-5xl md:text-8xl font-display font-black uppercase tracking-tighter leading-none text-white mb-6">
-                    {settings?.title || "Publications"}
+                    Publications
                 </h1>
             </div>
 
