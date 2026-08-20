@@ -57,7 +57,7 @@ export default function HeroClient({ title, subtitle, images, eyebrow }: HeroCli
 
     // Process live images if available, otherwise use props
     const displayImages = liveData?.images?.map((img: any) => ({
-        src: urlFor(img).width(1920).quality(95).url(),
+        src: urlFor(img).width(2560).quality(100).auto('format').url(),
         alt: img.alt || "Ross Davidson Phase",
     })) || images;
 
@@ -87,7 +87,7 @@ export default function HeroClient({ title, subtitle, images, eyebrow }: HeroCli
                                 className="object-cover opacity-60 grayscale-[0.3] contrast-125 saturate-110"
                                 style={{ objectPosition: 'center 30%' }}
                                 priority
-                                quality={100}
+                                quality={95}
                             />
                         </motion.div>
                     )}
@@ -98,16 +98,7 @@ export default function HeroClient({ title, subtitle, images, eyebrow }: HeroCli
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_#050505_90%)]" />
             </div>
 
-            {/* 2. Strobe & Noise Overlay */}
-            <div className="absolute inset-0 pointer-events-none z-10">
-                <div className="absolute inset-0 opacity-[0.12] mix-blend-overlay"
-                    style={{
-                        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-                    }}
-                />
-            </div>
-
-            {/* 3. Kinetic Text (Centered) */}
+            {/* 2. Kinetic Text (Centered) */}
             <div
                 className="relative z-20 w-full h-full flex flex-col items-center justify-center pointer-events-none p-4 md:p-8"
             >

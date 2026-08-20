@@ -37,7 +37,7 @@ export default async function Hero() {
     const eyebrow = data?.eyebrow || "ROSS DAVIDSON";
     // Map Sanity images to Objects with URL and Alt
     const images = data?.images?.map((img: any) => ({
-        src: urlFor(img).width(1920).quality(95).url(),
+        src: urlFor(img).width(2560).quality(100).auto('format').url(),
         alt: img.alt || "Ross Davidson Photography",
     })) || [];
 

@@ -172,11 +172,11 @@ export default function LiveGalleryClient({ liveEvents, pageSettings }: { liveEv
         };
     });
 
-    const getEventImageUrl = (imgObj: any, width = 800) => {
+    const getEventImageUrl = (imgObj: any, width = 1200) => {
         if (!imgObj) return "";
         if (imgObj.mockUrl) return imgObj.mockUrl;
         try {
-            return urlFor(imgObj).width(width).quality(95).url();
+            return urlFor(imgObj).width(width).quality(90).auto('format').url();
         } catch {
             return "";
         }
@@ -195,7 +195,7 @@ export default function LiveGalleryClient({ liveEvents, pageSettings }: { liveEv
             {/* Grid of 12 Events */}
             <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 md:gap-8 max-w-[1800px] mx-auto w-full">
                 {displayEvents.map((event, index) => {
-                    const imageUrl = getEventImageUrl(event.coverImage, 1000);
+                    const imageUrl = getEventImageUrl(event.coverImage, 1200);
                     const aspectRatio = event.coverImage?.asset?.metadata?.dimensions?.aspectRatio || 0.666;
                     const isLandscape = aspectRatio > 1;
 
@@ -220,9 +220,10 @@ export default function LiveGalleryClient({ liveEvents, pageSettings }: { liveEv
                                     src={imageUrl}
                                     alt={event.title}
                                     fill
-                                    className="object-cover opacity-70 transition-transform duration-700 ease-out group-hover:scale-105 group-hover:opacity-100"
+                                    className="object-cover opacity-90 transition-transform duration-700 ease-out group-hover:scale-105 group-hover:opacity-100"
                                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                                     priority={index < 3}
+                                    quality={90}
                                 />
                             ) : (
                                 <div className="w-full h-full flex items-center justify-center bg-neutral-900">
@@ -230,18 +231,9 @@ export default function LiveGalleryClient({ liveEvents, pageSettings }: { liveEv
                                 </div>
                             )}
 
-                            {/* Grain Overlay */}
-                            <div 
-                                className="absolute inset-0 pointer-events-none opacity-[0.03] mix-blend-overlay"
-                                style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E\")" }}
-                            ></div>
-
                             {/* Hover/Standard Info Overlay */}
                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6 md:p-8">
                                 <div className="space-y-2">
-                                    <span className="font-mono text-[10px] text-white/50 uppercase tracking-[0.2em] block">
-                                        Event / 0{index + 1}
-                                    </span>
                                     <h3 className="text-white font-display text-2xl md:text-3xl uppercase tracking-tighter leading-none">
                                         {event.title}
                                     </h3>
@@ -259,7 +251,7 @@ export default function LiveGalleryClient({ liveEvents, pageSettings }: { liveEv
             {/* Lightbox / Fullscreen Carousel Overlay */}
             <AnimatePresence>
                 {selectedEvent && lightboxIndex !== null && selectedEvent.images && selectedEvent.images[lightboxIndex] && (() => {
-                    const activeImgUrl = getEventImageUrl(selectedEvent.images[lightboxIndex], 1600);
+                    const activeImgUrl = getEventImageUrl(selectedEvent.images[lightboxIndex], 2400);
                     return (
                         <motion.div
                             initial={{ opacity: 0 }}
@@ -292,7 +284,7 @@ export default function LiveGalleryClient({ liveEvents, pageSettings }: { liveEv
                                                 onClick={(e) => e.stopPropagation()}
                                             >
                                                 {selectedEvent.images.map((img: any, idx: number) => {
-                                                    const imgUrl = getEventImageUrl(img, 1600);
+                                                    const imgUrl = getEventImageUrl(img, 2400);
                                                     if (!imgUrl) return null;
                                                     return (
                                                         <div
@@ -310,6 +302,7 @@ export default function LiveGalleryClient({ liveEvents, pageSettings }: { liveEv
                                                                 className="object-contain pointer-events-none select-none"
                                                                 sizes="90vw"
                                                                 priority={true}
+                                                                quality={95}
                                                             />
                                                         </div>
                                                     );

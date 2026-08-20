@@ -55,9 +55,6 @@ export const galleryQuery = groq`*[_type == "galleryProject"]|order(date desc){
 
 export const contactQuery = groq`*[_type == "contact"][0]{
   title,
-  description,
-  disclaimer,
-  status,
   email,
   capabilities,
   licensingText
@@ -65,7 +62,6 @@ export const contactQuery = groq`*[_type == "contact"][0]{
 
 export const settingsQuery = groq`*[_type == "settings"][0]{
   headerLinks,
-  footerText,
   socialLinks
 }`;
 

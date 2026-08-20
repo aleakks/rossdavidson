@@ -28,7 +28,9 @@ export default function FeaturedWork({ heading, blocks }: FeaturedSettings) {
                                 src={block.image}
                                 alt={block.title}
                                 fill
-                                className="object-cover opacity-70 transition-opacity duration-500 group-hover:opacity-100 grayscale-[0.2] group-hover:grayscale-0"
+                                className="object-cover opacity-90 transition-opacity duration-500 group-hover:opacity-100 grayscale-[0.2] group-hover:grayscale-0"
+                                quality={100}
+                                unoptimized
                             />
                             {/* Overlay Gradient */}
                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />

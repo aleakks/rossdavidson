@@ -82,7 +82,7 @@ export default function PhotoStackClient({ cards }: { cards: any[] }) {
                 <AnimatePresence>
                     {lightboxIndex !== null && displayCards[lightboxIndex] && (() => {
                         const activeCard = displayCards[lightboxIndex];
-                        const activeImgUrl = activeCard.image ? urlFor(activeCard.image).width(1600).quality(95).url() : "";
+                        const activeImgUrl = activeCard.image ? urlFor(activeCard.image).width(2000).quality(100).auto('format').url() : "";
                         return (
                             <motion.div
                                 initial={{ opacity: 0 }}
@@ -116,7 +116,7 @@ export default function PhotoStackClient({ cards }: { cards: any[] }) {
                                 >
                                     <div className="relative w-full h-full flex-grow flex items-center justify-center">
                                         {displayCards.map((card: any, idx: number) => {
-                                            const imgUrl = card.image ? urlFor(card.image).width(1600).quality(95).url() : "";
+                                            const imgUrl = card.image ? urlFor(card.image).width(2000).quality(100).auto('format').url() : "";
                                             if (!imgUrl) return null;
                                             return (
                                                 <div 
@@ -134,15 +134,15 @@ export default function PhotoStackClient({ cards }: { cards: any[] }) {
                                                         className="object-contain pointer-events-none select-none"
                                                         sizes="90vw"
                                                         priority={true}
+                                                        quality={95}
                                                     />
                                                 </div>
                                             );
                                         })}
                                     </div>
-                                    {/* Subtitle Caption */}
-                                    <div className="text-center font-mono uppercase mt-6 select-none pointer-events-none">
-                                        <div className="text-white text-sm font-bold tracking-widest">{activeCard.client}</div>
-                                        <div className="text-white/40 text-[10px] tracking-wider mt-1">{activeCard.location}</div>
+                                    {/* Indicator Counter */}
+                                    <div className="mt-4 font-mono text-xs uppercase tracking-[0.2em] text-white/50 bg-black/60 px-4 py-2 border border-white/10 rounded-full">
+                                        {lightboxIndex + 1} / {displayCards.length}
                                     </div>
                                 </div>
 
@@ -154,11 +154,6 @@ export default function PhotoStackClient({ cards }: { cards: any[] }) {
                                 >
                                     <ChevronRight className="w-6 h-6 md:w-8 md:h-8" />
                                 </button>
-
-                                {/* Indicator Counter */}
-                                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 font-mono text-xs uppercase tracking-[0.2em] text-white/50 bg-black/60 px-4 py-2 border border-white/10 rounded-full">
-                                    {lightboxIndex + 1} / {displayCards.length}
-                                </div>
                             </motion.div>
                         );
                     })()}
@@ -185,11 +180,11 @@ function GridCard({ card, index, onClick }: { card: any, index: number, onClick:
             <div className="relative w-full flex-grow overflow-hidden bg-black">
                 {card.image ? (
                     <Image
-                        src={urlFor(card.image).width(1200).quality(95).url()}
+                        src={urlFor(card.image).width(1200).quality(90).auto('format').url()}
                         alt={card.alt || "Portfolio Image"}
                         fill
                         className="object-cover pointer-events-none"
-                        quality={95}
+                        quality={90}
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                 ) : (

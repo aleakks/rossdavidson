@@ -10,7 +10,7 @@ async function getAboutData() {
 export default async function About() {
     const data = await getAboutData();
     const artistImage = data?.artistImage ? {
-        src: urlFor(data.artistImage).width(1200).quality(100).url(),
+        src: urlFor(data.artistImage).width(1600).quality(100).auto('format').url(),
         alt: data.artistImage.alt || "Ross Davidson"
     } : { src: "/images/uploads/artist-image.jpg", alt: "Ross Davidson" };
 

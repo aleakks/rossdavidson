@@ -167,11 +167,6 @@ export const settings = defineType({
             }]
         }),
         defineField({
-            name: 'footerText',
-            title: 'Footer Intro Text',
-            type: 'text'
-        }),
-        defineField({
             name: 'socialLinks',
             title: 'Social Media Links',
             type: 'array',
@@ -243,18 +238,21 @@ export const socialProof = defineType({
     ]
 })
 
-// 4. Contact/Settings Update (Keeping for specialized contact fields)
+// 4. Contact/Settings Update (1:1 with front-end)
 export const contact = defineType({
     name: 'contact',
     title: 'Settings: Contact & Licensing',
     type: 'document',
     fields: [
         defineField({ name: 'title', type: 'string', title: 'Contact Page Title', initialValue: "Let's Work" }),
-        defineField({ name: 'description', type: 'text', title: 'Contact Page Description', initialValue: "Seeking projects that challenge the norm. Fashion, Music, Art Direction." }),
-        defineField({ name: 'disclaimer', type: 'string', title: 'Disclaimer Text (Form Footer)', initialValue: "By submitting this form you acknowledge that great work takes time and energy." }),
-        defineField({ name: 'status', type: 'string', title: 'Current Status', initialValue: 'Accepting New Projects' }),
         defineField({ name: 'email', type: 'string', title: 'Contact Email', initialValue: 'contact@rossdavidsonphoto.com' }),
-        defineField({ name: 'capabilities', type: 'array', of: [{ type: 'string' }], title: 'Capabilities List (Sidebar)' }),
+        defineField({ 
+            name: 'capabilities', 
+            type: 'array', 
+            of: [{ type: 'string' }], 
+            title: 'Capabilities List (Sidebar)',
+            initialValue: ["Live Events", "Commercial Campaign", "Creative Direction", "Moving Image"]
+        }),
         defineField({ name: 'licensingText', type: 'text', title: 'Licensing & Rights Text' })
     ]
 })
@@ -297,6 +295,9 @@ export const liveEvent = defineType({
             name: 'images',
             type: 'array',
             title: 'Event Gallery (Showcase up to 10+ images)',
+            options: {
+                layout: 'grid',
+            },
             of: [{
                 type: 'image',
                 options: { hotspot: true },

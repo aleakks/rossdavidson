@@ -37,22 +37,19 @@ export default function Footer({ settings }: { settings: any }) {
     return (
         <footer className="bg-black text-white pt-24 pb-12 border-t border-white/5">
             <div className="container mx-auto px-6">
-                <div className="flex flex-col md:grid md:grid-cols-4 gap-12 md:gap-8 mb-24">
+                <div className="flex flex-col md:grid md:grid-cols-4 gap-12 md:gap-8 items-center mb-16 md:mb-20">
 
                     {/* Brand / Intro */}
-                    <div className="md:col-span-1 space-y-6">
-                        <div className="text-2xl md:text-3xl font-display uppercase tracking-tighter">
+                    <div className="md:col-span-2">
+                        <div className="text-4xl sm:text-5xl md:text-5xl lg:text-6xl xl:text-7xl font-display font-black uppercase tracking-tighter leading-[0.9]">
                             Ross Davidson
                         </div>
-                        <p className="text-white/40 text-sm leading-relaxed max-w-xs font-sans">
-                            {footerText}
-                        </p>
                     </div>
 
                     {/* Quick Links (Sitemap) */}
-                    <div className="md:col-start-3 md:col-span-1 space-y-6">
+                    <div className="md:col-span-1 space-y-4">
                         <h4 className="font-mono text-xs uppercase tracking-widest text-white/30">Explore</h4>
-                        <ul className="space-y-4 font-mono text-sm uppercase tracking-wider text-white/70">
+                        <ul className="space-y-3 font-mono text-sm uppercase tracking-wider text-white/70">
                             <li><Link href="/live" className="hover:text-white transition-colors">Live</Link></li>
                             <li><Link href="/publications" className="hover:text-white transition-colors">Publications</Link></li>
                             <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
@@ -61,9 +58,9 @@ export default function Footer({ settings }: { settings: any }) {
                     </div>
 
                     {/* Contact & Socials */}
-                    <div className="md:col-span-1 space-y-6">
+                    <div className="md:col-span-1 space-y-4">
                         <h4 className="font-mono text-xs uppercase tracking-widest text-white/30">Connect</h4>
-                        <ul className="space-y-4 font-mono text-sm uppercase tracking-wider text-white/70">
+                        <ul className="space-y-3 font-mono text-sm uppercase tracking-wider text-white/70">
                             <li>
                                 <a href={emailMailto} className="hover:text-white transition-colors flex items-center gap-2 break-all md:break-normal">
                                     {emailAddress}
@@ -77,8 +74,8 @@ export default function Footer({ settings }: { settings: any }) {
                                 </li>
                             ))}
                         </ul>
-                        <div className="pt-4">
-                            <Link href="/contact" className="inline-block border border-white/20 px-6 py-3 font-mono text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-colors">
+                        <div className="pt-2">
+                            <Link href="/contact" className="inline-block border border-white/20 px-5 py-2.5 font-mono text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-colors">
                                 Start a Project
                             </Link>
                         </div>
@@ -91,8 +88,6 @@ export default function Footer({ settings }: { settings: any }) {
                     <span>© {new Date().getFullYear()} Ross Davidson Photo.</span>
                     <div className="flex gap-6">
                         <Link href="/privacy-policy" className="hover:text-white/50 transition-colors">Privacy Policy</Link>
-                        <span>•</span>
-                        <span>London • Worldwide</span>
                     </div>
                 </div>
             </div>

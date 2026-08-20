@@ -121,9 +121,12 @@ export default function PublicationsClient({
         fetchFreshData();
     }, [publications, pageSettings]);
 
-    // Handle fallbacks for cover images
+    // Handle fallbacks for cover images and pad up to 8 items if fewer exist in Sanity
     const mockPubs = generateMockPublications();
-    const displayItems = items.map((item, idx) => {
+    const displayItems = (items.length >= 8 
+        ? items 
+        : [...items, ...mockPubs.slice(items.length)]
+    ).map((item, idx) => {
         const mock = mockPubs[idx] || mockPubs[0];
         return {
             ...item,
@@ -137,7 +140,7 @@ export default function PublicationsClient({
         if (!imgObj) return "";
         if (imgObj.mockUrl) return imgObj.mockUrl;
         try {
-            return urlFor(imgObj).width(800).quality(95).url();
+            return urlFor(imgObj).width(1200).quality(90).auto('format').url();
         } catch {
             return "";
         }
@@ -179,20 +182,15 @@ export default function PublicationsClient({
                                         src={imgUrl}
                                         alt={item.title}
                                         fill
-                                        className="object-cover opacity-80 group-hover:opacity-100 group-hover:scale-[1.02] transition-all duration-700 ease-out"
+                                        className="object-cover opacity-100 group-hover:scale-[1.02] transition-all duration-700 ease-out"
                                         sizes="(max-width: 768px) 100vw, 50vw"
+                                        quality={90}
                                     />
                                 ) : (
                                     <div className="w-full h-full flex items-center justify-center bg-neutral-950">
                                         <span className="font-mono text-xs uppercase text-white/20">No Image Available</span>
                                     </div>
                                 )}
-                                
-                                {/* Subtle grain texture overlay */}
-                                <div 
-                                    className="absolute inset-0 pointer-events-none opacity-[0.03] mix-blend-overlay"
-                                    style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E\")" }}
-                                />
                             </div>
 
                             {/* Info Block */}

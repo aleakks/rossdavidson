@@ -42,3 +42,7 @@ next-env.d.ts
 
 # opennextjs/cloudflare build output
 .open-next/
+
+# test reports
+/test-results/
+/playwright-report/

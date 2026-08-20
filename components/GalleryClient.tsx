@@ -83,11 +83,12 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
                                 {/* Image */}
                                 {photo.image ? (
                                     <Image
-                                        src={urlFor(photo.image).width(1200).quality(100).url()}
+                                        src={urlFor(photo.image).width(1200).quality(90).auto('format').url()}
                                         alt={photo.altText || photo.title || "Music and Nightlife Photography by Ross Davidson"}
                                         fill
-                                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-80 group-hover:opacity-100"
+                                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-90 group-hover:opacity-100"
                                         sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                                        quality={90}
                                     />
                                 ) : (
                                     <div className="w-full h-full flex items-center justify-center bg-neutral-900">
@@ -96,11 +97,6 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
                                         </span>
                                     </div>
                                 )}
-
-                                {/* Grain Overlay */}
-                                <div className="absolute inset-0 pointer-events-none opacity-20 mix-blend-overlay"
-                                    style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")` }}
-                                />
 
                                 {/* Hover/Tap Info Overlay */}
                                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 group-focus:opacity-100 active:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none md:pointer-events-auto">
