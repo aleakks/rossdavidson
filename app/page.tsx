@@ -4,7 +4,9 @@ import PhotoStack from "@/components/PhotoStack";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Portfolio",
+  title: {
+    absolute: "Ross Davidson — Official Site",
+  },
   description: "Selected works from Ross Davidson. Featuring campaigns for global brands, music artists, and editorial publications.",
 };
 
