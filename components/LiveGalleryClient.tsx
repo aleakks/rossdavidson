@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Calendar, MapPin, ZoomIn, ChevronLeft, ChevronRight } from "lucide-react";
+import { X, MapPin, ChevronLeft, ChevronRight } from "lucide-react";
 import { urlFor } from "@/sanity/lib/image";
 import { client } from "@/sanity/lib/client";
 import { liveEventsQuery } from "@/sanity/lib/queries";
@@ -17,20 +17,27 @@ interface LiveEvent {
     images?: any[];
 }
 
+interface MockEventConfig {
+    photoId: string;
+    orientation: "landscape" | "portrait";
+}
+
 // 12 High-Quality Mock Live Events (Fallback)
-const MOCK_EVENT_PHOTOS = [
-    "photo-1516450360452-9312f5e86fc7", // Mixmag Live
-    "photo-1470225620780-dba8ba36b745", // Defected Croatia
-    "photo-1514525253161-7a46d19cd819", // Afterlife Ibiza
-    "photo-1516450360452-9312f5e86fc7", // DJ Mag Paris
-    "photo-1506157786151-b8491531f063", // Cercle Colosseum
-    "photo-1459749411175-04bf5292ceea", // Coachella Stage
-    "photo-1501386761578-eac5c94b800a", // Fabric Club
-    "photo-1533174072545-7a4b6ad7a6c3", // Printworks Closing
-    "photo-1524368535928-5b5e00ddc76b", // Tomorrowland Mainstage
-    "photo-1540039155733-5bb30b53aa14", // Glastonbury Field
-    "photo-1574391884720-bbc3740c59d1", // Creamfields Steel Yard
-    "photo-1492684223066-81342ee5ff30"  // Sonar Festival Barcelona
+// Perfectly balanced across 3 columns (col 0: 0,3,6,9; col 1: 1,4,7,10; col 2: 2,5,8,11)
+// with each column having exactly 2 landscapes (3:2) and 2 portraits (2:3) for a clean, level grid.
+const MOCK_CONFIGS: MockEventConfig[] = [
+    { photoId: "photo-1516450360452-9312f5e86fc7", orientation: "landscape" }, // 0: Mixmag Live (3:2) - Col 0
+    { photoId: "photo-1574391884720-bbc3740c59d1", orientation: "portrait" },  // 1: Defected Croatia (2:3) - Col 1
+    { photoId: "photo-1470225620780-dba8ba36b745", orientation: "landscape" }, // 2: Afterlife Ibiza (3:2) - Col 2
+    { photoId: "photo-1508700115892-45ecd05ae2ad", orientation: "portrait" },  // 3: DJ Mag Showcase (2:3) - Col 0
+    { photoId: "photo-1506157786151-b8491531f063", orientation: "landscape" }, // 4: Cercle Colosseum (3:2) - Col 1
+    { photoId: "photo-1514525253161-7a46d19cd819", orientation: "portrait" },  // 5: Coachella Stage (2:3) - Col 2
+    { photoId: "photo-1501386761578-eac5c94b800a", orientation: "landscape" }, // 6: Fabric London (3:2) - Col 0
+    { photoId: "photo-1533174072545-7a4b6ad7a6c3", orientation: "portrait" },  // 7: Printworks Closing (2:3) - Col 1
+    { photoId: "photo-1524368535928-5b5e00ddc76b", orientation: "landscape" }, // 8: Tomorrowland Mainstage (3:2) - Col 2
+    { photoId: "photo-1459749411175-04bf5292ceea", orientation: "portrait" },  // 9: Glastonbury Arcadia (2:3) - Col 0
+    { photoId: "photo-1492684223066-81342ee5ff30", orientation: "landscape" }, // 10: Creamfields Steel Yard (3:2) - Col 1
+    { photoId: "photo-1511671782779-c97d3d27a1d4", orientation: "portrait" },  // 11: Sonar Barcelona (2:3) - Col 2
 ];
 
 const MOCK_GALLERY_POOL = [
@@ -78,11 +85,16 @@ const generateMockEvents = (): LiveEvent[] => {
     ];
 
     return Array.from({ length: 12 }).map((_, i) => {
-        // Generate mock gallery urls
         const gallery = MOCK_GALLERY_POOL.map((photoId, j) => ({
             _key: `mock-img-${j}`,
             mockUrl: `https://images.unsplash.com/${photoId}?q=80&w=800`
         }));
+
+        const cfg = MOCK_CONFIGS[i % MOCK_CONFIGS.length];
+        const isLand = cfg.orientation === "landscape";
+        const width = isLand ? 1200 : 800;
+        const height = isLand ? 800 : 1200;
+        const aspectRatio = isLand ? 1.5 : 0.6666;
 
         return {
             _id: `mock-event-${i}`,
@@ -90,18 +102,174 @@ const generateMockEvents = (): LiveEvent[] => {
             location: locations[i],
             date: `2026-0${(i % 9) + 1}-15`,
             coverImage: {
-                mockUrl: `https://images.unsplash.com/${MOCK_EVENT_PHOTOS[i]}?q=80&w=1200`,
-                asset: { metadata: { dimensions: { aspectRatio: i % 2 === 0 ? 0.666 : 1.5 } } }
+                mockUrl: `https://images.unsplash.com/${cfg.photoId}?q=80&w=${width}&h=${height}&fit=crop`,
+                asset: {
+                    metadata: {
+                        dimensions: {
+                            aspectRatio,
+                            width,
+                            height
+                        }
+                    }
+                }
             },
             images: gallery
         };
     });
 };
 
-export default function LiveGalleryClient({ liveEvents, pageSettings }: { liveEvents: LiveEvent[], pageSettings?: any }) {
+/**
+ * Robust orientation detector:
+ * Inspects Sanity dimensions (with crop adjustment), Sanity _ref string,
+ * URL query parameters, and defaults cleanly to 'landscape'.
+ */
+export function getEventOrientation(coverImage: any): "landscape" | "portrait" {
+    if (!coverImage) return "landscape";
+
+    // 1. Sanity asset metadata dimensions & crop
+    const dimensions = coverImage.asset?.metadata?.dimensions;
+    const crop = coverImage.crop;
+    if (dimensions?.width && dimensions?.height) {
+        let width = dimensions.width;
+        let height = dimensions.height;
+        if (crop) {
+            width = width * (1 - (crop.left || 0) - (crop.right || 0));
+            height = height * (1 - (crop.top || 0) - (crop.bottom || 0));
+        }
+        return width >= height ? "landscape" : "portrait";
+    }
+
+    if (dimensions?.aspectRatio) {
+        return dimensions.aspectRatio >= 1 ? "landscape" : "portrait";
+    }
+
+    // 2. Sanity asset _ref (e.g., image-ac235f48...-3000x2000-jpg)
+    const ref = coverImage.asset?._ref || coverImage.asset?._id;
+    if (typeof ref === "string") {
+        const match = ref.match(/-(\d+)x(\d+)-/);
+        if (match) {
+            const width = parseInt(match[1], 10);
+            const height = parseInt(match[2], 10);
+            if (width && height) {
+                return width >= height ? "landscape" : "portrait";
+            }
+        }
+    }
+
+    // 3. Mock or direct URL query parameters
+    const url = coverImage.mockUrl || coverImage.url;
+    if (typeof url === "string") {
+        const wMatch = url.match(/[?&]w=(\d+)/);
+        const hMatch = url.match(/[?&]h=(\d+)/);
+        if (wMatch && hMatch) {
+            const w = parseInt(wMatch[1], 10);
+            const h = parseInt(hMatch[2], 10);
+            if (w && h) return w >= h ? "landscape" : "portrait";
+        }
+    }
+
+    return "landscape";
+}
+
+const getEventImageUrl = (imgObj: any, width = 1200) => {
+    if (!imgObj) return "";
+    if (imgObj.mockUrl) return imgObj.mockUrl;
+    try {
+        return urlFor(imgObj).width(width).quality(90).auto("format").url();
+    } catch {
+        return "";
+    }
+};
+
+/**
+ * Event Card Component:
+ * Strictly enforces either aspect-[3/2] (landscape) or aspect-[2/3] (portrait).
+ * Features an onLoad fallback so any unexpected or dynamically loaded image
+ * automatically conforms to its natural orientation with zero visual distortion.
+ */
+function LiveEventCard({
+    event,
+    index,
+    onClick,
+}: {
+    event: LiveEvent;
+    index: number;
+    onClick: () => void;
+}) {
+    const imageUrl = getEventImageUrl(event.coverImage, 1200);
+    const initialOrientation = getEventOrientation(event.coverImage);
+    const [orientation, setOrientation] = useState<"landscape" | "portrait">(initialOrientation);
+
+    useEffect(() => {
+        setOrientation(getEventOrientation(event.coverImage));
+    }, [event.coverImage]);
+
+    const isLandscape = orientation === "landscape";
+
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: (index % 3) * 0.1 }}
+            onClick={onClick}
+            className={`group relative overflow-hidden bg-neutral-900 border border-white/5 cursor-pointer hover:border-white/20 transition-all duration-500 w-full ${
+                isLandscape ? "aspect-[3/2]" : "aspect-[2/3]"
+            }`}
+        >
+            {/* Cover Image */}
+            {imageUrl ? (
+                <Image
+                    src={imageUrl}
+                    alt={event.title}
+                    fill
+                    className="object-cover opacity-90 transition-transform duration-700 ease-out group-hover:scale-105 group-hover:opacity-100"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    priority={index < 3}
+                    quality={90}
+                    onLoad={(e) => {
+                        const img = e.currentTarget;
+                        if (img.naturalWidth && img.naturalHeight) {
+                            const natural = img.naturalWidth >= img.naturalHeight ? "landscape" : "portrait";
+                            if (natural !== orientation) {
+                                setOrientation(natural);
+                            }
+                        }
+                    }}
+                />
+            ) : (
+                <div className="w-full h-full flex items-center justify-center bg-neutral-900">
+                    <span className="font-mono text-xs uppercase text-white/20">No Cover Image</span>
+                </div>
+            )}
+
+            {/* Hover / Info Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6 md:p-8 pointer-events-none">
+                <div className="space-y-2">
+                    <h3 className="text-white font-display text-2xl md:text-3xl uppercase tracking-tighter leading-none">
+                        {event.title}
+                    </h3>
+                    <div className="flex items-center gap-2 text-white/60 font-mono text-xs uppercase tracking-wider">
+                        <MapPin className="w-3.5 h-3.5" />
+                        <span>{event.location}</span>
+                    </div>
+                </div>
+            </div>
+        </motion.div>
+    );
+}
+
+export default function LiveGalleryClient({
+    liveEvents,
+    pageSettings
+}: {
+    liveEvents: LiveEvent[];
+    pageSettings?: any;
+}) {
     const [events, setEvents] = useState<LiveEvent[]>([]);
     const [selectedEvent, setSelectedEvent] = useState<LiveEvent | null>(null);
     const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+    const [numCols, setNumCols] = useState<number>(3);
 
     const handlePrevImage = (e?: React.MouseEvent) => {
         if (e) e.stopPropagation();
@@ -116,6 +284,22 @@ export default function LiveGalleryClient({ liveEvents, pageSettings }: { liveEv
             setLightboxIndex((prev) => (prev === selectedEvent.images!.length - 1 ? 0 : prev! + 1));
         }
     };
+
+    // Responsive column count for left-to-right masonry
+    useEffect(() => {
+        const updateCols = () => {
+            if (window.innerWidth < 640) {
+                setNumCols(1);
+            } else if (window.innerWidth < 1024) {
+                setNumCols(2);
+            } else {
+                setNumCols(3);
+            }
+        };
+        updateCols();
+        window.addEventListener("resize", updateCols);
+        return () => window.removeEventListener("resize", updateCols);
+    }, []);
 
     // Keyboard navigation for Lightbox
     useEffect(() => {
@@ -132,7 +316,7 @@ export default function LiveGalleryClient({ liveEvents, pageSettings }: { liveEv
         return () => window.removeEventListener("keydown", handleKeyDown);
     }, [lightboxIndex, selectedEvent]);
 
-    // Live Refresh
+    // Live Refresh from Sanity
     useEffect(() => {
         const fetchFresh = async () => {
             try {
@@ -158,29 +342,36 @@ export default function LiveGalleryClient({ liveEvents, pageSettings }: { liveEv
         fetchFresh();
     }, [liveEvents]);
 
-    // Ensure we have exactly 12 events (pad with mock if sanity returns fewer than 12) and fall back to mock assets if fields are empty
-    const mockEvents = generateMockEvents();
-    const displayEvents = (events.length >= 12 
-        ? events.slice(0, 12) 
-        : [...events, ...mockEvents.slice(0, 12 - events.length)]
-    ).map((event, index) => {
-        const mock = mockEvents[index] || mockEvents[0];
-        return {
-            ...event,
-            coverImage: event.coverImage || mock.coverImage,
-            images: (event.images && event.images.length > 0) ? event.images : mock.images,
-        };
-    });
+    // Ensure we have exactly 12 events (pad with mock if sanity returns fewer than 12)
+    const mockEvents = useMemo(() => generateMockEvents(), []);
+    const displayEvents = useMemo(() => {
+        const base = (events.length >= 12 
+            ? events.slice(0, 12) 
+            : [...events, ...mockEvents.slice(0, 12 - events.length)]
+        );
+        return base.map((event, index) => {
+            const mock = mockEvents[index] || mockEvents[0];
+            return {
+                ...event,
+                coverImage: event.coverImage || mock.coverImage,
+                images: (event.images && event.images.length > 0) ? event.images : mock.images,
+            };
+        });
+    }, [events, mockEvents]);
 
-    const getEventImageUrl = (imgObj: any, width = 1200) => {
-        if (!imgObj) return "";
-        if (imgObj.mockUrl) return imgObj.mockUrl;
-        try {
-            return urlFor(imgObj).width(width).quality(90).auto('format').url();
-        } catch {
-            return "";
-        }
-    };
+    // Distribute events into columns strictly left-to-right (round-robin)
+    // Row 1: Event 0 (Col 0), Event 1 (Col 1), Event 2 (Col 2)
+    // Row 2: Event 3 (Col 0), Event 4 (Col 1), Event 5 (Col 2), etc.
+    const columns = useMemo(() => {
+        const cols: { event: LiveEvent; originalIndex: number }[][] = Array.from(
+            { length: numCols },
+            () => []
+        );
+        displayEvents.forEach((event, index) => {
+            cols[index % numCols].push({ event, originalIndex: index });
+        });
+        return cols;
+    }, [displayEvents, numCols]);
 
     return (
         <section className="container mx-auto px-6 pt-16">
@@ -192,60 +383,30 @@ export default function LiveGalleryClient({ liveEvents, pageSettings }: { liveEv
                 </h1>
             </div>
 
-            {/* Grid of 12 Events */}
-            <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 md:gap-8 max-w-[1800px] mx-auto w-full">
-                {displayEvents.map((event, index) => {
-                    const imageUrl = getEventImageUrl(event.coverImage, 1200);
-                    const aspectRatio = event.coverImage?.asset?.metadata?.dimensions?.aspectRatio || 0.666;
-                    const isLandscape = aspectRatio > 1;
-
-                    return (
-                        <motion.div
-                            key={event._id || index}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: (index % 3) * 0.1 }}
-                            onClick={() => {
-                                if (event.images && event.images.length > 0) {
-                                    setSelectedEvent(event);
-                                    setLightboxIndex(0);
-                                }
-                            }}
-                            className={`group relative overflow-hidden bg-neutral-900 border border-white/5 cursor-pointer hover:border-white/20 transition-colors break-inside-avoid mb-6 md:mb-8 ${isLandscape ? 'aspect-[3/2]' : 'aspect-[2/3]'}`}
-                        >
-                            {/* Cover Image */}
-                            {imageUrl ? (
-                                <Image
-                                    src={imageUrl}
-                                    alt={event.title}
-                                    fill
-                                    className="object-cover opacity-90 transition-transform duration-700 ease-out group-hover:scale-105 group-hover:opacity-100"
-                                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                                    priority={index < 3}
-                                    quality={90}
-                                />
-                            ) : (
-                                <div className="w-full h-full flex items-center justify-center bg-neutral-900">
-                                    <span className="font-mono text-xs uppercase text-white/20">No Cover Image</span>
-                                </div>
-                            )}
-
-                            {/* Hover/Standard Info Overlay */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6 md:p-8">
-                                <div className="space-y-2">
-                                    <h3 className="text-white font-display text-2xl md:text-3xl uppercase tracking-tighter leading-none">
-                                        {event.title}
-                                    </h3>
-                                    <div className="flex items-center gap-2 text-white/60 font-mono text-xs uppercase tracking-wider">
-                                        <MapPin className="w-3.5 h-3.5" />
-                                        <span>{event.location}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </motion.div>
-                    );
-                })}
+            {/* Grid of 12 Events - Left-to-Right Column Masonry */}
+            <div 
+                className="grid gap-6 md:gap-8 max-w-[1800px] mx-auto w-full items-start"
+                style={{
+                    gridTemplateColumns: `repeat(${numCols}, minmax(0, 1fr))`
+                }}
+            >
+                {columns.map((colItems, colIdx) => (
+                    <div key={colIdx} className="flex flex-col gap-6 md:gap-8 w-full">
+                        {colItems.map(({ event, originalIndex }) => (
+                            <LiveEventCard
+                                key={event._id || originalIndex}
+                                event={event}
+                                index={originalIndex}
+                                onClick={() => {
+                                    if (event.images && event.images.length > 0) {
+                                        setSelectedEvent(event);
+                                        setLightboxIndex(0);
+                                    }
+                                }}
+                            />
+                        ))}
+                    </div>
+                ))}
             </div>
 
             {/* Lightbox / Fullscreen Carousel Overlay */}
@@ -269,62 +430,62 @@ export default function LiveGalleryClient({ liveEvents, pageSettings }: { liveEv
                                 <X className="w-5 h-5" />
                             </button>
 
-                                            {/* Left Arrow */}
-                                            <button
-                                                onClick={handlePrevImage}
-                                                className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-[210] bg-white/10 hover:bg-white/20 text-white p-3 md:p-4 rounded-full transition-colors flex items-center justify-center cursor-pointer"
-                                                aria-label="Previous Image"
-                                            >
-                                                <ChevronLeft className="w-6 h-6 md:w-8 md:h-8" />
-                                            </button>
+                            {/* Left Arrow */}
+                            <button
+                                onClick={handlePrevImage}
+                                className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-[210] bg-white/10 hover:bg-white/20 text-white p-3 md:p-4 rounded-full transition-colors flex items-center justify-center cursor-pointer"
+                                aria-label="Previous Image"
+                            >
+                                <ChevronLeft className="w-6 h-6 md:w-8 md:h-8" />
+                            </button>
 
-                                            {/* Image container */}
-                                            <div 
-                                                className="relative max-w-[90vw] max-h-[85vh] w-full h-full flex items-center justify-center"
-                                                onClick={(e) => e.stopPropagation()}
-                                            >
-                                                {selectedEvent.images.map((img: any, idx: number) => {
-                                                    const imgUrl = getEventImageUrl(img, 2400);
-                                                    if (!imgUrl) return null;
-                                                    return (
-                                                        <div
-                                                            key={img._key || idx}
-                                                            className="absolute inset-0 transition-opacity duration-300 ease-in-out"
-                                                            style={{
-                                                                opacity: idx === lightboxIndex ? 1 : 0,
-                                                                pointerEvents: idx === lightboxIndex ? "auto" : "none"
-                                                            }}
-                                                        >
-                                                            <Image
-                                                                src={imgUrl}
-                                                                alt={`${selectedEvent.title} Fullscreen ${idx + 1}`}
-                                                                fill
-                                                                className="object-contain pointer-events-none select-none"
-                                                                sizes="90vw"
-                                                                priority={true}
-                                                                quality={95}
-                                                            />
-                                                        </div>
-                                                    );
-                                                })}
-                                            </div>
-
-                                            {/* Right Arrow */}
-                                            <button
-                                                onClick={handleNextImage}
-                                                className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-[210] bg-white/10 hover:bg-white/20 text-white p-3 md:p-4 rounded-full transition-colors flex items-center justify-center cursor-pointer"
-                                                aria-label="Next Image"
-                                            >
-                                                <ChevronRight className="w-6 h-6 md:w-8 md:h-8" />
-                                            </button>
-
-                                            {/* Indicator Counter */}
-                                            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 font-mono text-xs uppercase tracking-[0.2em] text-white/50 bg-black/60 px-4 py-2 border border-white/10 rounded-full">
-                                                {lightboxIndex + 1} / {selectedEvent.images.length}
-                                            </div>
-                                        </motion.div>
+                            {/* Image container */}
+                            <div 
+                                className="relative max-w-[90vw] max-h-[85vh] w-full h-full flex items-center justify-center"
+                                onClick={(e) => e.stopPropagation()}
+                            >
+                                {selectedEvent.images.map((img: any, idx: number) => {
+                                    const imgUrl = getEventImageUrl(img, 2400);
+                                    if (!imgUrl) return null;
+                                    return (
+                                        <div
+                                            key={img._key || idx}
+                                            className="absolute inset-0 transition-opacity duration-300 ease-in-out"
+                                            style={{
+                                                opacity: idx === lightboxIndex ? 1 : 0,
+                                                pointerEvents: idx === lightboxIndex ? "auto" : "none"
+                                            }}
+                                        >
+                                            <Image
+                                                src={imgUrl}
+                                                alt={`${selectedEvent.title} Fullscreen ${idx + 1}`}
+                                                fill
+                                                className="object-contain pointer-events-none select-none"
+                                                sizes="90vw"
+                                                priority={true}
+                                                quality={95}
+                                            />
+                                        </div>
                                     );
-                                })()}
+                                })}
+                            </div>
+
+                            {/* Right Arrow */}
+                            <button
+                                onClick={handleNextImage}
+                                className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-[210] bg-white/10 hover:bg-white/20 text-white p-3 md:p-4 rounded-full transition-colors flex items-center justify-center cursor-pointer"
+                                aria-label="Next Image"
+                            >
+                                <ChevronRight className="w-6 h-6 md:w-8 md:h-8" />
+                            </button>
+
+                            {/* Indicator Counter */}
+                            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 font-mono text-xs uppercase tracking-[0.2em] text-white/50 bg-black/60 px-4 py-2 border border-white/10 rounded-full">
+                                {lightboxIndex + 1} / {selectedEvent.images.length}
+                            </div>
+                        </motion.div>
+                    );
+                })()}
             </AnimatePresence>
 
         </section>
