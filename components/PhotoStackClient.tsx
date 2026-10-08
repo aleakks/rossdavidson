@@ -116,7 +116,7 @@ export default function PhotoStackClient({ cards }: { cards: any[] }) {
                                 >
                                     <div className="relative w-full h-full flex-grow flex items-center justify-center">
                                         {displayCards.map((card: any, idx: number) => {
-                                            const imgUrl = card.image ? urlFor(card.image).width(2000).quality(100).auto('format').url() : "";
+                                            const imgUrl = card.image ? urlFor(card.image).width(3200).quality(100).auto('format').url() : "";
                                             if (!imgUrl) return null;
                                             return (
                                                 <div 
@@ -131,10 +131,11 @@ export default function PhotoStackClient({ cards }: { cards: any[] }) {
                                                         src={imgUrl}
                                                         alt={`${card.client} Fullscreen ${idx + 1}`}
                                                         fill
+                                                        unoptimized
                                                         className="object-contain pointer-events-none select-none"
-                                                        sizes="90vw"
+                                                        sizes="100vw"
                                                         priority={true}
-                                                        quality={95}
+                                                        quality={100}
                                                     />
                                                 </div>
                                             );
@@ -180,11 +181,12 @@ function GridCard({ card, index, onClick }: { card: any, index: number, onClick:
             <div className="relative w-full flex-grow overflow-hidden bg-black">
                 {card.image ? (
                     <Image
-                        src={urlFor(card.image).width(1200).quality(90).auto('format').url()}
+                        src={urlFor(card.image).width(2000).quality(95).auto('format').url()}
                         alt={card.alt || "Portfolio Image"}
                         fill
+                        unoptimized
                         className="object-cover pointer-events-none"
-                        quality={90}
+                        quality={100}
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                 ) : (

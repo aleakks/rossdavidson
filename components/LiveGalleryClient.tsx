@@ -171,11 +171,15 @@ export function getEventOrientation(coverImage: any): "landscape" | "portrait" {
     return "landscape";
 }
 
-const getEventImageUrl = (imgObj: any, width = 1200) => {
+const getEventImageUrl = (imgObj: any, width?: number, quality = 95) => {
     if (!imgObj) return "";
     if (imgObj.mockUrl) return imgObj.mockUrl;
     try {
-        return urlFor(imgObj).width(width).quality(90).auto("format").url();
+        let builder = urlFor(imgObj).auto("format").quality(quality);
+        if (width) {
+            builder = builder.width(width);
+        }
+        return builder.url();
     } catch {
         return "";
     }
@@ -184,8 +188,8 @@ const getEventImageUrl = (imgObj: any, width = 1200) => {
 /**
  * Event Card Component:
  * Strictly enforces either aspect-[3/2] (landscape) or aspect-[2/3] (portrait).
- * Features an onLoad fallback so any unexpected or dynamically loaded image
- * automatically conforms to its natural orientation with zero visual distortion.
+ * Features unoptimized Sanity CDN delivery for retina-grade sharpness, full opacity,
+ * and an onLoad fallback for zero distortion.
  */
 function LiveEventCard({
     event,
@@ -196,7 +200,8 @@ function LiveEventCard({
     index: number;
     onClick: () => void;
 }) {
-    const imageUrl = getEventImageUrl(event.coverImage, 1200);
+    // Request 2000px at q=95 directly from Sanity CDN for retina-crisp sharpness
+    const imageUrl = getEventImageUrl(event.coverImage, 2000, 95);
     const initialOrientation = getEventOrientation(event.coverImage);
     const [orientation, setOrientation] = useState<"landscape" | "portrait">(initialOrientation);
 
@@ -217,16 +222,17 @@ function LiveEventCard({
                 isLandscape ? "aspect-[3/2]" : "aspect-[2/3]"
             }`}
         >
-            {/* Cover Image */}
+            {/* Cover Image - Served unoptimized directly from Sanity CDN to preserve full dynamic range & sharpness */}
             {imageUrl ? (
                 <Image
                     src={imageUrl}
                     alt={event.title}
                     fill
-                    className="object-cover opacity-90 transition-transform duration-700 ease-out group-hover:scale-105 group-hover:opacity-100"
+                    unoptimized
+                    className="object-cover opacity-100 transition-transform duration-700 ease-out group-hover:scale-105"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     priority={index < 3}
-                    quality={90}
+                    quality={100}
                     onLoad={(e) => {
                         const img = e.currentTarget;
                         if (img.naturalWidth && img.naturalHeight) {
@@ -243,13 +249,13 @@ function LiveEventCard({
                 </div>
             )}
 
-            {/* Hover / Info Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6 md:p-8 pointer-events-none">
+            {/* Hover / Info Overlay - Focused gradient only over bottom half so the photo stays bright and unmasked */}
+            <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/85 via-black/25 to-transparent opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6 md:p-8 pointer-events-none">
                 <div className="space-y-2">
                     <h3 className="text-white font-display text-2xl md:text-3xl uppercase tracking-tighter leading-none">
                         {event.title}
                     </h3>
-                    <div className="flex items-center gap-2 text-white/60 font-mono text-xs uppercase tracking-wider">
+                    <div className="flex items-center gap-2 text-white/70 font-mono text-xs uppercase tracking-wider">
                         <MapPin className="w-3.5 h-3.5" />
                         <span>{event.location}</span>
                     </div>
@@ -412,7 +418,6 @@ export default function LiveGalleryClient({
             {/* Lightbox / Fullscreen Carousel Overlay */}
             <AnimatePresence>
                 {selectedEvent && lightboxIndex !== null && selectedEvent.images && selectedEvent.images[lightboxIndex] && (() => {
-                    const activeImgUrl = getEventImageUrl(selectedEvent.images[lightboxIndex], 2400);
                     return (
                         <motion.div
                             initial={{ opacity: 0 }}
@@ -445,7 +450,8 @@ export default function LiveGalleryClient({
                                 onClick={(e) => e.stopPropagation()}
                             >
                                 {selectedEvent.images.map((img: any, idx: number) => {
-                                    const imgUrl = getEventImageUrl(img, 2400);
+                                    // Deliver pristine uncompressed 3200px at q=100 directly from Sanity CDN
+                                    const imgUrl = getEventImageUrl(img, 3200, 100);
                                     if (!imgUrl) return null;
                                     return (
                                         <div
@@ -460,10 +466,11 @@ export default function LiveGalleryClient({
                                                 src={imgUrl}
                                                 alt={`${selectedEvent.title} Fullscreen ${idx + 1}`}
                                                 fill
+                                                unoptimized
                                                 className="object-contain pointer-events-none select-none"
-                                                sizes="90vw"
+                                                sizes="100vw"
                                                 priority={true}
-                                                quality={95}
+                                                quality={100}
                                             />
                                         </div>
                                     );

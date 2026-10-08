@@ -140,7 +140,7 @@ export default function PublicationsClient({
         if (!imgObj) return "";
         if (imgObj.mockUrl) return imgObj.mockUrl;
         try {
-            return urlFor(imgObj).width(1200).quality(90).auto('format').url();
+            return urlFor(imgObj).width(2000).quality(95).auto('format').url();
         } catch {
             return "";
         }
@@ -182,9 +182,10 @@ export default function PublicationsClient({
                                         src={imgUrl}
                                         alt={item.title}
                                         fill
+                                        unoptimized
                                         className="object-cover opacity-100 group-hover:scale-[1.02] transition-all duration-700 ease-out"
                                         sizes="(max-width: 768px) 100vw, 50vw"
-                                        quality={90}
+                                        quality={100}
                                     />
                                 ) : (
                                     <div className="w-full h-full flex items-center justify-center bg-neutral-950">

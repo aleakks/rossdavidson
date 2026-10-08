@@ -83,12 +83,13 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
                                 {/* Image */}
                                 {photo.image ? (
                                     <Image
-                                        src={urlFor(photo.image).width(1200).quality(90).auto('format').url()}
+                                        src={urlFor(photo.image).width(2000).quality(95).auto('format').url()}
                                         alt={photo.altText || photo.title || "Music and Nightlife Photography by Ross Davidson"}
                                         fill
-                                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-90 group-hover:opacity-100"
+                                        unoptimized
+                                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-100"
                                         sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                                        quality={90}
+                                        quality={100}
                                     />
                                 ) : (
                                     <div className="w-full h-full flex items-center justify-center bg-neutral-900">
